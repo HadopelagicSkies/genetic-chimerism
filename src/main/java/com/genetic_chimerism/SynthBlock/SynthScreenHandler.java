@@ -83,8 +83,8 @@ public class SynthScreenHandler extends ScreenHandler {
 
             GeneticChimerism.LOGGER.info("checking recipe for: " + this.setMutation.getMutID());
             this.setRecipe = this.setMutation.getRecipe();
-            ItemStack[] recipeInputs = this.setRecipe.getInputs();
-            boolean allValid = false;
+            List<ItemStack> recipeInputs = this.setRecipe != null ? this.setRecipe.getInputs() : List.of();
+            boolean allValid = true;
             for(ItemStack input : recipeInputs){
                 if(!input.isEmpty()) allValid = checkInventory(player,input);
                 if(!allValid) break;

@@ -3,19 +3,18 @@ package com.genetic_chimerism.mixin;
 import com.genetic_chimerism.InfusionBlock.InfusionStation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.block.BedBlock;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import java.util.function.Consumer;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerInfusionMixin {
@@ -32,8 +31,10 @@ public abstract class ServerInfusionMixin {
 	}
 
 	// deal with achievement for sleep here
-//	@ModifyExpressionValue(method = "trySleep", at = @At(value = "INVOKE", target = "" ) )
-//	private boolean infusionNoSleepAdvancement() {
-//		return !(instance.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation);
-//	}
+	@ModifyArg(method = "trySleep", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/util/Either;ifRight(Ljava/util/function/Consumer;)Lcom/mojang/datafixers/util/Either;", remap = false))
+	private Consumer<? super Unit> infusionNoSleepAdvancement(Consumer<? super Unit> consumer, @Local(argsOnly = true) BlockPos pos) {
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		if(player.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation) return unit ->{};
+		else return consumer;
+	}
 }

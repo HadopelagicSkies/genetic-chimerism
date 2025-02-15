@@ -1,10 +1,12 @@
 package com.genetic_chimerism.SynthBlock;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.RecipeSerializer;
 
 public class SynthRecipeSerializer implements RecipeSerializer<SynthRecipe> {
@@ -15,26 +17,13 @@ public class SynthRecipeSerializer implements RecipeSerializer<SynthRecipe> {
         codec = RecordCodecBuilder.mapCodec((instance) -> {
             var parameters = instance.group(
                     ItemStack.VALIDATED_CODEC.fieldOf("output").forGetter(SynthRecipe::getOutput),
-                    ItemStack.CODEC.fieldOf("inputA").forGetter(SynthRecipe::getInputA),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputB",ItemStack.EMPTY).forGetter(SynthRecipe::getInputB),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputC",ItemStack.EMPTY).forGetter(SynthRecipe::getInputC),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputD",ItemStack.EMPTY).forGetter(SynthRecipe::getInputD),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputE",ItemStack.EMPTY).forGetter(SynthRecipe::getInputE),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputF",ItemStack.EMPTY).forGetter(SynthRecipe::getInputF),
-                    ItemStack.OPTIONAL_CODEC.optionalFieldOf("inputG",ItemStack.EMPTY).forGetter(SynthRecipe::getInputG));
-
+                    Codec.list(ItemStack.CODEC).fieldOf("inputs").forGetter(SynthRecipe::getInputs));
             return parameters.apply(instance, SynthRecipe::new);
         });
 
         this.packetCodec = PacketCodec.tuple(
                 ItemStack.PACKET_CODEC, SynthRecipe::getOutput,
-                ItemStack.PACKET_CODEC, SynthRecipe::getInputA,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputB,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputC,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputD,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputE,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputF,
-                ItemStack.OPTIONAL_PACKET_CODEC, SynthRecipe::getInputG,
+                ItemStack.PACKET_CODEC.collect(PacketCodecs.toList()), SynthRecipe::getInputs,
                 SynthRecipe::new);
     }
 

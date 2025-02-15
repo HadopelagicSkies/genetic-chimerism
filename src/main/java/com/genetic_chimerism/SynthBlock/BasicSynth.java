@@ -16,12 +16,15 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 
 public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProvider {
+
+    protected static final VoxelShape SHAPE = Block.createCuboidShape(0.0F, 0.0F, 0.0F, 16.0F, 13.3F, 16.0F);
 
     public BasicSynth(Settings settings) {
         super(settings.nonOpaque());
@@ -30,16 +33,17 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
 
     public static Direction getDirection(BlockView world, BlockPos pos) {
         BlockState blockState = world.getBlockState(pos);
-        return blockState.getBlock() instanceof BedBlock ? (Direction)blockState.get(FACING) : null;
+        return blockState.getBlock() instanceof BedBlock ? (Direction) blockState.get(FACING) : null;
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState)this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return (BlockState) this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
+
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
-    
+
     @Override
     protected MapCodec<? extends BasicSynth> getCodec() {
         return createCodec(BasicSynth::new);
@@ -61,6 +65,7 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
         // Make sure to check world.isClient if you only want to tick only on serverside.
         return validateTicker(type, BasicSynthEntity::tick);
     }
+
     @Nullable
     protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> validateTicker(BlockEntityType<A> givenType, BlockEntityTicker<? super E> ticker) {
         return ModBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY == givenType ? (BlockEntityTicker<A>) ticker : null;
@@ -69,7 +74,7 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
     @Override
     protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
+        return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory) blockEntity : null;
     }
 
     @Override
@@ -88,29 +93,34 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
     }
 
 
-        // This method will drop all items onto the ground when the block is broken
-        @Override
-        public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-            if (state.getBlock() != newState.getBlock()) {
-                BlockEntity blockEntity = world.getBlockEntity(pos);
-                if (blockEntity instanceof BasicSynthEntity basicSynth) {
-                    ItemScatterer.spawn(world, pos, basicSynth);
-                    // update comparators
-                    world.updateComparators(pos,this);
-                }
-                super.onStateReplaced(state, world, pos, newState, moved);
+    // This method will drop all items onto the ground when the block is broken
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof BasicSynthEntity basicSynth) {
+                ItemScatterer.spawn(world, pos, basicSynth);
+                // update comparators
+                world.updateComparators(pos, this);
             }
-        }
-
-        @Override
-        public boolean hasComparatorOutput(BlockState state) {
-            return true;
-        }
-
-        @Override
-        public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-            return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+            super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
+
+    @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+    }
+
+    @Override
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
+    }
+}
 
 

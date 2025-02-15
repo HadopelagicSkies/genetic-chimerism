@@ -36,7 +36,7 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
     protected static final VoxelShape BASE_PLATE_SHAPE = Block.createCuboidShape(2.0F, 0.0F, 2.0F, 14.0F, 1.0F, 14.0F);
     protected static final VoxelShape HUB_SHAPE = Block.createCuboidShape(5.5F, 1.0F, 5.5F, 10.5F, 2.0F, 10.5F);
     protected static final VoxelShape POST_SHAPE = Block.createCuboidShape(7.0F, 2.0F, 7.0F, 9.0F, 12.0F, 9.0F);
-    protected static final VoxelShape SEAT_BOTTOM_SHAPE = Block.createCuboidShape(4.0F, 12.0F, 0.0F, 12.0F, 14.0F, 14.0F);
+    protected static final VoxelShape SEAT_BOTTOM_SHAPE = Block.createCuboidShape(4.0F, 12.0F, 0.0F, 12.0F, 14.0F, 15.0F);
     protected static final VoxelShape SEAT_CUSHION_SHAPE = Block.createCuboidShape(3.0F, 14.0F, 0.0F, 13.0F, 16.0F, 16.0F);
     protected static final VoxelShape ARMREST_BAR_SHAPE = Block.createCuboidShape(0.0F, 13.0F, 7.0F, 16.0F, 14.0F, 9.0F);
     protected static final VoxelShape L_ARMREST_BAR_SHAPE = Block.createCuboidShape(0.0F, 14.0F, 7.0F, 1.0F, 18.0F, 9.0F);
@@ -163,23 +163,29 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
         if (selectedMutation != null) {
             GeneticChimerism.LOGGER.info("mutation applied, chair contents: " + chairContents);
             List<MutationInfo> playerMutations = player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
-            if (playerMutations == null) playerMutations = new ArrayList<MutationInfo>();
+            if (playerMutations == null) playerMutations = new ArrayList<>();
+            List<MutationInfo> settingMutations = new ArrayList<>(playerMutations);
 
-            if(selectedMutation.mutID().equals("Human Antigen")){
+            Mutation mutation = MutationTrees.mutationFromCodec(selectedMutation);
+            if (mutation != null && mutation.getPrereq() != null){
+                if (!playerMutations.contains(MutationTrees.mutationToCodec(mutation.getPrereq()))) {
+                    player.sendMessage(Text.literal("You are missing the prerequisite mutation."), true);
+                    return;
+                }
+            }
+            if(selectedMutation.mutID().equals("antigen")){
                 player.sendMessage(Text.literal("You have been infused with antigen, your mutations begin to revert."), true);
-                playerMutations.clear();
-                player.setAttached(MutationAttachments.PLAYER_MUTATION_LIST, playerMutations);
-                GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));
+                settingMutations.clear();
             } else if (playerMutations.contains(selectedMutation)) {
                 player.sendMessage(Text.literal("You have already been infused with the ").append(Text.translatableWithFallback("mutations.mutation."+selectedMutation.mutID(),selectedMutation.mutID()).append(" mutation.")), true);
-
-                GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));
+                return;
             } else {
                 player.sendMessage(Text.literal("You have been infused with the ").append(Text.translatableWithFallback("mutations.mutation."+selectedMutation.mutID(),selectedMutation.mutID()).append(" mutation.")), true);
-                playerMutations.add(selectedMutation);
-                player.setAttached(MutationAttachments.PLAYER_MUTATION_LIST, playerMutations);
-                GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));
+                settingMutations.add(selectedMutation);
+
             }
+            player.setAttached(MutationAttachments.PLAYER_MUTATION_LIST, settingMutations);
+            GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));
         }
     }
 

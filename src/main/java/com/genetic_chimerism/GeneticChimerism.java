@@ -38,6 +38,7 @@ public class GeneticChimerism implements ModInitializer {
 		ModBlockEntities.initialize();
 		MutationTrees.initialize();
 		Mutation.initialize();
+		MutationAttachments.initialize();
 
 		Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipeSerializer.ID), SynthRecipeSerializer.INSTANCE);
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);

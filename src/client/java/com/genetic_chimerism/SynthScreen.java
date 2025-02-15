@@ -260,11 +260,12 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }));
             k += TREE_BUTTON_HEIGHT;
         }
-        this.addDrawableChild(new MutationConfirmButton(i+this.backgroundWidth -21 , j+(this.backgroundHeight/2) -32, CONFIRM_BUTTON_INDEX, (button) -> {
+        this.addDrawableChild(new MutationConfirmButton(i + this.backgroundWidth - 21, j + (this.backgroundHeight / 2) - 32, CONFIRM_BUTTON_INDEX, (button) -> {
             if (button instanceof MutationConfirmButton) {
                 // on button click portion
                 GeneticChimerism.LOGGER.info("confirm button client click");
-                this.client.interactionManager.clickButton(((SynthScreenHandler)this.handler).syncId, CONFIRM_BUTTON_INDEX);
+                this.client.interactionManager.clickButton(((SynthScreenHandler) this.handler).syncId, CONFIRM_BUTTON_INDEX);
+                clearAndInit();
             }
 
         }));
@@ -272,7 +273,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     }
 
     @Environment(EnvType.CLIENT)
-    class MutationPageButton extends ButtonWidget {
+    public static class MutationPageButton extends ButtonWidget {
         final int index;
 
         public MutationPageButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
@@ -286,7 +287,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         }
     }
 
-    class MutationSelectButton extends ButtonWidget {
+    public class MutationSelectButton extends ButtonWidget {
         final int index;
 
         public MutationSelectButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
@@ -314,15 +315,15 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 }
 
                 if(handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe() != null) {
-                    ItemStack[] inputs = handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe().getInputs();
-                    text.add(new MutationIngredientTooltipComponent(List.of(inputs)));
+                    List<ItemStack> inputs = handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe().getInputs();
+                    text.add(new MutationIngredientTooltipComponent(inputs));
                 }
                 ((DrawContextAccessor)context).callDrawTooltip(SynthScreen.this.textRenderer, text ,x,y, HoveredTooltipPositioner.INSTANCE,null);
             }
         }
     }
 
-    class MutationConfirmButton extends ButtonWidget {
+    public static class MutationConfirmButton extends ButtonWidget {
         final int index;
 
         public MutationConfirmButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
