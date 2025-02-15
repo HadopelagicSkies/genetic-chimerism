@@ -20,7 +20,7 @@ public class MutationIngredientTooltipComponent implements TooltipComponent {
 
     @Override
     public int getHeight(TextRenderer textRenderer) {
-        return this.getRowsHeight() + 13 + 8;
+        return this.getRows() * 24;
     }
 
     @Override
@@ -33,32 +33,17 @@ public class MutationIngredientTooltipComponent implements TooltipComponent {
         return true;
     }
 
-    private int getRowsHeight() {
-        return this.getRows() * 24;
-    }
-
-    private int getXMargin(int width) {
-        return (width - 96) / 2;
-    }
-
     private int getRows() {
         return MathHelper.ceilDiv(this.tooltipData.size(), 4);
     }
 
-    private int getNumVisibleSlots() {
-        return Math.min(12, this.tooltipData.size());
-    }
-
     @Override
     public void drawItems(TextRenderer textRenderer, int x, int y, int width, int height, DrawContext context) {
-        int startX = x ;
-        int startY = y ;
-
         for (int index = 0; index < this.tooltipData.size(); index++){
             int row = index / 4;
             int col = index % 4;
-            int xPos = startX - col * 24 + 24;
-            int yPos = startY - row * 24 + 24;
+            int xPos = x + col * 24 ;
+            int yPos = y + row * 24 ;
             this.drawItem(this.tooltipData.get(index), xPos, yPos, index, textRenderer, context);
         }
     }

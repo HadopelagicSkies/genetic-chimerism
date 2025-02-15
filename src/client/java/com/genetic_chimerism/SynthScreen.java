@@ -317,7 +317,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                     ItemStack[] inputs = handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe().getInputs();
                     text.add(new MutationIngredientTooltipComponent(List.of(inputs)));
                 }
-                ((DrawContextAccessor)context).drawTooltip(SynthScreen.this.textRenderer, text ,x,y, HoveredTooltipPositioner.INSTANCE,null);
+                ((DrawContextAccessor)context).callDrawTooltip(SynthScreen.this.textRenderer, text ,x,y, HoveredTooltipPositioner.INSTANCE,null);
             }
         }
     }
