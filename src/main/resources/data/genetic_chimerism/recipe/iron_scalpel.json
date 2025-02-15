@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": "genetic_chimerism:iron_scalpel_head",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    "  i",
+    " s ",
+    "s  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "genetic_chimerism:iron_scalpel"
+  }
+}

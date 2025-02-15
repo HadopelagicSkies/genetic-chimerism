@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "genetic_chimerism:block/infusion_station", "y": 180,"uvlock": false },
+    "facing=east":  { "model": "genetic_chimerism:block/infusion_station", "y": 270, "uvlock": false },
+    "facing=south": { "model": "genetic_chimerism:block/infusion_station", "uvlock": false },
+    "facing=west":  { "model": "genetic_chimerism:block/infusion_station", "y": 90, "uvlock": false }
+  }
+}

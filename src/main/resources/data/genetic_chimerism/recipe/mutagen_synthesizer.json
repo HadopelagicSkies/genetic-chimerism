@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "minecraft:glass_bottle",
+    "g": "minecraft:glass",
+    "i": "minecraft:iron_ingot",
+    "r": "minecraft:redstone_block",
+    "s": "#minecraft:wooden_slabs"
+  },
+  "pattern": [
+    "bsb",
+    "igi",
+    "iri"
+  ],
+  "result": {
+    "count": 1,
+    "id": "genetic_chimerism:mutagen_synthesizer"
+  }
+}

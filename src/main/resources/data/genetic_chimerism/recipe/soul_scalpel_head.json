@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "n": "minecraft:netherite_ingot",
+    "s": "minecraft:nether_star"
+  },
+  "pattern": [
+    "  n",
+    " sn",
+    "nn "
+  ],
+  "result": {
+    "count": 1,
+    "id": "genetic_chimerism:soul_scalpel_head"
+  }
+}

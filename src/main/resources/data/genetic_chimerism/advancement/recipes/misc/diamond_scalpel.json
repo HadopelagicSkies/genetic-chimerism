@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diamond_scalpel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "genetic_chimerism:diamond_scalpel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "genetic_chimerism:diamond_scalpel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_diamond_scalpel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "genetic_chimerism:diamond_scalpel"
+    ]
+  }
+}

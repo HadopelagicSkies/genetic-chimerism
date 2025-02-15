@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "genetic_chimerism:item/iron_scalpel"
+  }
+}

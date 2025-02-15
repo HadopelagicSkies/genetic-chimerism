@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_soul_scalpel_head": {
+      "conditions": {
+        "items": [
+          {
+            "items": "genetic_chimerism:soul_scalpel_head"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "genetic_chimerism:soul_scalpel_head"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_soul_scalpel_head"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "genetic_chimerism:soul_scalpel_head"
+    ]
+  }
+}

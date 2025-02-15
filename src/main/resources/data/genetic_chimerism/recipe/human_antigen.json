@@ -1,0 +1,24 @@
+{
+  "type": "genetic_chimerism:synth_recipe",
+  "inputA": {
+    "id": "minecraft:enchanted_golden_apple",
+    "count": 3
+  },
+  "inputB": {
+    "id": "minecraft:glistering_melon_slice",
+    "count": 3
+  },
+  "inputC": {
+    "id": "minecraft:rotten_flesh",
+    "count": 16
+  },
+  "output": {
+    "id": "genetic_chimerism:mutagen_vial",
+    "components": {
+      "genetic_chimerism:mutation_stored": {
+        "mutID": "antigen",
+        "treeID": "human"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": "minecraft:diamond"
+  },
+  "pattern": [
+    "  d",
+    " dd",
+    "dd "
+  ],
+  "result": {
+    "count": 1,
+    "id": "genetic_chimerism:diamond_scalpel_head"
+  }
+}

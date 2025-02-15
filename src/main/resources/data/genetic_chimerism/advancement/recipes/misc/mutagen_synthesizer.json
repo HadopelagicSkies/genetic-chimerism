@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mutagen_synthesizer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "genetic_chimerism:mutagen_synthesizer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "genetic_chimerism:mutagen_synthesizer"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mutagen_synthesizer"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "genetic_chimerism:mutagen_synthesizer"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "itemGroup.genetic_chimerism": "Genetic Chimerism",
+
+  "item.genetic_chimerism.crude_tissue_sample": "Crude Tissue Sample",
+  "item.genetic_chimerism.fresh_tissue_sample": "Fresh Tissue Sample",
+  "item.genetic_chimerism.ensouled_tissue_sample": "Ensouled Tissue Sample",
+  "item.tissue_type.info": "A sample from a(n) %1$s animal",
+
+  "item.genetic_chimerism.mutagen_vial": "Mutagen Vial",
+  "item.vial_mutagen.info": "A vial of %1$s mutagen",
+
+  "item.genetic_chimerism.iron_scalpel": "Simple Scalpel",
+  "item.genetic_chimerism.diamond_scalpel": "Precise Scalpel",
+  "item.genetic_chimerism.soul_scalpel": "Soul Scalpel",
+  "item.genetic_chimerism.iron_scalpel_head": "Simple Scalpel Head",
+  "item.genetic_chimerism.diamond_scalpel_head": "Precise Scalpel Head",
+  "item.genetic_chimerism.soul_scalpel_head": "Soul Scalpel Head",
+
+  "block.genetic_chimerism.mutagen_synthesizer": "Mutagen Synthesizer",
+  "block.genetic_chimerism.infusion_station": "Infusion Station",
+
+  "mutations.tree.human": "Human",
+  "mutations.tree.horned": "Horned",
+  "mutations.tree.winged": "Winged",
+  "mutations.tree.shelled": "Shelled",
+
+  "mutations.mutation.antigen": "Human Antigen",
+  "mutations.mutation.horned_1": "horns and stuff lol this is test"
+}

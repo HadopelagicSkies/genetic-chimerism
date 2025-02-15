@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "genetic_chimerism:item/diamond_scalpel_head"
+  }
+}

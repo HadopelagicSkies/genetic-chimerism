@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:red_wool",
+    "i": "minecraft:iron_ingot",
+    "H": "minecraft:heavy_weighted_pressure_plate"
+  },
+  "pattern": [
+    "  #",
+    "i#i",
+    " H "
+  ],
+  "result": {
+    "count": 1,
+    "id": "genetic_chimerism:infusion_station"
+  }
+}

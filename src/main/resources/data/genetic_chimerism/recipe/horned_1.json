@@ -1,0 +1,31 @@
+{
+  "type": "genetic_chimerism:synth_recipe",
+  "inputA": {
+    "id": "genetic_chimerism:crude_tissue_sample",
+    "count": 10,
+    "components": {
+      "genetic_chimerism:tissue_type": "horned"
+    }
+  },
+  "inputB": {
+    "id": "minecraft:beef",
+    "count": 10
+  },
+  "inputC": {
+    "id": "minecraft:bone",
+    "count": 10
+  },
+  "inputD": {
+    "id": "minecraft:leather",
+    "count": 10
+  },
+  "output": {
+    "id": "genetic_chimerism:mutagen_vial",
+    "components": {
+      "genetic_chimerism:mutation_stored": {
+        "mutID": "horned_1",
+        "treeID": "horned"
+      }
+    }
+  }
+}
