@@ -3,7 +3,7 @@
 	"package": "com.genetic_chimerism.mixin.client",
 	"compatibilityLevel": "JAVA_21",
 	"client": [
-      "ExampleClientMixin"
+		"DrawContextAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

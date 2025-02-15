@@ -1,10 +1,14 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.SynthBlock.SynthScreenHandler;
+import com.genetic_chimerism.mixin.client.DrawContextAccessor;
+import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.tooltip.HoveredTooltipPositioner;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.Sprite;
@@ -20,6 +24,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 public class SynthScreen extends HandledScreen<SynthScreenHandler> {
@@ -297,44 +302,22 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             if (this.hovered){
                 Mutation mutation =  handler.getTrees().get(handler.treeIndex-TREE_BUTTON_START_INDEX).mutations.get(this.getIndex()-MUTATION_BUTTON_START_INDEX);
 
-                List<Text> text = new ArrayList<>();
-                text.add(Text.translatableWithFallback(("mutations.mutation."+ mutation.getMutID()),mutation.getMutID()));
-                text.add(Text.of(mutation.getDesc()));
+                List<TooltipComponent> text = new ArrayList<>();
+                text.add(TooltipComponent.of(Text.translatableWithFallback(("mutations.mutation."+ mutation.getMutID()),mutation.getMutID()).asOrderedText()));
+                text.add(TooltipComponent.of(Text.of(mutation.getDesc()).asOrderedText()));
 
                 if(mutation.getPrereq() != null) {
-                    text.add(Text.of("Requires: ").copy().append(Text.translatableWithFallback("mutations.mutation." + mutation.getPrereq().getMutID(),mutation.getPrereq().getMutID())));
+                    text.add(TooltipComponent.of(Text.of("Requires: ").copy().append(Text.translatableWithFallback("mutations.mutation." + mutation.getPrereq().getMutID(),mutation.getPrereq().getMutID())).asOrderedText()));
                 }
                 else {
-                    text.add(Text.of("Requires: None" ));
+                    text.add(TooltipComponent.of(Text.of("Requires: None" ).asOrderedText()));
                 }
 
                 if(handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe() != null) {
                     ItemStack[] inputs = handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe().getInputs();
-
-                    text.add(Text.of(""));
-                    String bufferSpaces ="";
-
-                    for (ItemStack itemStack : inputs) {
-                        if (!itemStack.isEmpty()) bufferSpaces += "     ";
-                    }
-                    text.add(Text.of(bufferSpaces));
-                    context.drawTooltip(SynthScreen.this.textRenderer, text ,x,y);
-
-
-                    int shiftX = x + 15;
-                    int shiftY = y + 22;
-                    for (ItemStack input : inputs) {
-                        context.getMatrices().push();
-                        context.getMatrices().translate(0,0,1000);
-                        context.drawItem(input, shiftX, shiftY);
-                        context.drawStackOverlay(SynthScreen.this.textRenderer, input, shiftX, shiftY);
-                        context.getMatrices().pop();
-
-                        shiftX += 20;
-
-                    }
+                    text.add(new MutationIngredientTooltipComponent(List.of(inputs)));
                 }
-                else context.drawTooltip(SynthScreen.this.textRenderer, text ,x,y);
+                ((DrawContextAccessor)context).drawTooltip(SynthScreen.this.textRenderer, text ,x,y, HoveredTooltipPositioner.INSTANCE,null);
             }
         }
     }
