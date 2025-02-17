@@ -13,7 +13,7 @@ import java.util.List;
 import static com.genetic_chimerism.GeneticChimerism.MOD_ID;
 
 public class MutationAttachments {
-    protected static void initialize() {}
+    public static void initialize() {}
     public static final AttachmentType<List<MutationInfo>> PLAYER_MUTATION_LIST = AttachmentRegistry.create(Identifier.of(MOD_ID, "player_mutation_list"),listBuilder ->
             listBuilder.initializer(() -> new ArrayList<>())
                     .persistent(Codec.list(MutationInfo.MUTATION_CODEC))

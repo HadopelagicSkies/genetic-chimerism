@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
+import net.fabricmc.fabric.impl.resource.loader.ResourceManagerHelperImpl;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceFinder;
 import net.minecraft.resource.ResourceManager;
@@ -21,17 +23,22 @@ public class MobInfoReloadListener implements SimpleResourceReloadListener {
     private static final ResourceFinder finder = new ResourceFinder("resources.data.genetic_chimerism.mob_tissue_data", ".json");
     private static final Identifier id = Identifier.of(GeneticChimerism.MOD_ID,"resources.data.genetic_chimerism.mob_tissue_data");
     private static final Map<Identifier,MobInfoData> results = new HashMap<>();
+    private static final DynamicOps<JsonElement> ops;
 
+    public void initialize(){
+        ResourceManagerHelperImpl.registerReloadListener(new MobInfoReloadListener());
+    }
 
 
     @Override
     public CompletableFuture load(ResourceManager resourceManager, Executor executor) {
-        //JsonDataLoader.load(resourceManager, finder, ops  ,MobInfoData.MOB_INFO_DATA_CODEC.listOf(), results);
+        JsonDataLoader.load(resourceManager, finder, ops, MobInfoData.MOB_INFO_DATA_CODEC.listOf(), results);
         return null;
     }
 
     @Override
     public CompletableFuture<Void> apply(Object o, ResourceManager resourceManager, Executor executor) {
+        JsonDataLoader.apply(o,resourceManager,executor);
         return null;
     }
 
@@ -41,6 +48,7 @@ public class MobInfoReloadListener implements SimpleResourceReloadListener {
     }
 
     public record MobInfoData(String mobID, String treeID, String tier) {
+        //grabbing this list will be the Actual Big List to reference against
         private static final List<MobInfoData> mobInfo = new ArrayList<>();
 
         public static final Codec<MobInfoData> MOB_INFO_DATA_CODEC = RecordCodecBuilder.create(i -> i.group(
