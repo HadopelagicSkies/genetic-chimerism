@@ -21,7 +21,8 @@ public class ScalpelItem extends SwordItem {
         stack.damage(1, attacker, EquipmentSlot.MAINHAND);
 
         if (target.isDead()) {
-            String targetMob = target.getType().getTranslationKey();
+            String mobString = target.getType().getTranslationKey();
+            String targetMob =  mobString.substring(mobString.lastIndexOf('.'));
             String mobType = TissueItem.checkTissueType(targetMob);
 
             int count =1;

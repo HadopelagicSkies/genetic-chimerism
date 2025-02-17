@@ -1,18 +1,19 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.SynthBlock.SynthRecipe;
-import com.genetic_chimerism.SynthBlock.SynthRecipeSerializer;
-import com.genetic_chimerism.SynthBlock.SynthScreenHandler;
+import com.genetic_chimerism.mutationsetup.Mutation;
+import com.genetic_chimerism.mutationsetup.MutationAttachments;
+import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.synthblock.SynthRecipe;
+import com.genetic_chimerism.synthblock.SynthRecipeSerializer;
+import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

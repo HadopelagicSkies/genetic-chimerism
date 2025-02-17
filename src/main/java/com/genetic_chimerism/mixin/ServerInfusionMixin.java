@@ -1,6 +1,6 @@
 package com.genetic_chimerism.mixin;
 
-import com.genetic_chimerism.InfusionBlock.InfusionStation;
+import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;

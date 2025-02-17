@@ -1,6 +1,8 @@
-package com.genetic_chimerism.SynthBlock;
+package com.genetic_chimerism.synthblock;
 
 import com.genetic_chimerism.*;
+import com.genetic_chimerism.mutationsetup.Mutation;
+import com.genetic_chimerism.mutationsetup.MutationTrees;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;

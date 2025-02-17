@@ -1,6 +1,10 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.SynthBlock.SynthScreenHandler;
+import com.genetic_chimerism.mutationsetup.Mutation;
+import com.genetic_chimerism.mutationsetup.MutationAttachments;
+import com.genetic_chimerism.mutationsetup.MutationInfo;
+import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -11,8 +15,6 @@ import net.minecraft.client.gui.tooltip.HoveredTooltipPositioner;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenTexts;
@@ -24,7 +26,6 @@ import net.minecraft.util.math.MathHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 
 public class SynthScreen extends HandledScreen<SynthScreenHandler> {
@@ -122,7 +123,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         GeneticChimerism.LOGGER.info("running mutation menu, size: " + selectedTree.mutations.size()+", depth: "+ maxDepth);
 
         for(int l = 0; l < selectedTree.mutations.size(); ++l) {
-            int tier = MutationTrees.treeDepth(selectedTree.mutations.get(l),1)-1;
+            int tier = Math.min(MutationTrees.treeDepth(selectedTree.mutations.get(l),1),maxDepth)-1;
             int buttonX = x + (tierInterval[tier] * tierTracker[tier]) - (MUTATION_BUTTON_SIZE/2);
             int buttonY = y + (yInterval * (maxDepth-tier)) - (MUTATION_BUTTON_SIZE/2);
 

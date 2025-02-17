@@ -1,6 +1,10 @@
-package com.genetic_chimerism.InfusionBlock;
+package com.genetic_chimerism.infusionblock;
 
 import com.genetic_chimerism.*;
+import com.genetic_chimerism.mutationsetup.Mutation;
+import com.genetic_chimerism.mutationsetup.MutationAttachments;
+import com.genetic_chimerism.mutationsetup.MutationInfo;
+import com.genetic_chimerism.mutationsetup.MutationTrees;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;

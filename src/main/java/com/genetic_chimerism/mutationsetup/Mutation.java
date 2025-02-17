@@ -1,6 +1,6 @@
-package com.genetic_chimerism;
+package com.genetic_chimerism.mutationsetup;
 
-import com.genetic_chimerism.SynthBlock.SynthRecipe;
+import com.genetic_chimerism.synthblock.SynthRecipe;
 
 public class Mutation {
     private final String mutID;
@@ -65,4 +65,16 @@ public class Mutation {
     public static final Mutation shelled_2 = MutationTrees.shelled.addToTree(new Mutation("shelled_2", "shelled", "s2", Mutation.shelled_1));
     public static final Mutation shelled_3 = MutationTrees.shelled.addToTree(new Mutation("shelled_3", "shelled", "s3", Mutation.shelled_2));
     public static final Mutation shelled_4 = MutationTrees.shelled.addToTree(new Mutation("shelled_4", "shelled", "s4", Mutation.shelled_3));
+
+    public static final Mutation amphibious_1 = MutationTrees.amphibious.addToTree(new Mutation("amphibious_1", "amphibious","a1", null));
+    public static final Mutation scaled_1 = MutationTrees.scaled.addToTree(new Mutation("scaled_1", "scaled","sc 1", null));
+    public static final Mutation hooved_1 = MutationTrees.hooved.addToTree(new Mutation("hooved_1", "hooved","ho1", null));
+    public static final Mutation aquatic_1 = MutationTrees.aquatic.addToTree(new Mutation("aquatic_1", "aquatic","aq1", null));
+    public static final Mutation invertebrate_1 = MutationTrees.invertebrate.addToTree(new Mutation("invertebrate_1", "invertebrate","in1", null));
+    public static final Mutation small_mammal_1 = MutationTrees.small_mammal.addToTree(new Mutation("small_mammal_1", "small_mammal","sm1", null));
+    public static final Mutation spined_1 = MutationTrees.spined.addToTree(new Mutation("spined_1", "spined","sp1", null));
+    public static final Mutation woolen_1 = MutationTrees.woolen.addToTree(new Mutation("woolen_1", "woolen","wo1", null));
+    public static final Mutation tusked_1 = MutationTrees.tusked.addToTree(new Mutation("tusked_1", "tusked","t1", null));
+    public static final Mutation shroomby_1 = MutationTrees.special.addToTree(new Mutation("shroomby_1", "special","sh1", null));
+
 }

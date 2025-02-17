@@ -1,4 +1,4 @@
-package com.genetic_chimerism.InfusionBlock;
+package com.genetic_chimerism.infusionblock;
 
 import com.genetic_chimerism.ImplementInventory;
 import com.genetic_chimerism.ModBlockEntities;

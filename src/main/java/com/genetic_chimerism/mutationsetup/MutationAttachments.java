@@ -1,4 +1,4 @@
-package com.genetic_chimerism;
+package com.genetic_chimerism.mutationsetup;
 
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;

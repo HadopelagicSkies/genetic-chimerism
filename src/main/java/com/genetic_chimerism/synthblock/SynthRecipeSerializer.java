@@ -1,4 +1,4 @@
-package com.genetic_chimerism.SynthBlock;
+package com.genetic_chimerism.synthblock;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutationsetup.MutationInfo;
 import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.registry.Registries;

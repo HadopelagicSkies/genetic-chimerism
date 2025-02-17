@@ -1,0 +1,257 @@
+[
+  {
+    "mobID": "entity.minecraft.allay",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.armadillo",
+    "treeID":"shelled",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.axolotl",
+    "treeID":"amphibious",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.bat",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.camel",
+    "treeID":"hooved",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.cat",
+    "treeID":"small_mammal",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.chicken",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.cod",
+    "treeID": "aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.cow",
+    "treeID": "horned",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.donkey",
+    "treeID": "hooved",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.frog",
+    "treeID": "amphibious",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.glow_squid",
+    "treeID": "aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.horse",
+    "treeID": "hooved",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.mooshroom",
+    "treeID": "special",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.mule",
+    "treeID": "hooved",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.ocelot",
+    "treeID":"small_mammal",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.parrot",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.pig",
+    "treeID":"tusked",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.pufferfish",
+    "treeID":"spined",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.rabbit",
+    "treeID":"small_mammal",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.salmon",
+    "treeID":"aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.sheep",
+    "treeID":"woolen",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.sniffer",
+    "treeID":"tusked",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.squid",
+    "treeID":"aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.tadpole",
+    "treeID":"amphibious",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.tropical_fish",
+    "treeID": "aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.turtle",
+    "treeID":"shelled",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.bee",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.cave_spider",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.dolphin",
+    "treeID":"aquatic",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.fox",
+    "treeID":"small_mammal",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.goat",
+    "treeID":"horned",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.llama",
+    "treeID":"woolen",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.panda",
+    "treeID":"woolen",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.polar_bear",
+    "treeID":"woolen",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.spider",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.trader_llama",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.wolf",
+    "treeID":"small_animal",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.elder_guardian",
+    "treeID":"spined",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.endermite",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.ghast",
+    "treeID":"special",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.guardian",
+    "treeID":"spined",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.hoglin",
+    "treeID":"tusked",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.phantom",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.ravager",
+    "treeID":"horned",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.shulker",
+    "treeID":"shelled",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.silverfish",
+    "treeID":"invertebrate",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.vex",
+    "treeID":"winged",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.warden",
+    "treeID":"special",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.zoglin",
+    "treeID":"tusked",
+    "tier": "crude"
+  },
+  {
+    "mobID": "entity.minecraft.ender_dragon",
+    "treeID":"special",
+    "tier": "crude"
+  }
+]
