@@ -40,6 +40,7 @@ public class GeneticChimerism implements ModInitializer {
 		MutationTrees.initialize();
 		Mutation.initialize();
 		MutationAttachments.initialize();
+		MobInfoReloadListener.initialize();
 
 		Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipeSerializer.ID), SynthRecipeSerializer.INSTANCE);
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);
@@ -49,13 +50,16 @@ public class GeneticChimerism implements ModInitializer {
 		ServerWorldEvents.LOAD.register((server, serverWorld) -> {
 			GeneticChimerism.LOGGER.info("Assigning Synth Recipes");
 			MutationTrees.assignRecipes(serverWorld);
+			GeneticChimerism.LOGGER.info("Mapping Mob Tissue Data");
+			MobInfoReloadListener.remapResults();
 		});
 
 		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
 			if (!success) return;
 			GeneticChimerism.LOGGER.info("Assigning Synth Recipes");
 			MutationTrees.assignRecipes(server.getOverworld());
-
+			GeneticChimerism.LOGGER.info("Mapping Mob Tissue Data");
+			MobInfoReloadListener.remapResults();
 		});
 		LOGGER.info("Genetic Chimerism Loaded");
 	}

@@ -309,10 +309,12 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 text.add(TooltipComponent.of(Text.of(mutation.getDesc()).asOrderedText()));
 
                 if(mutation.getPrereq() != null) {
-                    text.add(TooltipComponent.of(Text.of("Requires: ").copy().append(Text.translatableWithFallback("mutations.mutation." + mutation.getPrereq().getMutID(),mutation.getPrereq().getMutID())).asOrderedText()));
+                    String prereq = Text.translatableWithFallback("mutations.mutation." + mutation.getPrereq().getMutID(),mutation.getPrereq().getMutID()).getString();
+                    text.add(TooltipComponent.of(Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs", prereq).asOrderedText()));
                 }
                 else {
-                    text.add(TooltipComponent.of(Text.of("Requires: None" ).asOrderedText()));
+                    String none = Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_none").getString();
+                    text.add(TooltipComponent.of(Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs", none).asOrderedText()));
                 }
 
                 if(handler.getTrees().get(handler.treeIndex - TREE_BUTTON_START_INDEX).mutations.get(this.getIndex() - MUTATION_BUTTON_START_INDEX).getRecipe() != null) {

@@ -16,7 +16,7 @@ public class MutagenVialItem extends Item {
         public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
             if (stack.contains(ModComponents.MUTATION_STORED)) {
                 String mutationName = stack.get(ModComponents.MUTATION_STORED).mutID();
-                tooltip.add(Text.translatable("item.vial_mutagen.info", mutationName).formatted(Formatting.GOLD));
+                tooltip.add(Text.translatable("item.genetic_chimerism.vial_mutagen.info", mutationName).formatted(Formatting.GOLD));
             }
         }
 }

@@ -7,7 +7,7 @@
   "item.tissue_type.info": "A sample from a(n) %1$s animal",
 
   "item.genetic_chimerism.mutagen_vial": "Mutagen Vial",
-  "item.vial_mutagen.info": "A vial of %1$s mutagen",
+  "item.genetic_chimerism.vial_mutagen.info": "A vial of %1$s mutagen",
 
   "item.genetic_chimerism.iron_scalpel": "Simple Scalpel",
   "item.genetic_chimerism.diamond_scalpel": "Precise Scalpel",
@@ -17,13 +17,28 @@
   "item.genetic_chimerism.soul_scalpel_head": "Soul Scalpel Head",
 
   "block.genetic_chimerism.mutagen_synthesizer": "Mutagen Synthesizer",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs": "Requires: %1$s",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_none": "None",
+
   "block.genetic_chimerism.infusion_station": "Infusion Station",
+  "block.genetic_chimerism.infusion_station.contents": "This infusion station contains a vial of %1$s mutagen",
+  "block.genetic_chimerism.infusion_station.adding": "This infusion station now contains a vial of %1$s mutagen",
+  "block.genetic_chimerism.infusion_station.empty": "This infusion station is empty!",
+  "block.genetic_chimerism.infusion_station.removing": "This infusion station is now empty!",
+  "block.genetic_chimerism.infusion_station.no_prereqs": "You are missing prerequisite mutations.",
+  "block.genetic_chimerism.infusion_station.infuse_antigen": "You have been infused with antigen, your mutations begin to revert.",
+  "block.genetic_chimerism.infusion_station.infuse_success": "You have been infused with the %1$s mutation.",
+  "block.genetic_chimerism.infusion_station.already_infused": "You have already been infused with the %1$s mutation.",
 
   "mutations.tree.human": "Human",
-  "mutations.tree.horned": "Horned",
-  "mutations.tree.winged": "Winged",
-  "mutations.tree.shelled": "Shelled",
-
   "mutations.mutation.antigen": "Human Antigen",
-  "mutations.mutation.horned_1": "horns and stuff lol this is test"
+
+  "mutations.tree.horned": "Horned",
+  "mutations.mutation.horned_1": "horns and stuff lol this is test",
+
+  "mutations.tree.winged": "Winged",
+  "mutations.tree.shelled": "Shelled"
+
+
+
 }
