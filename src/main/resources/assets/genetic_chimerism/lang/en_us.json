@@ -32,10 +32,10 @@
 
   "mutations.tree.human": "Human",
   "mutations.mutation.antigen": "Human Antigen",
-
+  "mutations.mutation.desc.antigen": "Antigen to revert all mutations",
   "mutations.tree.horned": "Horned",
-  "mutations.mutation.horned_1": "horns and stuff lol this is test",
-
+  "mutations.mutation.horned_1": "horns and such",
+  "mutations.mutation.desc.horned_1": "horns and stuff lol this is test",
   "mutations.tree.winged": "Winged",
   "mutations.tree.shelled": "Shelled"
 

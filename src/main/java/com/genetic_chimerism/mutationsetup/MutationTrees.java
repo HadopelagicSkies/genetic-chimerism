@@ -92,7 +92,7 @@ public class MutationTrees {
     public static final MutationTrees human = addTree(new ArrayList<Mutation>(), "human", Identifier.ofVanilla("textures/mob_effect/haste.png"));
     public static final MutationTrees horned = addTree(new ArrayList<Mutation>(), "horned", Identifier.ofVanilla("textures/item/goat_horn.png"));
     public static final MutationTrees winged = addTree(new ArrayList<Mutation>(), "winged", Identifier.ofVanilla("textures/mob_effect/slow_falling.png"));
-    public static final MutationTrees shelled = addTree(new ArrayList<Mutation>(), "shelled", Identifier.ofVanilla("textures/item/turtle_shell.png"));
+    public static final MutationTrees shelled = addTree(new ArrayList<Mutation>(), "shelled", Identifier.ofVanilla("textures/item/turtle_helmet.png"));
     public static final MutationTrees amphibious = addTree(new ArrayList<Mutation>(), "amphibious", Identifier.ofVanilla("textures/item/axolotl_bucket.png"));
     public static final MutationTrees scaled = addTree(new ArrayList<Mutation>(), "scaled", Identifier.ofVanilla("textures/item/turtle_scute.png"));
     public static final MutationTrees hooved = addTree(new ArrayList<Mutation>(), "hooved", Identifier.ofVanilla("textures/item/golden_horse_armor.png"));
