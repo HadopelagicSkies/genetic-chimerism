@@ -33,12 +33,21 @@
   "mutations.tree.human": "Human",
   "mutations.mutation.antigen": "Human Antigen",
   "mutations.mutation.desc.antigen": "Antigen to revert all mutations",
+
   "mutations.tree.horned": "Horned",
   "mutations.mutation.horned_1": "horns and such",
   "mutations.mutation.desc.horned_1": "horns and stuff lol this is test",
+
   "mutations.tree.winged": "Winged",
-  "mutations.tree.shelled": "Shelled"
+  "mutations.tree.shelled": "Shelled",
 
-
-
+  "mutations.tree.aquatic": "Aquatic",
+  "mutations.mutation.gills1": "Gills I",
+  "mutations.mutation.desc.gills1": "You begin to grow gills! It takes longer to run out of breath.",
+  "mutations.mutation.gills2": "Gills II",
+  "mutations.mutation.desc.gills2": "Your gills grow larger! It takes even longer to run out of breath.",
+  "mutations.mutation.gills3": "Gills III",
+  "mutations.mutation.desc.gills3": "Your gills begin to replace your lungs! You can breathe underwater, but may struggle on land.",
+  "mutations.mutation.gills4": "Gills IV",
+  "mutations.mutation.desc.gills4": "Your gills have replaced your lungs! Fully adapted to underwater life, you cannot breathe on the surface."
 }

@@ -18,6 +18,8 @@ public class MutationAttachments {
             listBuilder.initializer(() -> new ArrayList<>())
                     .persistent(Codec.list(MutationInfo.MUTATION_CODEC))
                     .syncWith(MutationInfo.MUTATION_PACKET_CODEC.collect(PacketCodecs.toList()),AttachmentSyncPredicate.targetOnly()));
+
+    public static final AttachmentType<MutationInfo> HEAD_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "head_mutation"));
     public static final AttachmentType<MutationInfo> BACK_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "back_mutation"));
     public static final AttachmentType<MutationInfo> ARM_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "arm_mutation"));
     public static final AttachmentType<MutationInfo> LEG_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "leg_mutation"));

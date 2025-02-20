@@ -1,11 +1,13 @@
 {
-	"required": true,
-	"package": "com.genetic_chimerism.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"DrawContextAccessor"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.genetic_chimerism.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "DrawContextAccessor",
+    "PlayerModelPartAdderMixin",
+    "UnderwaterBreathSwapClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

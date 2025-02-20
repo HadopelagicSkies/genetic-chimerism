@@ -119,13 +119,13 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                 player.getStackInHand(hand).setCount(0);
                 blockEntity.markDirty();
                 player.getInventory().markDirty();
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if (stack.isOf(ModItems.MUTAGEN_VIAL) && blockContents.isEmpty()) {
                 blockEntity.setStack(0, stack.copy());
                 player.getStackInHand(hand).setCount(0);
                 blockEntity.markDirty();
                 player.getInventory().markDirty();
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if(player.isSneaking() && stack.isEmpty() && blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
                 player.getInventory().offerOrDrop(blockContents.copy());
                 blockEntity.setStack(0,ItemStack.EMPTY);
@@ -133,9 +133,9 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                 player.getInventory().markDirty();
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.removing"), true);
             }else if (!stack.isOf(ModItems.MUTAGEN_VIAL) && blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             }else if (blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if (blockContents.isEmpty()) {
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.empty"), true);
             }
@@ -180,14 +180,17 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
             String mutationName = Text.translatableWithFallback("mutations.mutation."+selectedMutation.mutID(),selectedMutation.mutID()).getString();
             if(selectedMutation.mutID().equals("antigen")){
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_antigen"), true);
+                for (MutationInfo info : settingMutations){
+                    MutationTrees.mutationFromCodec(info).onRemoved(player);
+                }
                 settingMutations.clear();
             } else if (playerMutations.contains(selectedMutation)) {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_success", mutationName), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.already_infused", mutationName), true);
                 return;
             } else {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.already_infused", mutationName), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_success", mutationName), true);
                 settingMutations.add(selectedMutation);
-
+                MutationTrees.mutationFromCodec(selectedMutation).onApplied(player);
             }
             player.setAttached(MutationAttachments.PLAYER_MUTATION_LIST, settingMutations);
             GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));

@@ -57,6 +57,21 @@ public class MutationTrees {
         GeneticChimerism.LOGGER.info("Synth Recipes Assigned");
     }
     public static void initialize() {
+        Mutation.initialize();
+        HornedTree.initialize();
+        WingedTree.initialize();
+        ShelledTree.initialize();
+        AmphibiousTree.initialize();
+        ScaledTree.initialize();
+        HoovedTree.initialize();
+        AquaticTree.initialize();
+        InvertebrateTree.initialize();
+        SmallMammalTree.initialize();
+        SpinedTree.initialize();
+        TuskedTree.initialize();
+        WoolenTree.initialize();
+        SpecialTree.initialize();
+
     }
 
     public Mutation addToTree(Mutation mutation){
@@ -87,28 +102,5 @@ public class MutationTrees {
         }
         return null;
     }
-
-
     public static final MutationTrees human = addTree(new ArrayList<Mutation>(), "human", Identifier.ofVanilla("textures/mob_effect/haste.png"));
-    public static final MutationTrees horned = addTree(new ArrayList<Mutation>(), "horned", Identifier.ofVanilla("textures/item/goat_horn.png"));
-    public static final MutationTrees winged = addTree(new ArrayList<Mutation>(), "winged", Identifier.ofVanilla("textures/mob_effect/slow_falling.png"));
-    public static final MutationTrees shelled = addTree(new ArrayList<Mutation>(), "shelled", Identifier.ofVanilla("textures/item/turtle_helmet.png"));
-    public static final MutationTrees amphibious = addTree(new ArrayList<Mutation>(), "amphibious", Identifier.ofVanilla("textures/item/axolotl_bucket.png"));
-    public static final MutationTrees scaled = addTree(new ArrayList<Mutation>(), "scaled", Identifier.ofVanilla("textures/item/turtle_scute.png"));
-    public static final MutationTrees hooved = addTree(new ArrayList<Mutation>(), "hooved", Identifier.ofVanilla("textures/item/golden_horse_armor.png"));
-    public static final MutationTrees aquatic = addTree(new ArrayList<Mutation>(), "aquatic", Identifier.ofVanilla("textures/mob_effect/dolphins_grace.png"));
-    public static final MutationTrees invertebrate = addTree(new ArrayList<Mutation>(), "invertebrate", Identifier.ofVanilla("textures/mob_effect/weaving.png"));
-    public static final MutationTrees small_mammal = addTree(new ArrayList<Mutation>(), "small_mammal", Identifier.ofVanilla("textures/item/name_tag.png"));
-    public static final MutationTrees spined = addTree(new ArrayList<Mutation>(), "spined", Identifier.ofVanilla("textures/mob_effect/resistance.png"));
-    public static final MutationTrees woolen = addTree(new ArrayList<Mutation>(), "woolen", Identifier.ofVanilla("textures/mob_effect/levitation.png"));
-    public static final MutationTrees tusked = addTree(new ArrayList<Mutation>(), "tusked", Identifier.ofVanilla("textures/mob_effect/hunger.png"));
-    public static final MutationTrees special = addTree(new ArrayList<Mutation>(), "special", Identifier.ofVanilla("textures/block/dragon_egg"));
-
-
-
-
-
-
-
-
 }

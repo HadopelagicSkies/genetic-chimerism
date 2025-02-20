@@ -38,7 +38,6 @@ public class GeneticChimerism implements ModInitializer {
 		ModComponents.initialize();
 		ModBlockEntities.initialize();
 		MutationTrees.initialize();
-		Mutation.initialize();
 		MutationAttachments.initialize();
 		MobInfoReloadListener.initialize();
 
