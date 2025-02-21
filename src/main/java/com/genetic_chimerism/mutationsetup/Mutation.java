@@ -1,13 +1,19 @@
 package com.genetic_chimerism.mutationsetup;
 
+import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.model.ModelData;
+import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 
 public class Mutation {
+    public static final Identifier TEXTURE = Identifier.of(GeneticChimerism.MOD_ID,"textures/body_part/not_actually_a_thingy_lol.png");
+
     private final String mutID;
     private final String mutationTree;
     private final Mutation prereq;
@@ -21,6 +27,8 @@ public class Mutation {
 
     public static void initialize() {
     }
+
+    public static TexturedModelData getTexturedModelData() {return TexturedModelData.of(new ModelData(), 64, 64); }
 
     public String getMutID(){
         return this.mutID;
