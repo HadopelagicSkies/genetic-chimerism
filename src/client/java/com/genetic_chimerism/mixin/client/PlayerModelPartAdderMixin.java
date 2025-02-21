@@ -1,44 +1,44 @@
 package com.genetic_chimerism.mixin.client;
 
-import com.genetic_chimerism.mutationsetup.AquaticTree;
+import com.genetic_chimerism.*;
 import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.model.*;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.math.BlockPos;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BipedEntityModel.class)
-public class PlayerModelPartAdderMixin {
-//  @WrapOperation(method = {"getModelData"}, at = @At(value = "INVOKE", target = ""))
-//    private boolean addPartToBody(PlayerEntity instance, TagKey tagKey, Operation<Boolean> original) {
-//        if (instance instanceof PlayerEntity && instance.getAttached(MutationAttachments.PLAYER_MUTATION_LIST) != null) {
-//
-//            if (instance.getAttached(MutationAttachments.HEAD_MUTATION) != null){
-//
-//            }
-//            if (instance.getAttached(MutationAttachments.BACK_MUTATION) != null){
-//
-//            }
-//            if (instance.getAttached(MutationAttachments.ARM_MUTATION) != null){
-//
-//            }
-//            if (instance.getAttached(MutationAttachments.LEG_MUTATION) != null){
-//
-//            }
-//            if (instance.getAttached(MutationAttachments.TAIL_MUTATION) != null){
-//
-//            }
-//        }
-//        return ;
-//    }
+@Mixin(LivingEntityRenderer.class)
+public abstract class PlayerModelPartAdderMixin {
 
+    @Invoker("addFeature")
+    public abstract boolean invokeAddFeature(FeatureRenderer<?, ?> feature);
+
+
+    @Inject(method = {"<init>"}, at = @At(value = "RETURN"))
+    private void addPartToBody(EntityRendererFactory.Context ctx, EntityModel model, float shadowRadius, CallbackInfo ci) {
+//        this.invokeAddFeature(new HeadMutationFeatureRenderer<>((LivingEntityRenderer<?, ?>) (Object) this));
+//        this.invokeAddFeature(new BodyMutationFeatureRenderer<>((LivingEntityRenderer<?, ?>) (Object) this));
+//        this.invokeAddFeature(new ArmMutationFeatureRenderer<>((LivingEntityRenderer<?, ?>) (Object) this));
+//        this.invokeAddFeature(new LegMutationFeatureRenderer<>((LivingEntityRenderer<?, ?>) (Object) this));
+//        this.invokeAddFeature(new TailMutationFeatureRenderer<>();
+
+
+    }
 }
 
