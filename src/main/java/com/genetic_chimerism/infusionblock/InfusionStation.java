@@ -1,10 +1,10 @@
 package com.genetic_chimerism.infusionblock;
 
 import com.genetic_chimerism.*;
-import com.genetic_chimerism.mutationsetup.Mutation;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationInfo;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.Mutation;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationInfo;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -102,8 +102,6 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
         if (!world.isClient) {
             InfusionStationEntity blockEntity = (InfusionStationEntity) world.getBlockEntity(pos);
             ItemStack blockContents = blockEntity.getItems().get(0);
-            GeneticChimerism.LOGGER.info("clicking with " + player.getMainHandStack().getName() + ", sneaking: " + player.isSneaking());
-
             // Actually doing things to give mutation here
 
             if(!player.isSneaking() && player.getMainHandStack().isEmpty() && blockEntity.getItems().get(0).isOf(ModItems.MUTAGEN_VIAL)) {
@@ -119,13 +117,13 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                 player.getStackInHand(hand).setCount(0);
                 blockEntity.markDirty();
                 player.getInventory().markDirty();
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable("mutations.mutation." + blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if (stack.isOf(ModItems.MUTAGEN_VIAL) && blockContents.isEmpty()) {
                 blockEntity.setStack(0, stack.copy());
                 player.getStackInHand(hand).setCount(0);
                 blockEntity.markDirty();
                 player.getInventory().markDirty();
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.adding", Text.translatable("mutations.mutation." +blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if(player.isSneaking() && stack.isEmpty() && blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
                 player.getInventory().offerOrDrop(blockContents.copy());
                 blockEntity.setStack(0,ItemStack.EMPTY);
@@ -133,9 +131,9 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                 player.getInventory().markDirty();
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.removing"), true);
             }else if (!stack.isOf(ModItems.MUTAGEN_VIAL) && blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable("mutations.mutation." +blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             }else if (blockContents.isOf(ModItems.MUTAGEN_VIAL)) {
-                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable(blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
+                player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.contents", Text.translatable("mutations.mutation." +blockEntity.getItems().get(0).get(ModComponents.MUTATION_STORED).mutID()).getString()), true);
             } else if (blockContents.isEmpty()) {
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.empty"), true);
             }
@@ -174,6 +172,12 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
             if (mutation != null && mutation.getPrereq() != null){
                 if (!playerMutations.contains(MutationTrees.mutationToCodec(mutation.getPrereq()))) {
                     player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.no_prereqs"), true);
+                    return;
+                }
+            }
+            if (mutation != null && mutation.getPrereq() != null){
+                if (!mutation.getParts().isEmpty() && !MutationTrees.hasValidPrereqParts(mutation,player,true)) {
+                    player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.invalid_body_parts"), true);
                     return;
                 }
             }

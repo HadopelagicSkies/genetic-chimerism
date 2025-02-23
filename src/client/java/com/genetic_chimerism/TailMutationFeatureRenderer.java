@@ -1,48 +1,40 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.mutationsetup.AquaticTree;
-import com.genetic_chimerism.mutationsetup.Mutation;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
 
-public class TailMutationFeatureRenderer< T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<S>> extends FeatureRenderer<S, M> {
-    private final FeatureRendererContext<S, M> context;
+public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
 
-    public TailMutationFeatureRenderer(FeatureRendererContext<S, M> context) {
+    public TailMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
-        this.context = context;
     }
 
-    public Mutation getSlotMutation(LivingEntity entity){
-        if(entity instanceof PlayerEntity && entity.getAttached(MutationAttachments.TAIL_MUTATION) != null){
-            return MutationTrees.mutationFromCodec(entity.getAttached(MutationAttachments.TAIL_MUTATION));
-        }
-        return null;
-    }
-
-
-    public M getContextModel() {
-        return this.context.getModel();
-    }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, S state, float limbAngle, float limbDistance) {
-
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
+        PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
+        if(accessedState.genetic_chimerism$getTailInfo() != null) {
+            TexturedModelData modelData = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTailInfo()).getTexturedModelData();
+            Identifier texture = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTailInfo()).getTexture();
+            ModelPart model = modelData.createModel();
+            this.getContextModel().body.copyTransform(model);
+            MutationEntityModel entityModel = new MutationEntityModel(model);
+            matrices.push();
+            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
+            entityModel.setAngles(state);
+            entityModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+            matrices.pop();
+        }
     }
-
-//    @Override
-//    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance) {
-//        if(entity instanceof PlayerEntity && entity.getAttached(MutationAttachments.TAIL_MUTATION) != null) {
-//            getContextModel().render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(getSlotMutation(entity).TEXTURE)), light, 0, 0);
-//        }
-//    }
 }

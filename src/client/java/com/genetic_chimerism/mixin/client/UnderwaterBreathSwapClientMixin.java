@@ -1,8 +1,8 @@
 package com.genetic_chimerism.mixin.client;
 
-import com.genetic_chimerism.mutationsetup.AquaticTree;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.AquaticTree;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.Blocks;

@@ -1,9 +1,9 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.mutationsetup.Mutation;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationInfo;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.Mutation;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationInfo;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
@@ -305,6 +305,16 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 List<TooltipComponent> text = new ArrayList<>();
                 text.add(TooltipComponent.of(Text.translatableWithFallback(("mutations.mutation."+ mutation.getMutID()),mutation.getMutID()).asOrderedText()));
                 text.add(TooltipComponent.of(Text.translatableWithFallback("mutations.mutation.desc." + mutation.getMutID(),mutation.getMutID()).asOrderedText()));
+
+                if(!mutation.getParts().equals(List.of())) {
+                    StringBuilder parts = new StringBuilder();
+                    for(int i = 0; i<mutation.getParts().size(); i++) {
+                        String partTranslate = "block.genetic_chimerism.mutagen_synthesizer.tooltip_" + mutation.getParts().get(i) + "_part";
+                        if (i > 0) parts.append(" ,");
+                        parts.append(Text.translatable(partTranslate).getString());
+                    }
+                    text.add(TooltipComponent.of(Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_parts", parts.toString()).asOrderedText()));
+                }
 
                 if(mutation.getPrereq() != null) {
                     String prereq = Text.translatableWithFallback("mutations.mutation." + mutation.getPrereq().getMutID(),mutation.getPrereq().getMutID()).getString();

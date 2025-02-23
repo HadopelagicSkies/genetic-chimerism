@@ -2,7 +2,7 @@ package com.genetic_chimerism;
 
 
 
-import com.genetic_chimerism.mutationsetup.MutationInfo;
+import com.genetic_chimerism.mutation_setup.MutationInfo;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;

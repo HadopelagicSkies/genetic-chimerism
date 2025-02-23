@@ -17,8 +17,9 @@ public class TissueItem extends Item {
 
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
         if (stack.contains(ModComponents.TISSUE_TYPE)) {
-            String tissueType = stack.get(ModComponents.TISSUE_TYPE);
-            tooltip.add(Text.translatable("item.tissue_type.info", tissueType).formatted(Formatting.GOLD));
+            String tissueID = stack.get(ModComponents.TISSUE_TYPE);
+            String tissueName = Text.translatable("mutations.tree."+tissueID).getString();
+            tooltip.add(Text.translatable("item.tissue_type.info", tissueName).formatted(Formatting.GOLD));
         }
     }
 

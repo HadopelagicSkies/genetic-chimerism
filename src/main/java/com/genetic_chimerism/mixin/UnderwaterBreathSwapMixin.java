@@ -1,26 +1,17 @@
 package com.genetic_chimerism.mixin;
 
-import com.genetic_chimerism.infusionblock.InfusionStation;
-import com.genetic_chimerism.mutationsetup.AquaticTree;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationInfo;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.genetic_chimerism.mutation_setup.AquaticTree;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.block.BedBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-
-import java.util.List;
 
 @Mixin(LivingEntity.class)
 public abstract class UnderwaterBreathSwapMixin {

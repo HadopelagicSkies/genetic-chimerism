@@ -1,4 +1,4 @@
-package com.genetic_chimerism.mutationsetup;
+package com.genetic_chimerism.mutation_setup;
 
 
 import com.mojang.serialization.Codec;

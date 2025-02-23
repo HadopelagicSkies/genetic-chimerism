@@ -19,6 +19,12 @@
   "block.genetic_chimerism.mutagen_synthesizer": "Mutagen Synthesizer",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs": "Requires: %1$s",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_none": "None",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_parts": "Body Parts: %1$s",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_head_part": "Head",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_torso_part": "Torso",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_arm_part": "Arms",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_leg_part": "Legs",
+  "block.genetic_chimerism.mutagen_synthesizer.tooltip_tail_part": "Tail",
 
   "block.genetic_chimerism.infusion_station": "Infusion Station",
   "block.genetic_chimerism.infusion_station.contents": "This infusion station contains a vial of %1$s mutagen",
@@ -26,6 +32,7 @@
   "block.genetic_chimerism.infusion_station.empty": "This infusion station is empty!",
   "block.genetic_chimerism.infusion_station.removing": "This infusion station is now empty!",
   "block.genetic_chimerism.infusion_station.no_prereqs": "You are missing prerequisite mutations.",
+  "block.genetic_chimerism.infusion_station.invalid_body_parts" : "Your body mutations conflict with this mutation.",
   "block.genetic_chimerism.infusion_station.infuse_antigen": "You have been infused with antigen, your mutations begin to revert.",
   "block.genetic_chimerism.infusion_station.infuse_success": "You have been infused with the %1$s mutation.",
   "block.genetic_chimerism.infusion_station.already_infused": "You have already been infused with the %1$s mutation.",
@@ -49,5 +56,11 @@
   "mutations.mutation.gills3": "Gills III",
   "mutations.mutation.desc.gills3": "Your gills begin to replace your lungs! You can breathe underwater, but may struggle on land.",
   "mutations.mutation.gills4": "Gills IV",
-  "mutations.mutation.desc.gills4": "Your gills have replaced your lungs! Fully adapted to underwater life, you cannot breathe on the surface."
+  "mutations.mutation.desc.gills4": "Your gills have replaced your lungs! Fully adapted to underwater life, you cannot breathe on the surface.",
+  "mutations.mutation.fastswim1": "Faster Swimming I",
+  "mutations.mutation.desc.fastswim1": "Your physique is more hydrodynamic!",
+  "mutations.mutation.sharktail1": "Shark Tail Growth",
+  "mutations.mutation.desc.sharktail1": "You grow a shark tail! You can swim even faster",
+  "mutations.mutation.sharktail2": "Thresher Shark Tail",
+  "mutations.mutation.desc.sharktail2": "Your tail tip becomes long like a whip! You can use it to knock enemies back."
 }

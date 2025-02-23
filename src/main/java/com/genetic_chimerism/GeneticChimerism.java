@@ -1,8 +1,7 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.mutationsetup.Mutation;
-import com.genetic_chimerism.mutationsetup.MutationAttachments;
-import com.genetic_chimerism.mutationsetup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import com.genetic_chimerism.synthblock.SynthRecipeSerializer;
 import com.genetic_chimerism.synthblock.SynthScreenHandler;

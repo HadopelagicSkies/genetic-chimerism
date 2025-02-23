@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -15,8 +16,6 @@ public class GeneticChimerismClient implements ClientModInitializer {
 		HandledScreens.register(GeneticChimerism.SYNTH_SCREEN_HANDLER, SynthScreen::new);
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MUTAGEN_SYNTHESIZER,RenderLayer.getTranslucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STATION,RenderLayer.getTranslucent());
-		/*ClientPlayNetworking.registerGlobalReceiver(GeneticChimerism.INITIAL_SYNC, (client, handler, buf, responseSender) -> {
-			playerData.mutationList = buf.readNbt();
-		});*/
+		MutationTreesClient.initialize();
 	}
 }

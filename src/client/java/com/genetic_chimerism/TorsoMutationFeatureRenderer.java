@@ -15,9 +15,9 @@ import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
+public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
 
-    public HeadMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
+    public TorsoMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
     }
 
@@ -25,11 +25,10 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        if(accessedState.genetic_chimerism$getHeadInfo() != null) {
-            TexturedModelData modelData = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getHeadInfo()).getTexturedModelData();
-            Identifier texture = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getHeadInfo()).getTexture();
+        if(accessedState.genetic_chimerism$getTorsoInfo() != null) {
+            TexturedModelData modelData = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTorsoInfo()).getTexturedModelData();
+            Identifier texture = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTorsoInfo()).getTexture();
             ModelPart model = modelData.createModel();
-            this.getContextModel().head.copyTransform(model);
             MutationEntityModel entityModel = new MutationEntityModel(model);
             matrices.push();
             VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
