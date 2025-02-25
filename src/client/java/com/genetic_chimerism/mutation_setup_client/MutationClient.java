@@ -1,8 +1,7 @@
 package com.genetic_chimerism.mutation_setup_client;
 
-import com.genetic_chimerism.GeneticChimerism;
-import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.util.Identifier;
 
 public class MutationClient {
@@ -24,8 +23,11 @@ public class MutationClient {
         return this.mutationTree;
     }
 
-    public TexturedModelData getTexturedModelData() {return TexturedModelData.of(new ModelData(), 64, 64);}
-    public Identifier getTexture(){return Identifier.of(GeneticChimerism.MOD_ID,"textures/body_part/not_actually_a_thingy_lol.png");}
+    public TexturedModelData getTexturedModelData() {return null;}
+    public Identifier getTexture(){return null;}
+    public Animation getPartAnimation() {return null;}
+    public Animation getPartAnimationL() {return null;}
+    public Animation getPartAnimationR() {return null;}
 
     public static final MutationClient human = MutationTreesClient.human.addToTree(new MutationClient("antigen", "human"));
 }

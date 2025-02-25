@@ -17,7 +17,7 @@ public class MutationTreesClient {
 
     public static void initialize() {
         MutationClient.initialize();
-//        HornedTreeClient.initialize();
+        HornedTreeClient.initialize();
 //        WingedTreeClient.initialize();
 //        ShelledTreeClient.initialize();
 //        AmphibiousTreeClient.initialize();

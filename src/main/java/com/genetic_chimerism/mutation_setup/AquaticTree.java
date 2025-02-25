@@ -168,7 +168,7 @@ public class AquaticTree {
             if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null)
                 player.removeAttached(MutationAttachments.TAIL_MUTATION);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail1));
+            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail2));
         }
 
         @Override
