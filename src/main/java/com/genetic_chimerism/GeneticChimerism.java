@@ -8,6 +8,8 @@ import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -20,18 +22,11 @@ public class GeneticChimerism implements ModInitializer {
 	public static final String MOD_ID = "genetic_chimerism";
 
 	public static final Identifier INITIAL_SYNC = Identifier.of(MOD_ID, "initial_sync");
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ScreenHandlerType<SynthScreenHandler> SYNTH_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(GeneticChimerism.MOD_ID, "mutagen_synthesizer"), new ScreenHandlerType<>(SynthScreenHandler::new, FeatureSet.empty()));
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
 		ModItems.initialize();
 		ModBlocks.initialize();
 		ModComponents.initialize();
@@ -43,7 +38,20 @@ public class GeneticChimerism implements ModInitializer {
 		Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipeSerializer.ID), SynthRecipeSerializer.INSTANCE);
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);
 
-		//StateSaverLoader.initialize();
+		PayloadTypeRegistry.playC2S().register(MutActionPayload.ID, MutActionPayload.MUT_ACTION_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload,context) -> {
+			if (payload.isPressed() && payload.keyPressed().equals("head") && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null){
+				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.HEAD_MUTATION)).mutationAction(context.player());
+			} else if (payload.isPressed() && payload.keyPressed().equals("torso") && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null){
+				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TORSO_MUTATION)).mutationAction(context.player());
+			} else if (payload.isPressed() && payload.keyPressed().equals("arm") && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null){
+				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.ARM_MUTATION)).mutationAction(context.player());
+			} else if (payload.isPressed() && payload.keyPressed().equals("leg") && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null){
+				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.LEG_MUTATION)).mutationAction(context.player());
+			} else if (payload.isPressed() && payload.keyPressed().equals("tail") && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null){
+				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TAIL_MUTATION)).mutationAction(context.player());
+			}
+		});
 
 		ServerWorldEvents.LOAD.register((server, serverWorld) -> {
 			GeneticChimerism.LOGGER.info("Assigning Synth Recipes");

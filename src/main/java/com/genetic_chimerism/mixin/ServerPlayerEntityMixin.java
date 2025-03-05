@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import java.util.function.Consumer;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerInfusionMixin {
+public abstract class ServerPlayerEntityMixin {
 
 	@WrapWithCondition(method = "trySleep", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;setSpawnPoint(Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/math/BlockPos;FZZ)V") )
 	private boolean infusionNotSetSpawn(ServerPlayerEntity instance, RegistryKey<World> dimension, BlockPos pos, float angle, boolean forced, boolean sendMessage) {

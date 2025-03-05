@@ -45,6 +45,10 @@ public class Mutation {
 
     public void onApplied(PlayerEntity player){}
     public void onRemoved(PlayerEntity player){}
+    public void mutationAction(PlayerEntity player) {}
+    public void tick(PlayerEntity player){};
 
     public static final Mutation human = MutationTrees.human.addToTree(new Mutation("antigen", "human", null, List.of()));
+
+
 }

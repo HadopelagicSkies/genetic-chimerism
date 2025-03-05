@@ -1,6 +1,7 @@
 package com.genetic_chimerism.mutation_setup_client;
 
 import net.minecraft.client.model.TexturedModelData;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.util.Identifier;
 
@@ -28,6 +29,8 @@ public class MutationClient {
     public Animation getPartAnimation() {return null;}
     public Animation getPartAnimationL() {return null;}
     public Animation getPartAnimationR() {return null;}
+    public void mutationAction(ClientPlayerEntity player) {}
 
     public static final MutationClient human = MutationTreesClient.human.addToTree(new MutationClient("antigen", "human"));
+
 }

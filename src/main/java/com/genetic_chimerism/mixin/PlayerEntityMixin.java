@@ -1,6 +1,9 @@
 package com.genetic_chimerism.mixin;
 
 import com.genetic_chimerism.infusionblock.InfusionStation;
+import com.genetic_chimerism.mutation_setup.Mutation;
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public class InfusionDaytimeBypass {
+public class PlayerEntityMixin {
 
 	@Shadow
 	private int sleepTimer;
@@ -26,5 +29,16 @@ public class InfusionDaytimeBypass {
 	private void infuseOnWakeUp(CallbackInfo info) {
 		PlayerEntity player = (PlayerEntity) (Object) this;
 		if (player.getSleepTimer() >=100 && player.getSleepingPosition().map((pos) -> player.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation).orElse(false)){InfusionStation.infusePlayer(player.getSleepingPosition().get(),player);}
+	}
+
+	@Inject(at = @At ("RETURN"), method = "tick")
+	private void callMutationTickers(CallbackInfo ci){
+		PlayerEntity player = (PlayerEntity) (Object) this;
+
+		if(player.getAttached(MutationAttachments.HEAD_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.HEAD_MUTATION)).tick(player);
+		if(player.getAttached(MutationAttachments.TORSO_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.TORSO_MUTATION)).tick(player);
+		if(player.getAttached(MutationAttachments.ARM_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.ARM_MUTATION)).tick(player);
+		if(player.getAttached(MutationAttachments.LEG_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.LEG_MUTATION)).tick(player);
+		if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.TAIL_MUTATION)).tick(player);
 	}
 }

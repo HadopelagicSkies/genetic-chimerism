@@ -16,6 +16,13 @@
   "item.genetic_chimerism.diamond_scalpel_head": "Precise Scalpel Head",
   "item.genetic_chimerism.soul_scalpel_head": "Soul Scalpel Head",
 
+  "category.genetic_chimerism.keybindings": "Genetic Chimerism",
+  "key.genetic_chimerism.head_action" : "Head Mutation Action",
+  "key.genetic_chimerism.torso_action" : "Torso Mutation Action",
+  "key.genetic_chimerism.arm_action" : "Arm Mutation Action",
+  "key.genetic_chimerism.leg_action" : "Leg Mutation Action",
+  "key.genetic_chimerism.tail_action" : "Tail Mutation Action",
+
   "block.genetic_chimerism.mutagen_synthesizer": "Mutagen Synthesizer",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs": "Requires: %1$s",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_none": "None",

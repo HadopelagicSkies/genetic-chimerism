@@ -3,12 +3,16 @@ package com.genetic_chimerism.mutation_setup;
 import com.genetic_chimerism.GeneticChimerism;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TypeFilter;
+import net.minecraft.util.math.Box;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,9 @@ public class HornedTree {
     public static class RamHorns1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier RAMHORNS1_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "ramhorns1_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
+        private boolean ramming = false;
+        private int rammingTime = 0;
+        private int cooldown = 0;
 
         public RamHorns1Mutation(String mutID, String treeID, Mutation prereq, List<String> parts) {
             super(mutID, treeID, prereq, parts);
@@ -66,6 +73,35 @@ public class HornedTree {
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
             player.removeAttached(MutationAttachments.HEAD_MUTATION);
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player){
+            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0;
+
+        }
+
+        @Override
+        public void tick(PlayerEntity player){
+            if (this.ramming) {
+                if (this.cooldown == 0) this.cooldown = 10;
+                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.35));
+
+                List<? extends LivingEntity> colliders = player.getWorld().getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), Box.of(player.getPos(), 1, 1, 1), player::collidesWith);
+                for(LivingEntity entity : colliders){
+                    entity.addVelocity(entity.getPos().subtract(player.getPos()).multiply(3));
+                }
+                if(!colliders.isEmpty()) ramming = false;
+                GeneticChimerism.LOGGER.info(colliders.toString());
+                this.rammingTime++;
+                if(rammingTime > 10){
+                    this.ramming=false;
+                    this.rammingTime=0;
+                }
+            }
+            else rammingTime = 0;
+            if (this.cooldown > 0) this.cooldown--;
+
         }
     }
 
