@@ -26,7 +26,7 @@ public class DiplocaulusEntityRenderer extends AgeableMobEntityRenderer<Diplocau
     @Override
     public void updateRenderState(DiplocaulusEntity diplocaulusEntity, AxolotlEntityRenderState axolotlEntityRenderState, float f) {
         super.updateRenderState(diplocaulusEntity, axolotlEntityRenderState, f);
-        axolotlEntityRenderState.variant = diplocaulusEntity.getVariant();
+        axolotlEntityRenderState.variant = diplocaulusEntity.getAxolotlVariant();
         axolotlEntityRenderState.playingDeadValue = diplocaulusEntity.playingDeadFf.getValue(f);
         axolotlEntityRenderState.inWaterValue = diplocaulusEntity.inWaterFf.getValue(f);
         axolotlEntityRenderState.onGroundValue = diplocaulusEntity.onGroundFf.getValue(f);

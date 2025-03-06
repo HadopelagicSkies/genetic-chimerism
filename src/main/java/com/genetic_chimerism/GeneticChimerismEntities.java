@@ -1,11 +1,11 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.entity.DiplocaulusEntity;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -14,13 +14,17 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 
 public class GeneticChimerismEntities {
     public static void initialize(){
         FabricDefaultAttributeRegistry.register(register(DIPLOCAULUS,"diplocaulus"),DiplocaulusEntity.createDiplocaulusAttributes());
+        addSpawning(DIPLOCAULUS, BiomeKeys.MANGROVE_SWAMP,10,1,3);
     }
 
     public static final EntityType<DiplocaulusEntity> DIPLOCAULUS = EntityType.Builder.create(DiplocaulusEntity::new, SpawnGroup.AXOLOTLS)
@@ -42,5 +46,9 @@ public class GeneticChimerismEntities {
         Registry.register(Registries.ITEM,itemKey, spawnEggItem);
 
         return entity;
+    }
+
+    public static void addSpawning(EntityType<?> entityType, RegistryKey<Biome> biomeKey, int weight, int minGroupSize, int maxGroupSize){
+        BiomeModifications.addSpawn(context -> context.getBiomeKey().equals(biomeKey),entityType.getSpawnGroup(),entityType,weight,minGroupSize,maxGroupSize);
     }
 }
