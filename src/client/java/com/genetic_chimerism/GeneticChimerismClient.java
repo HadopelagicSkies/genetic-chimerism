@@ -1,5 +1,7 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.entity.DiplocaulusEntityModel;
+import com.genetic_chimerism.entity.DiplocaulusEntityRenderer;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
 import com.genetic_chimerism.mutation_setup.MutationInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
@@ -8,10 +10,14 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 
@@ -21,14 +27,17 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	private static KeyBinding armActionKeybindings;
 	private static KeyBinding legActionKeybindings;
 	private static KeyBinding tailActionKeybindings;
+	public static final EntityModelLayer DIPLOCAULUS_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus");
+	public static final EntityModelLayer DIPLOCAULUS_BABY_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus_baby");
 
 	@Override
 	public void onInitializeClient() {
-		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		HandledScreens.register(GeneticChimerism.SYNTH_SCREEN_HANDLER, SynthScreen::new);
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.MUTAGEN_SYNTHESIZER,RenderLayer.getTranslucent());
-		BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.INFUSION_STATION,RenderLayer.getTranslucent());
-
+		BlockRenderLayerMap.INSTANCE.putBlock(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER,RenderLayer.getTranslucent());
+		BlockRenderLayerMap.INSTANCE.putBlock(GeneticChimerismBlocks.INFUSION_STATION,RenderLayer.getTranslucent());
+		EntityRendererRegistry.register(GeneticChimerismEntities.DIPLOCAULUS,(context) -> new DiplocaulusEntityRenderer(context) {});
+		EntityModelLayerRegistry.registerModelLayer(DIPLOCAULUS_MODEL_LAYER, DiplocaulusEntityModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(DIPLOCAULUS_BABY_MODEL_LAYER, DiplocaulusEntityModel::getBabyTexturedModelData);
 
 		MutationTreesClient.initialize();
 		initKeybindings();

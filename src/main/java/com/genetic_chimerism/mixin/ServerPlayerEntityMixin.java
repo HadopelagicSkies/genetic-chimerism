@@ -30,7 +30,6 @@ public abstract class ServerPlayerEntityMixin {
 		return original && !( player.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation);
 	}
 
-	// deal with achievement for sleep here
 	@ModifyArg(method = "trySleep", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/util/Either;ifRight(Ljava/util/function/Consumer;)Lcom/mojang/datafixers/util/Either;", remap = false))
 	private Consumer<? super Unit> infusionNoSleepAdvancement(Consumer<? super Unit> consumer, @Local(argsOnly = true) BlockPos pos) {
 		PlayerEntity player = (PlayerEntity) (Object) this;

@@ -13,13 +13,13 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 
-public class ModBlocks {
+public class GeneticChimerismBlocks {
 
     public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(ModItems.GENETIC_CHIMERISM_GROUP_KEY).register((itemGroup) ->
+        ItemGroupEvents.modifyEntriesEvent(GeneticChimerismItems.GENETIC_CHIMERISM_GROUP_KEY).register((itemGroup) ->
         {
-            itemGroup.add(ModBlocks.MUTAGEN_SYNTHESIZER.asItem());
-            itemGroup.add(ModBlocks.INFUSION_STATION.asItem());
+            itemGroup.add(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER.asItem());
+            itemGroup.add(GeneticChimerismBlocks.INFUSION_STATION.asItem());
         });
     }
 

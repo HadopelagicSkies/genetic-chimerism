@@ -3,6 +3,7 @@ package com.genetic_chimerism.mutation_setup;
 import com.genetic_chimerism.GeneticChimerism;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -10,9 +11,15 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypeFilter;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,31 +84,45 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player){
-            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0;
-
+            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
+            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramhorns1"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
-            if (this.ramming) {
-                if (this.cooldown == 0) this.cooldown = 10;
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.35));
+            if (this.ramming && !player.getWorld().isClient) {
+                if (this.cooldown == 0) this.cooldown = 300;
+                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
 
-                List<? extends LivingEntity> colliders = player.getWorld().getEntitiesByType(TypeFilter.instanceOf(LivingEntity.class), Box.of(player.getPos(), 1, 1, 1), player::collidesWith);
-                for(LivingEntity entity : colliders){
-                    entity.addVelocity(entity.getPos().subtract(player.getPos()).multiply(3));
+                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
+                for(Entity entity : colliders){
+                    if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
                 }
-                if(!colliders.isEmpty()) ramming = false;
-                GeneticChimerism.LOGGER.info(colliders.toString());
+
+                if(!colliders.isEmpty()){
+                    player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                    ramming = false;
+                }
                 this.rammingTime++;
-                if(rammingTime > 10){
+                if(rammingTime > 60 || !ramming){
+
                     this.ramming=false;
                     this.rammingTime=0;
                 }
-            }
-            else rammingTime = 0;
-            if (this.cooldown > 0) this.cooldown--;
+            } else if (this.ramming && player.getWorld().isClient) {
+                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
+                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
+                if(!colliders.isEmpty()){
+                    ramming = false;
+                }
+                this.rammingTime++;
+                if(rammingTime > 60 || !ramming){
 
+                    this.ramming=false;
+                    this.rammingTime=0;
+                }
+            } else rammingTime = 0;
+            if (this.cooldown > 0) this.cooldown--;
         }
     }
 

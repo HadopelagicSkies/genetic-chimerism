@@ -38,7 +38,7 @@ public class GeneticChimerismDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generate() {
-			addDrop(ModBlocks.MUTAGEN_SYNTHESIZER, drops(ModBlocks.MUTAGEN_SYNTHESIZER.asItem()));
+			addDrop(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER, drops(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER.asItem()));
 		}
 	}
 
@@ -50,22 +50,22 @@ public class GeneticChimerismDataGenerator implements DataGeneratorEntrypoint {
 
 		@Override
 		public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-			blockStateModelGenerator.registerGeneric(ModBlocks.MUTAGEN_SYNTHESIZER);
+			blockStateModelGenerator.registerGeneric(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER);
 		}
 
 		@Override
 		public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-			itemModelGenerator.register(ModItems.CRUDE_TISSUE_SAMPLE, Models.GENERATED);
-			itemModelGenerator.register(ModItems.FRESH_TISSUE_SAMPLE, Models.GENERATED);
-			itemModelGenerator.register(ModItems.ENSOULED_TISSUE_SAMPLE, Models.GENERATED);
-			itemModelGenerator.register(ModItems.MUTAGEN_VIAL, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.FRESH_TISSUE_SAMPLE, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.MUTAGEN_VIAL, Models.GENERATED);
 
-			itemModelGenerator.register(ModItems.IRON_SCALPEL, Models.HANDHELD);
-			itemModelGenerator.register(ModItems.DIAMOND_SCALPEL, Models.HANDHELD);
-			itemModelGenerator.register(ModItems.SOUL_SCALPEL, Models.HANDHELD);
-			itemModelGenerator.register(ModItems.IRON_SCALPEL_HEAD, Models.GENERATED);
-			itemModelGenerator.register(ModItems.DIAMOND_SCALPEL_HEAD, Models.GENERATED);
-			itemModelGenerator.register(ModItems.SOUL_SCALPEL_HEAD, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.IRON_SCALPEL, Models.HANDHELD);
+			itemModelGenerator.register(GeneticChimerismItems.DIAMOND_SCALPEL, Models.HANDHELD);
+			itemModelGenerator.register(GeneticChimerismItems.SOUL_SCALPEL, Models.HANDHELD);
+			itemModelGenerator.register(GeneticChimerismItems.IRON_SCALPEL_HEAD, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.DIAMOND_SCALPEL_HEAD, Models.GENERATED);
+			itemModelGenerator.register(GeneticChimerismItems.SOUL_SCALPEL_HEAD, Models.GENERATED);
 		}
 	}
 
@@ -80,55 +80,55 @@ public class GeneticChimerismDataGenerator implements DataGeneratorEntrypoint {
 				public void generate() {
 					RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
 
-					createShaped(RecipeCategory.MISC, ModItems.IRON_SCALPEL_HEAD, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.IRON_SCALPEL_HEAD, 1)
 							.pattern("  i")
 							.pattern(" ii")
 							.pattern("ii ")
 							.input('i', Items.IRON_INGOT)
-							.criterion(hasItem(ModItems.IRON_SCALPEL_HEAD), conditionsFromItem(ModItems.IRON_SCALPEL_HEAD))
+							.criterion(hasItem(GeneticChimerismItems.IRON_SCALPEL_HEAD), conditionsFromItem(GeneticChimerismItems.IRON_SCALPEL_HEAD))
 							.offerTo(exporter);
-					createShaped(RecipeCategory.MISC, ModItems.DIAMOND_SCALPEL_HEAD, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.DIAMOND_SCALPEL_HEAD, 1)
 							.pattern("  d")
 							.pattern(" dd")
 							.pattern("dd ")
 							.input('d', Items.DIAMOND)
-							.criterion(hasItem(ModItems.DIAMOND_SCALPEL_HEAD), conditionsFromItem(ModItems.DIAMOND_SCALPEL_HEAD))
+							.criterion(hasItem(GeneticChimerismItems.DIAMOND_SCALPEL_HEAD), conditionsFromItem(GeneticChimerismItems.DIAMOND_SCALPEL_HEAD))
 							.offerTo(exporter);
-					createShaped(RecipeCategory.MISC, ModItems.SOUL_SCALPEL_HEAD, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.SOUL_SCALPEL_HEAD, 1)
 							.pattern("  n")
 							.pattern(" sn")
 							.pattern("nn ")
 							.input('n', Items.NETHERITE_INGOT)
 							.input('s', Items.NETHER_STAR)
-							.criterion(hasItem(ModItems.SOUL_SCALPEL_HEAD), conditionsFromItem(ModItems.SOUL_SCALPEL_HEAD))
+							.criterion(hasItem(GeneticChimerismItems.SOUL_SCALPEL_HEAD), conditionsFromItem(GeneticChimerismItems.SOUL_SCALPEL_HEAD))
 							.offerTo(exporter);
 
-					createShaped(RecipeCategory.MISC, ModItems.IRON_SCALPEL, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.IRON_SCALPEL, 1)
 							.pattern("  i")
 							.pattern(" s ")
 							.pattern("s  ")
-							.input('i', ModItems.IRON_SCALPEL_HEAD)
+							.input('i', GeneticChimerismItems.IRON_SCALPEL_HEAD)
 							.input('s', Items.STICK)
-							.criterion(hasItem(ModItems.IRON_SCALPEL), conditionsFromItem(ModItems.IRON_SCALPEL))
+							.criterion(hasItem(GeneticChimerismItems.IRON_SCALPEL), conditionsFromItem(GeneticChimerismItems.IRON_SCALPEL))
 							.offerTo(exporter);
-					createShaped(RecipeCategory.MISC, ModItems.DIAMOND_SCALPEL, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.DIAMOND_SCALPEL, 1)
 							.pattern("  d")
 							.pattern(" s ")
 							.pattern("s  ")
-							.input('d', ModItems.DIAMOND_SCALPEL_HEAD)
+							.input('d', GeneticChimerismItems.DIAMOND_SCALPEL_HEAD)
 							.input('s', Items.STICK)
-							.criterion(hasItem(ModItems.DIAMOND_SCALPEL), conditionsFromItem(ModItems.DIAMOND_SCALPEL))
+							.criterion(hasItem(GeneticChimerismItems.DIAMOND_SCALPEL), conditionsFromItem(GeneticChimerismItems.DIAMOND_SCALPEL))
 							.offerTo(exporter);
-					createShaped(RecipeCategory.MISC, ModItems.SOUL_SCALPEL, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismItems.SOUL_SCALPEL, 1)
 							.pattern("  n")
 							.pattern(" s ")
 							.pattern("s  ")
-							.input('n', ModItems.SOUL_SCALPEL_HEAD)
+							.input('n', GeneticChimerismItems.SOUL_SCALPEL_HEAD)
 							.input('s', Items.STICK)
-							.criterion(hasItem(ModItems.SOUL_SCALPEL), conditionsFromItem(ModItems.SOUL_SCALPEL))
+							.criterion(hasItem(GeneticChimerismItems.SOUL_SCALPEL), conditionsFromItem(GeneticChimerismItems.SOUL_SCALPEL))
 							.offerTo(exporter);
 
-					createShaped(RecipeCategory.MISC, ModBlocks.MUTAGEN_SYNTHESIZER, 1)
+					createShaped(RecipeCategory.MISC, GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER, 1)
 							.pattern("bsb")
 							.pattern("igi")
 							.pattern("iri")
@@ -137,7 +137,7 @@ public class GeneticChimerismDataGenerator implements DataGeneratorEntrypoint {
 							.input('b', Items.GLASS_BOTTLE)
 							.input('s', ItemTags.WOODEN_SLABS)
 							.input('r', Items.REDSTONE_BLOCK)
-							.criterion(hasItem(ModBlocks.MUTAGEN_SYNTHESIZER), conditionsFromItem(ModBlocks.MUTAGEN_SYNTHESIZER))
+							.criterion(hasItem(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER), conditionsFromItem(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER))
 							.offerTo(exporter);
 
 				}

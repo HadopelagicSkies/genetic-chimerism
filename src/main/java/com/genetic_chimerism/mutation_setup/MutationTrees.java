@@ -1,8 +1,8 @@
 package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.GeneticChimerism;
-import com.genetic_chimerism.ModComponents;
-import com.genetic_chimerism.ModItems;
+import com.genetic_chimerism.GeneticChimerismComponents;
+import com.genetic_chimerism.GeneticChimerismItems;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -36,16 +36,16 @@ public class MutationTrees {
     public static void assignRecipes(ServerWorld server){
         for (MutationTrees trees : mutationTreesList) {
             for (Mutation setMutation : trees.mutations) {
-                ItemStack result = new ItemStack(ModItems.MUTAGEN_VIAL, 1);
-                result.set(ModComponents.MUTATION_STORED, MutationTrees.mutationToCodec(setMutation));
+                ItemStack result = new ItemStack(GeneticChimerismItems.MUTAGEN_VIAL, 1);
+                result.set(GeneticChimerismComponents.MUTATION_STORED, MutationTrees.mutationToCodec(setMutation));
                 if (!server.isClient) {
                     ServerRecipeManager manager = server.getRecipeManager();
                     Collection<RecipeEntry<?>> recipes = manager.values();
                     for (RecipeEntry<?> recipeEntry : recipes) {
                         if (recipeEntry.value().getType().equals(SynthRecipe.Type.INSTANCE)) {
                             SynthRecipe recipe = (SynthRecipe) recipeEntry.value();
-                            if (result.get(ModComponents.MUTATION_STORED).mutID().equals(recipe.getOutput().get(ModComponents.MUTATION_STORED).mutID())
-                                    && result.get(ModComponents.MUTATION_STORED).treeID().equals(recipe.getOutput().get(ModComponents.MUTATION_STORED).treeID())) {
+                            if (result.get(GeneticChimerismComponents.MUTATION_STORED).mutID().equals(recipe.getOutput().get(GeneticChimerismComponents.MUTATION_STORED).mutID())
+                                    && result.get(GeneticChimerismComponents.MUTATION_STORED).treeID().equals(recipe.getOutput().get(GeneticChimerismComponents.MUTATION_STORED).treeID())) {
                                 setMutation.setRecipe(recipe);
                             }
                         }

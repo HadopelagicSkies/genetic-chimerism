@@ -27,13 +27,15 @@ public class GeneticChimerism implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		ModItems.initialize();
-		ModBlocks.initialize();
-		ModComponents.initialize();
-		ModBlockEntities.initialize();
+		GeneticChimerismItems.initialize();
+		GeneticChimerismBlocks.initialize();
+		GeneticChimerismComponents.initialize();
+		GeneticChimerismBlockEntities.initialize();
 		MutationTrees.initialize();
 		MutationAttachments.initialize();
 		MobInfoReloadListener.initialize();
+		GeneticChimerismEntities.initialize();
+
 
 		Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipeSerializer.ID), SynthRecipeSerializer.INSTANCE);
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);

@@ -1,7 +1,7 @@
 package com.genetic_chimerism.synthblock;
 
 import com.genetic_chimerism.ImplementInventory;
-import com.genetic_chimerism.ModBlockEntities;
+import com.genetic_chimerism.GeneticChimerismBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,7 +29,7 @@ public class BasicSynthEntity extends BlockEntity implements ImplementInventory,
         return items;
     }
     public BasicSynthEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY, pos, state);
+        super(GeneticChimerismBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY, pos, state);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, BasicSynthEntity blockEntity) {

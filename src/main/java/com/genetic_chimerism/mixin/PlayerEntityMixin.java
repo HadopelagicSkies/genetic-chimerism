@@ -3,6 +3,7 @@ package com.genetic_chimerism.mixin;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.Mutation;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationInfo;
 import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
@@ -34,11 +37,11 @@ public class PlayerEntityMixin {
 	@Inject(at = @At ("RETURN"), method = "tick")
 	private void callMutationTickers(CallbackInfo ci){
 		PlayerEntity player = (PlayerEntity) (Object) this;
-
-		if(player.getAttached(MutationAttachments.HEAD_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.HEAD_MUTATION)).tick(player);
-		if(player.getAttached(MutationAttachments.TORSO_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.TORSO_MUTATION)).tick(player);
-		if(player.getAttached(MutationAttachments.ARM_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.ARM_MUTATION)).tick(player);
-		if(player.getAttached(MutationAttachments.LEG_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.LEG_MUTATION)).tick(player);
-		if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null) MutationTrees.mutationFromCodec(player.getAttached(MutationAttachments.TAIL_MUTATION)).tick(player);
+		List<MutationInfo> mutList = player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
+		if(mutList != null){
+			for(MutationInfo mutation : mutList) {
+				MutationTrees.mutationFromCodec(mutation).tick(player);
+			}
+		}
 	}
 }

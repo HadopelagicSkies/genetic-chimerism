@@ -79,8 +79,8 @@ public class SynthScreenHandler extends ScreenHandler {
 
         if(bottleStack.isOf(Items.GLASS_BOTTLE) && vialStack.isEmpty() && bottleStack.getCount() > 0){
 
-            vialStack = new ItemStack(ModItems.MUTAGEN_VIAL,1);
-            vialStack.set(ModComponents.MUTATION_STORED,MutationTrees.mutationToCodec(this.setMutation));
+            vialStack = new ItemStack(GeneticChimerismItems.MUTAGEN_VIAL,1);
+            vialStack.set(GeneticChimerismComponents.MUTATION_STORED,MutationTrees.mutationToCodec(this.setMutation));
 
 
             GeneticChimerism.LOGGER.info("checking recipe for: " + this.setMutation.getMutID());
@@ -109,8 +109,8 @@ public class SynthScreenHandler extends ScreenHandler {
         for(int i=0; i<player.getInventory().size();i++){
             ItemStack stack = player.getInventory().getStack(i).copy();
             if (stack.isOf(input.getItem())){
-                if(input.isOf(ModItems.CRUDE_TISSUE_SAMPLE)||input.isOf(ModItems.FRESH_TISSUE_SAMPLE)||input.isOf(ModItems.ENSOULED_TISSUE_SAMPLE)){
-                    if (input.get(ModComponents.TISSUE_TYPE).equals(stack.get(ModComponents.TISSUE_TYPE))){
+                if(input.isOf(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.FRESH_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE)){
+                    if (input.get(GeneticChimerismComponents.TISSUE_TYPE).equals(stack.get(GeneticChimerismComponents.TISSUE_TYPE))){
                         player.getInventory().getStack(i).setCount(stack.getCount() - inputStack.getCount());
                         inputStack.increment(-1 * stack.getCount());
                         if (inputStack.getCount() == 0) {break;}
@@ -131,8 +131,8 @@ public class SynthScreenHandler extends ScreenHandler {
         for(int i=0; i<player.getInventory().size();i++){
             ItemStack stack = player.getInventory().getStack(i).copy();
             if (stack.isOf(input.getItem())){
-                if(input.isOf(ModItems.CRUDE_TISSUE_SAMPLE)||input.isOf(ModItems.FRESH_TISSUE_SAMPLE)||input.isOf(ModItems.ENSOULED_TISSUE_SAMPLE)){
-                    if (input.get(ModComponents.TISSUE_TYPE).equals(stack.get(ModComponents.TISSUE_TYPE))){
+                if(input.isOf(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.FRESH_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE)){
+                    if (input.get(GeneticChimerismComponents.TISSUE_TYPE).equals(stack.get(GeneticChimerismComponents.TISSUE_TYPE))){
                         inputStack.increment(-1 * stack.getCount());
                         if (inputStack.getCount() == 0) {
                             break;

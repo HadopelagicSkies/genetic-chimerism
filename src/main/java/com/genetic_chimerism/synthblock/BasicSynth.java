@@ -1,6 +1,6 @@
 package com.genetic_chimerism.synthblock;
 
-import com.genetic_chimerism.ModBlockEntities;
+import com.genetic_chimerism.GeneticChimerismBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -68,7 +68,7 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
 
     @Nullable
     protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> validateTicker(BlockEntityType<A> givenType, BlockEntityTicker<? super E> ticker) {
-        return ModBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY == givenType ? (BlockEntityTicker<A>) ticker : null;
+        return GeneticChimerismBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY == givenType ? (BlockEntityTicker<A>) ticker : null;
     }
 
     @Override

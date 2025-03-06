@@ -16,6 +16,8 @@
   "item.genetic_chimerism.diamond_scalpel_head": "Precise Scalpel Head",
   "item.genetic_chimerism.soul_scalpel_head": "Soul Scalpel Head",
 
+  "item.genetic_chimerism.diplocaulus_spawn_egg": "Diplocaulus Spawn Egg",
+
   "category.genetic_chimerism.keybindings": "Genetic Chimerism",
   "key.genetic_chimerism.head_action" : "Head Mutation Action",
   "key.genetic_chimerism.torso_action" : "Torso Mutation Action",
@@ -51,6 +53,14 @@
   "mutations.tree.horned": "Horned",
   "mutations.mutation.horned_1": "horns and such",
   "mutations.mutation.desc.horned_1": "horns and stuff lol this is test",
+  "mutations.mutation.horned_2": "horns 2",
+  "mutations.mutation.desc.horned_2": "horns and stuff 2",
+  "mutations.mutation.horned_3": "horns 3",
+  "mutations.mutation.desc.horned_3": "horns and stuff 3",
+  "mutations.mutation.ramhorns1": "Ram Horns",
+  "mutations.mutation.desc.ramhorns1": "Lets you ram enemies, knocking them back!",
+  "mutations.mutation.cooldown.ramhorns1": "Ramming is still on cooldown!",
+
 
   "mutations.tree.winged": "Winged",
   "mutations.tree.shelled": "Shelled",

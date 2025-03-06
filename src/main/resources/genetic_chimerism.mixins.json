@@ -4,9 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BedBlockMixin",
-    "PlayerEntityMixin",
+    "BucketableMixin",
     "LivingEntityMixin",
-    "ServerPlayerEntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
