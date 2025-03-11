@@ -11,6 +11,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +170,7 @@ public class AquaticTree {
             if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null)
                 player.removeAttached(MutationAttachments.TAIL_MUTATION);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail2,0,0,0));
+            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail2,0, ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137)));
         }
 
         @Override

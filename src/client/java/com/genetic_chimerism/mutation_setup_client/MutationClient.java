@@ -25,7 +25,8 @@ public class MutationClient {
     }
 
     public TexturedModelData getTexturedModelData() {return null;}
-    public Identifier getTexture(){return null;}
+    public Identifier getTexture1(){return null;}
+    public Identifier getTexture2(){return null;}
     public Animation getPartAnimation() {return null;}
     public Animation getPartAnimationL() {return null;}
     public Animation getPartAnimationR() {return null;}

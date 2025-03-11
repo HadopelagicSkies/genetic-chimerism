@@ -17,6 +17,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.joml.Vector3f;
 
 public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
@@ -33,7 +34,8 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
         if(accessedState.genetic_chimerism$getLegInfo() != null) {
             MutationClient mutation = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getLegInfo());
             TexturedModelData modelData = mutation.getTexturedModelData();
-            Identifier texture = mutation.getTexture();
+            Identifier texture1 = mutation.getTexture1();
+            Identifier texture2 = mutation.getTexture2();
             Animation animationL = mutation.getPartAnimationL();
             Animation animationR = mutation.getPartAnimationR();
             ModelPart modelL = modelData.createModel();
@@ -48,8 +50,11 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 AnimationHelper.animate(entityModelL, animationL, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             this.getContextModel().leftLeg.hidden = true;
-            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
-            entityModelL.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+            VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
+            entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
+
+            VertexConsumer vertexConsumerL2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+            entityModelL.render(matrices, vertexConsumerL2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
 
             ModelPart modelR = modelData.createModel();
@@ -62,8 +67,11 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 AnimationHelper.animate(entityModelR, animationR, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             this.getContextModel().rightLeg.hidden = true;
-            vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
-            entityModelR.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+            VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
+            entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
+
+            VertexConsumer vertexConsumerR2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+            entityModelR.render(matrices, vertexConsumerR2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
             if (animationL != null) {
                 if ((float) this.runningTime / 1000.0F > animationL.lengthInSeconds() && animationL.looping()) {

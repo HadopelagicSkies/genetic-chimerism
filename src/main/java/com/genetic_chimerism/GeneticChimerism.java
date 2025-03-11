@@ -56,6 +56,23 @@ public class GeneticChimerism implements ModInitializer {
 			}
 		});
 
+		PayloadTypeRegistry.playC2S().register(PartRecolorPayload.ID, PartRecolorPayload.PART_RECOLOR_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(PartRecolorPayload.ID, (payload, context) -> {
+			if (payload.part().equals(MutatableParts.HEAD) && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null) {
+				context.player().setAttached(MutationAttachments.HEAD_MUTATION,payload.bodyInfo());
+			} if (payload.part().equals(MutatableParts.TORSO) && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null) {
+				context.player().setAttached(MutationAttachments.TORSO_MUTATION,payload.bodyInfo());
+			} if (payload.part().equals(MutatableParts.ARM) && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null) {
+				context.player().setAttached(MutationAttachments.ARM_MUTATION,payload.bodyInfo());
+			} if (payload.part().equals(MutatableParts.LEG) && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null) {
+				context.player().setAttached(MutationAttachments.LEG_MUTATION,payload.bodyInfo());
+			} if (payload.part().equals(MutatableParts.TAIL) && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null) {
+				context.player().setAttached(MutationAttachments.TAIL_MUTATION,payload.bodyInfo());
+			}
+			GeneticChimerism.LOGGER.info( "packet sent:"+ payload.bodyInfo());
+
+		});
+
 		ServerWorldEvents.LOAD.register((server, serverWorld) -> {
 			GeneticChimerism.LOGGER.info("Assigning Synth Recipes");
 			MutationTrees.assignRecipes(serverWorld);

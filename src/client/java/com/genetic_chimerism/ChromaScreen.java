@@ -5,6 +5,7 @@ import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -51,13 +52,19 @@ public class ChromaScreen extends Screen {
     private final MutationBodyInfo oldLeg;
     private final MutationBodyInfo oldTail;
 
+    private MutationBodyInfo newHead;
+    private MutationBodyInfo newTorso;
+    private MutationBodyInfo newArm;
+    private MutationBodyInfo newLeg;
+    private MutationBodyInfo newTail;
+
     private final int backgroundWidth;
     private final int backgroundHeight;
     private float mouseX;
     private float mouseY;
     private int playerRotateIndex=0;
     private final PlayerEntity player;
-    private MutatableParts selectedPart;
+    private MutatableParts selectedPart=MutatableParts.HEAD;
     private int patternIndex;
 
 
@@ -74,10 +81,11 @@ public class ChromaScreen extends Screen {
         this.oldLeg = player.getAttached(MutationAttachments.LEG_MUTATION);
         this.oldTail = player.getAttached(MutationAttachments.TAIL_MUTATION);
 
-
-
-
-
+        this.newHead = player.getAttached(MutationAttachments.HEAD_MUTATION);
+        this.newTorso = player.getAttached(MutationAttachments.TORSO_MUTATION);
+        this.newArm = player.getAttached(MutationAttachments.ARM_MUTATION);
+        this.newLeg = player.getAttached(MutationAttachments.LEG_MUTATION);
+        this.newTail = player.getAttached(MutationAttachments.TAIL_MUTATION);
 
         init();
     }
@@ -104,14 +112,14 @@ public class ChromaScreen extends Screen {
                 break;
             }
         }
-
+        applyNewPartColors();
         context.getMatrices().push();
         context.getMatrices().translate(0,0,100);
         drawEntity(context, i + 176, j + 8, i + 268, j + 158, 50, 0.0625F, this.mouseX, this.mouseY, this.playerRotateIndex, player);
         context.getMatrices().pop();
         resetPartColors();
-
     }
+
 
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -139,25 +147,33 @@ public class ChromaScreen extends Screen {
 
     protected void setNewPartColors(){
         if (selectedPart == MutatableParts.HEAD && oldHead != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldHead.mutID(), oldHead.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.HEAD_MUTATION, newMut);
+            this.newHead = new MutationBodyInfo(oldHead.mutID(), oldHead.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            player.setAttached(MutationAttachments.HEAD_MUTATION, this.newHead);
         }
         if (selectedPart == MutatableParts.TORSO && oldTorso != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldTorso.mutID(), oldTorso.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.TORSO_MUTATION, newMut);
+            this.newTorso = new MutationBodyInfo(oldTorso.mutID(), oldTorso.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            player.setAttached(MutationAttachments.TORSO_MUTATION, this.newTorso);
         }
         if (selectedPart == MutatableParts.ARM && oldArm != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldArm.mutID(), oldArm.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.ARM_MUTATION, newMut);
+            this.newArm = new MutationBodyInfo(oldArm.mutID(), oldArm.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            player.setAttached(MutationAttachments.ARM_MUTATION, this.newArm);
         }
         if (selectedPart == MutatableParts.LEG && oldLeg != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldLeg.mutID(), oldLeg.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.LEG_MUTATION, newMut);
+            this.newLeg = new MutationBodyInfo(oldLeg.mutID(), oldLeg.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            player.setAttached(MutationAttachments.LEG_MUTATION, this.newLeg);
         }
         if (selectedPart == MutatableParts.TAIL && oldTail != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldTail.mutID(), oldTail.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.TAIL_MUTATION, newMut);
+            this.newTail = new MutationBodyInfo(oldTail.mutID(), oldTail.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            player.setAttached(MutationAttachments.TAIL_MUTATION, this.newTail);
         }
+    }
+
+    private void applyNewPartColors() {
+        this.player.setAttached(MutationAttachments.HEAD_MUTATION,newHead);
+        this.player.setAttached(MutationAttachments.TORSO_MUTATION,newTorso);
+        this.player.setAttached(MutationAttachments.ARM_MUTATION,newArm);
+        this.player.setAttached(MutationAttachments.LEG_MUTATION,newLeg);
+        this.player.setAttached(MutationAttachments.TAIL_MUTATION,newTail);
     }
 
     protected void resetPartColors(){{
@@ -221,13 +237,28 @@ public class ChromaScreen extends Screen {
             }));
             this.addDrawableChild(new ChromaConfirmButton(i + 9, j + this.backgroundHeight - 29, 2, (button) -> {
                 if (button instanceof ChromaConfirmButton) {
-                    setNewPartColors();
+                    applyNewPartColors();
+                    if (oldHead != null)
+                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.HEAD,newHead));
+                    if (oldTorso != null)
+                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.TORSO,newTorso));
+                    if (oldArm != null)
+                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.ARM,newArm));
+                    if (oldLeg != null)
+                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.LEG,newLeg));
+                    if (oldTail != null)
+                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.TAIL,newTail));
                     this.close();
+
+
                 }
             }));
             this.addDrawableChild(CyclingButtonWidget.builder(MutatableParts::getTranslatableName).values(MutatableParts.values()).build(i + 9, j + this.backgroundHeight - 52,100,20, Text.translatable("gui.genetic_chimerism.chroma_menu.part"), (button,part) -> {
                 selectedPart = part;
                 setInitialColors();
+                for(ColorSlider slider:this.sliders){
+                    slider.updateMessage();
+                }
             }));
 
             sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+40 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.red"),1)));
@@ -239,6 +270,9 @@ public class ChromaScreen extends Screen {
             sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+170,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.blue"),1)));
 
             setInitialColors();
+            for(ColorSlider slider:this.sliders){
+                slider.updateMessage();
+            }
         }
     }
 

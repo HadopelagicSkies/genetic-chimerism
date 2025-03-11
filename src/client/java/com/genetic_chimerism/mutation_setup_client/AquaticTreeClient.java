@@ -69,8 +69,12 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Identifier getTexture() {
+        public Identifier getTexture1() {
             return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail1.png");
+        }
+        @Override
+        public Identifier getTexture2() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail2.png");
         }
 
         @Override
@@ -142,8 +146,13 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Identifier getTexture() {
-            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail2.png");
+        public Identifier getTexture1() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/thresher_tail1.png");
+        }
+
+        @Override
+        public Identifier getTexture2() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/thresher_tail2.png");
         }
 
         @Override

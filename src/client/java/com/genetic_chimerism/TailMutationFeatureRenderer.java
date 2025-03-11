@@ -34,7 +34,8 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
         if (accessedState.genetic_chimerism$getTailInfo() != null) {
             MutationClient mutation = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTailInfo());
             TexturedModelData modelData = mutation.getTexturedModelData();
-            Identifier texture = mutation.getTexture();
+            Identifier texture1 = mutation.getTexture1();
+            Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
@@ -52,9 +53,11 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             if (animation != null) {
                 AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
-            VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
-            vertexConsumer.color(ColorHelper.withAlpha(255,color1));
-            entityModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+            VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
+            entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
+
+            VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+            entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
             if (animation != null) {
                 if ((float) this.runningTime / 1000.0F > animation.lengthInSeconds() && animation.looping()) {
