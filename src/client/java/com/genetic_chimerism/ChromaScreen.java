@@ -20,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.Nullable;
 import org.joml.AxisAngle4f;
@@ -27,6 +28,8 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.Map;
 
 public class ChromaScreen extends Screen {
     private static final int COLOR_SCROLLER_WIDTH = 100;
@@ -44,19 +47,10 @@ public class ChromaScreen extends Screen {
     private int green2;
     private int blue2;
 
-    private final ArrayList<ColorSlider> sliders = new ArrayList<ColorSlider>(6);
+    private final ArrayList<ColorSlider> sliders = new ArrayList<>(6);
 
-    private final MutationBodyInfo oldHead;
-    private final MutationBodyInfo oldTorso;
-    private final MutationBodyInfo oldArm;
-    private final MutationBodyInfo oldLeg;
-    private final MutationBodyInfo oldTail;
-
-    private MutationBodyInfo newHead;
-    private MutationBodyInfo newTorso;
-    private MutationBodyInfo newArm;
-    private MutationBodyInfo newLeg;
-    private MutationBodyInfo newTail;
+    private final Map<MutatableParts, MutationBodyInfo> oldParts;
+    private final Map<MutatableParts, MutationBodyInfo> newParts;
 
     private final int backgroundWidth;
     private final int backgroundHeight;
@@ -75,17 +69,8 @@ public class ChromaScreen extends Screen {
         this.titleY = 10;
         this.backgroundWidth = 276;
         this.backgroundHeight = 253;
-        this.oldHead = player.getAttached(MutationAttachments.HEAD_MUTATION);
-        this.oldTorso = player.getAttached(MutationAttachments.TORSO_MUTATION);
-        this.oldArm = player.getAttached(MutationAttachments.ARM_MUTATION);
-        this.oldLeg = player.getAttached(MutationAttachments.LEG_MUTATION);
-        this.oldTail = player.getAttached(MutationAttachments.TAIL_MUTATION);
-
-        this.newHead = player.getAttached(MutationAttachments.HEAD_MUTATION);
-        this.newTorso = player.getAttached(MutationAttachments.TORSO_MUTATION);
-        this.newArm = player.getAttached(MutationAttachments.ARM_MUTATION);
-        this.newLeg = player.getAttached(MutationAttachments.LEG_MUTATION);
-        this.newTail = player.getAttached(MutationAttachments.TAIL_MUTATION);
+        this.oldParts = Util.mapEnum(MutatableParts.class, part -> MutationAttachments.getPartAttached(player, part));
+        this.newParts = new EnumMap<>(this.oldParts);
 
         init();
     }
@@ -146,64 +131,31 @@ public class ChromaScreen extends Screen {
     }
 
     protected void setNewPartColors(){
-        if (selectedPart == MutatableParts.HEAD && oldHead != null) {
-            this.newHead = new MutationBodyInfo(oldHead.mutID(), oldHead.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.HEAD_MUTATION, this.newHead);
-        }
-        if (selectedPart == MutatableParts.TORSO && oldTorso != null) {
-            this.newTorso = new MutationBodyInfo(oldTorso.mutID(), oldTorso.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.TORSO_MUTATION, this.newTorso);
-        }
-        if (selectedPart == MutatableParts.ARM && oldArm != null) {
-            this.newArm = new MutationBodyInfo(oldArm.mutID(), oldArm.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.ARM_MUTATION, this.newArm);
-        }
-        if (selectedPart == MutatableParts.LEG && oldLeg != null) {
-            this.newLeg = new MutationBodyInfo(oldLeg.mutID(), oldLeg.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.LEG_MUTATION, this.newLeg);
-        }
-        if (selectedPart == MutatableParts.TAIL && oldTail != null) {
-            this.newTail = new MutationBodyInfo(oldTail.mutID(), oldTail.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
-            player.setAttached(MutationAttachments.TAIL_MUTATION, this.newTail);
+        MutationBodyInfo oldMut = oldParts.get(selectedPart);
+        if (oldMut != null) {
+            MutationBodyInfo newMut = new MutationBodyInfo(oldMut.mutID(), oldMut.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            newParts.put(selectedPart, newMut);
         }
     }
 
     private void applyNewPartColors() {
-        this.player.setAttached(MutationAttachments.HEAD_MUTATION,newHead);
-        this.player.setAttached(MutationAttachments.TORSO_MUTATION,newTorso);
-        this.player.setAttached(MutationAttachments.ARM_MUTATION,newArm);
-        this.player.setAttached(MutationAttachments.LEG_MUTATION,newLeg);
-        this.player.setAttached(MutationAttachments.TAIL_MUTATION,newTail);
+        for (MutatableParts part : MutatableParts.values()) {
+            MutationAttachments.setPartAttached(player, part, newParts.get(part));
+        }
     }
 
     protected void resetPartColors(){{
-        this.player.setAttached(MutationAttachments.HEAD_MUTATION,oldHead);
-        this.player.setAttached(MutationAttachments.TORSO_MUTATION,oldTorso);
-        this.player.setAttached(MutationAttachments.ARM_MUTATION,oldArm);
-        this.player.setAttached(MutationAttachments.LEG_MUTATION,oldLeg);
-        this.player.setAttached(MutationAttachments.TAIL_MUTATION,oldTail);
+        for (MutatableParts part : MutatableParts.values()) {
+            MutationAttachments.setPartAttached(player, part, oldParts.get(part));
+        }
 
     }}
 
     protected void setInitialColors(){
-        int color1=Colors.WHITE;
-        int color2=Colors.WHITE;
-        if (selectedPart == MutatableParts.HEAD && oldHead != null) {
-            color1=oldHead.color1();
-            color2=oldHead.color2();
-        }else if (selectedPart == MutatableParts.TORSO && oldTorso != null) {
-            color1=oldTorso.color1();
-            color2=oldTorso.color2();
-        }else if (selectedPart == MutatableParts.ARM && oldArm != null) {
-            color1=oldArm.color1();
-            color2=oldArm.color2();
-        }else if (selectedPart == MutatableParts.LEG && oldLeg != null) {
-            color1=oldLeg.color1();
-            color2=oldLeg.color2();
-        }else if (selectedPart == MutatableParts.TAIL && oldTail != null) {
-            color1=oldTail.color1();
-            color2=oldTail.color2();
-        }
+        MutationBodyInfo mut = oldParts.get(selectedPart);
+        int color1= mut == null ? Colors.WHITE : mut.color1();
+        int color2= mut == null ? Colors.WHITE : mut.color2();
+
         ArrayList<Integer> rgb = new ArrayList<Integer>();
         rgb.add(ColorHelper.getRed(color1));
         rgb.add(ColorHelper.getGreen(color1));
@@ -238,16 +190,14 @@ public class ChromaScreen extends Screen {
             this.addDrawableChild(new ChromaConfirmButton(i + 9, j + this.backgroundHeight - 29, 2, (button) -> {
                 if (button instanceof ChromaConfirmButton) {
                     applyNewPartColors();
-                    if (oldHead != null)
-                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.HEAD,newHead));
-                    if (oldTorso != null)
-                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.TORSO,newTorso));
-                    if (oldArm != null)
-                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.ARM,newArm));
-                    if (oldLeg != null)
-                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.LEG,newLeg));
-                    if (oldTail != null)
-                        ClientPlayNetworking.send(new PartRecolorPayload(MutatableParts.TAIL,newTail));
+                    for (MutatableParts part : MutatableParts.values()) {
+                        MutationBodyInfo oldMut = oldParts.get(part);
+                        MutationBodyInfo newMut = newParts.get(part);
+                        if (oldMut != null && newMut != null) {
+                            // Can potentially be a single packet for all parts
+                            ClientPlayNetworking.send(new PartRecolorPayload(part, newMut));
+                        }
+                    }
                     this.close();
 
 

@@ -3,6 +3,7 @@ package com.genetic_chimerism.mutation_setup;
 import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.GeneticChimerismComponents;
 import com.genetic_chimerism.GeneticChimerismItems;
+import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -103,35 +104,14 @@ public class MutationTrees {
 
     public static boolean hasValidPrereqParts(Mutation mutation, PlayerEntity player, boolean prev) {
         //check if current slot mutation is a prereq of supplied mutation
-        if (player.getAttached(MutationAttachments.HEAD_MUTATION) != null && mutation.getParts().contains("head")) {
-            Mutation headMut = mutationFromCodec(player.getAttached(MutationAttachments.HEAD_MUTATION));
-            if (headMut.equals(mutation)) prev = true;
-            else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(),player, prev);
-            else prev = false;
-        }
-        if (player.getAttached(MutationAttachments.TORSO_MUTATION) != null && mutation.getParts().contains("torso")) {
-            Mutation torsoMut = mutationFromCodec(player.getAttached(MutationAttachments.TORSO_MUTATION));
-            if (torsoMut.equals(mutation)) prev = true;
-            else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(),player, prev);
-            else prev = false;
-        }
-        if (player.getAttached(MutationAttachments.ARM_MUTATION) != null && mutation.getParts().contains("arm")) {
-            Mutation armMut = mutationFromCodec(player.getAttached(MutationAttachments.ARM_MUTATION));
-            if (armMut.equals(mutation)) prev = true;
-            else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(),player, prev);
-            else prev = false;
-        }
-        if (player.getAttached(MutationAttachments.LEG_MUTATION) != null && mutation.getParts().contains("leg")) {
-            Mutation legMut = mutationFromCodec(player.getAttached(MutationAttachments.LEG_MUTATION));
-            if (legMut.equals(mutation)) prev = true;
-            else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(),player, prev);
-            else prev = false;
-        }
-        if (player.getAttached(MutationAttachments.TAIL_MUTATION) != null && mutation.getParts().contains("tail")) {
-            Mutation tailMut = mutationFromCodec(player.getAttached(MutationAttachments.TAIL_MUTATION));
-            if (tailMut.equals(mutation)) prev = true;
-            else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(),player, prev);
-            else prev = false;
+        for (MutatableParts part : mutation.getParts()) {
+            MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, part);
+            if (partInfo != null) {
+                Mutation partMut = mutationFromCodec(partInfo);
+                if (mutation.equals(partMut)) prev = true;
+                else if (mutation.getPrereq() != null) prev = hasValidPrereqParts(mutation.getPrereq(), player, prev);
+                else prev = false;
+            }
         }
         return prev;
     }
@@ -154,5 +134,5 @@ public class MutationTrees {
         }
         return null;
     }
-    public static final MutationTrees human = addTree(new ArrayList<Mutation>(), "human", Identifier.ofVanilla("textures/mob_effect/haste.png"));
+    public static final MutationTrees human = addTree(new ArrayList<>(), "human", Identifier.ofVanilla("textures/mob_effect/haste.png"));
 }

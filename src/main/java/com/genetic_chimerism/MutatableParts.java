@@ -1,7 +1,6 @@
 package com.genetic_chimerism;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.text.Text;

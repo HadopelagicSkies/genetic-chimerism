@@ -6,6 +6,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
+import net.minecraft.util.Util;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,13 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerEntityRendererMixin {
 
     @Inject(method = "updateRenderState(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At ("RETURN"))
-    public void setupMutationRenderState(AbstractClientPlayerEntity abstractClientPlayerEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci){
+    public void setupMutationRenderState(AbstractClientPlayerEntity player, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci){
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) playerEntityRenderState;
-        accessedState.genetic_chimerism$setHeadInfo(abstractClientPlayerEntity.getAttached(MutationAttachments.HEAD_MUTATION));
-        accessedState.genetic_chimerism$setTorsoInfo(abstractClientPlayerEntity.getAttached(MutationAttachments.TORSO_MUTATION));
-        accessedState.genetic_chimerism$setArmInfo(abstractClientPlayerEntity.getAttached(MutationAttachments.ARM_MUTATION));
-        accessedState.genetic_chimerism$setLegInfo(abstractClientPlayerEntity.getAttached(MutationAttachments.LEG_MUTATION));
-        accessedState.genetic_chimerism$setTailInfo(abstractClientPlayerEntity.getAttached(MutationAttachments.TAIL_MUTATION));
+        accessedState.genetic_chimerism$setMutInfo(Util.mapEnum(MutatableParts.class, part -> MutationAttachments.getPartAttached(player, part)));
     }
 
     @Inject(method = "<init>", at = @At ("RETURN"))

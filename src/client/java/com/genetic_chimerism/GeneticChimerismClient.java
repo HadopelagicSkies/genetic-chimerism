@@ -5,6 +5,7 @@ import com.genetic_chimerism.entity.DiplocaulusEntityRenderer;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup.MutationInfo;
+import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -14,6 +15,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -78,60 +80,32 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				"category.genetic_chimerism.keybindings"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (headActionKeybindings.wasPressed()) {
-				MutationBodyInfo headMut = client.player.getAttached(MutationAttachments.HEAD_MUTATION);
-				if(headMut != null) {
-					MutationTreesClient.mutationFromCodec(headMut).mutationAction(client.player);
-					ClientPlayNetworking.send(new MutActionPayload(true,"head"));
+			if (client.player != null) {
+				processActionKeybind(client.player, headActionKeybindings, MutatableParts.HEAD);
+				processActionKeybind(client.player, torsoActionKeybindings, MutatableParts.TORSO);
+				processActionKeybind(client.player, armActionKeybindings, MutatableParts.ARM);
+				processActionKeybind(client.player, legActionKeybindings, MutatableParts.LEG);
+				processActionKeybind(client.player, tailActionKeybindings, MutatableParts.TAIL);
+
+				while (chromaMenuKeybindings.wasPressed()) {
+					if (MutationAttachments.getMutationsAttached(client.player).contains(new MutationInfo("chroma", "tentacled")))
+						client.setScreen(new ChromaScreen(client.player));
 				}
 			}
 		});
+	}
 
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (torsoActionKeybindings.wasPressed()) {
-				MutationBodyInfo torsoMut = client.player.getAttached(MutationAttachments.TORSO_MUTATION);
-				if(torsoMut != null) {
-					MutationTreesClient.mutationFromCodec(torsoMut).mutationAction(client.player);
-					ClientPlayNetworking.send(new MutActionPayload(true,"torso"));
+	private static void processActionKeybind(ClientPlayerEntity player, KeyBinding keyBinding, MutatableParts part) {
+		while (tailActionKeybindings.wasPressed()) {
+			MutationBodyInfo mut = MutationAttachments.getPartAttached(player, part);
+			if (mut != null) {
+				MutationClient clientMut = MutationTreesClient.mutationFromCodec(mut);
+				if (clientMut != null) {
+					clientMut.mutationAction(player);
+					ClientPlayNetworking.send(new MutActionPayload(true, part));
 				}
 			}
-		});
+		}
 
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (armActionKeybindings.wasPressed()) {
-				MutationBodyInfo armMut = client.player.getAttached(MutationAttachments.ARM_MUTATION);
-				if(armMut != null) {
-					MutationTreesClient.mutationFromCodec(armMut).mutationAction(client.player);
-					ClientPlayNetworking.send(new MutActionPayload(true,"arm"));
-				}
-			}
-		});
-
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (legActionKeybindings.wasPressed()) {
-				MutationBodyInfo legMut = client.player.getAttached(MutationAttachments.LEG_MUTATION);
-				if(legMut != null) {
-					MutationTreesClient.mutationFromCodec(legMut).mutationAction(client.player);
-					ClientPlayNetworking.send(new MutActionPayload(true,"leg"));
-				}
-			}
-		});
-
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (tailActionKeybindings.wasPressed()) {
-				MutationBodyInfo tailMut = client.player.getAttached(MutationAttachments.TAIL_MUTATION);
-				if(tailMut != null) {
-					MutationTreesClient.mutationFromCodec(tailMut).mutationAction(client.player);
-					ClientPlayNetworking.send(new MutActionPayload(true,"tail"));
-				}
-			}
-		});
-
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (chromaMenuKeybindings.wasPressed()) {
-				if(client.player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST).contains(new MutationInfo("chroma","tentacled")))
-					client.setScreen(new ChromaScreen(client.player));
-			}
-		});
 	}
 }

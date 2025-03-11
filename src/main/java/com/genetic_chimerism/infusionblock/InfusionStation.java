@@ -164,7 +164,7 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
         MutationInfo selectedMutation = chairContents.get(GeneticChimerismComponents.MUTATION_STORED);
         if (selectedMutation != null) {
             GeneticChimerism.LOGGER.info("mutation applied, chair contents: " + chairContents);
-            List<MutationInfo> playerMutations = player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
+            List<MutationInfo> playerMutations = MutationAttachments.getMutationsAttached(player);
             if (playerMutations == null) playerMutations = new ArrayList<>();
             List<MutationInfo> settingMutations = new ArrayList<>(playerMutations);
 
@@ -185,7 +185,8 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
             if(selectedMutation.mutID().equals("antigen")){
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_antigen"), true);
                 for (MutationInfo info : settingMutations){
-                    MutationTrees.mutationFromCodec(info).onRemoved(player);
+                    Mutation parsedMutation = MutationTrees.mutationFromCodec(info);
+                    if (parsedMutation != null) parsedMutation.onRemoved(player);
                 }
                 settingMutations.clear();
             } else if (playerMutations.contains(selectedMutation)) {
@@ -194,10 +195,11 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
             } else {
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_success", mutationName), true);
                 settingMutations.add(selectedMutation);
-                MutationTrees.mutationFromCodec(selectedMutation).onApplied(player);
+                Mutation parsedMutation = MutationTrees.mutationFromCodec(selectedMutation);
+                if (parsedMutation != null) parsedMutation.onApplied(player);
             }
-            player.setAttached(MutationAttachments.PLAYER_MUTATION_LIST, settingMutations);
-            GeneticChimerism.LOGGER.info("player mutations: " + player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST));
+            MutationAttachments.setMutationsAttached(player, settingMutations);
+            GeneticChimerism.LOGGER.info("player mutations: " + settingMutations);
         }
     }
 
