@@ -37,6 +37,8 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
+            int color1 = accessedState.genetic_chimerism$getTorsoInfo().color1();
+            int color2 = accessedState.genetic_chimerism$getTorsoInfo().color2();
 
             MutationEntityModel entityModel = new MutationEntityModel(model);
             int animationSpeed = 3;

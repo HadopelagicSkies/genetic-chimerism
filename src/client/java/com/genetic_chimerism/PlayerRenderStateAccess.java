@@ -1,21 +1,21 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.mutation_setup.MutationInfo;
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 
 public interface PlayerRenderStateAccess {
-    MutationInfo genetic_chimerism$getHeadInfo();
-    void genetic_chimerism$setHeadInfo(MutationInfo info);
+    MutationBodyInfo genetic_chimerism$getHeadInfo();
+    void genetic_chimerism$setHeadInfo(MutationBodyInfo info);
 
-    MutationInfo genetic_chimerism$getTorsoInfo();
-    void genetic_chimerism$setTorsoInfo(MutationInfo info);
+    MutationBodyInfo genetic_chimerism$getTorsoInfo();
+    void genetic_chimerism$setTorsoInfo(MutationBodyInfo info);
 
-    MutationInfo genetic_chimerism$getArmInfo();
-    void genetic_chimerism$setArmInfo(MutationInfo info);
+    MutationBodyInfo genetic_chimerism$getArmInfo();
+    void genetic_chimerism$setArmInfo(MutationBodyInfo info);
 
-    MutationInfo genetic_chimerism$getLegInfo();
-    void genetic_chimerism$setLegInfo(MutationInfo info);
+    MutationBodyInfo genetic_chimerism$getLegInfo();
+    void genetic_chimerism$setLegInfo(MutationBodyInfo info);
 
-    MutationInfo genetic_chimerism$getTailInfo();
-    void genetic_chimerism$setTailInfo(MutationInfo info);
+    MutationBodyInfo genetic_chimerism$getTailInfo();
+    void genetic_chimerism$setTailInfo(MutationBodyInfo info);
 
 }

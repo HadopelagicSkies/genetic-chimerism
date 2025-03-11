@@ -28,25 +28,17 @@ public class SynthScreenHandler extends ScreenHandler {
     private static final int TREE_BUTTON_START_INDEX = 1;
     private final int MUTATION_BUTTON_START_INDEX = treeNum+1;
 
-    // This constructor gets called on the client when the server wants it to open the screenHandler,
-    // The client will call the other constructor with an empty Inventory and the screenHandler will automatically
-    // sync this empty inventory with the inventory on the server.
     public SynthScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, new SimpleInventory(2));
     }
 
-
-    // This constructor gets called from the BlockEntity on the server without calling the other constructor first, the server knows the inventory of the container
-    // and can therefore directly provide it as an argument. This inventory will then be synced to the client.
     public SynthScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(GeneticChimerism.SYNTH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 2);
         this.inventory = inventory;
         this.player = playerInventory.player;
-        // some inventories do custom logic when a player opens it.
         inventory.onOpen(playerInventory.player);
 
-        // Our inventory
         this.addSlot(new Slot(inventory, 0, 279, 114) {
             @Override
             public boolean canInsert(ItemStack stack) {

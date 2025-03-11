@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -41,16 +42,16 @@ public class GeneticChimerism implements ModInitializer {
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);
 
 		PayloadTypeRegistry.playC2S().register(MutActionPayload.ID, MutActionPayload.MUT_ACTION_CODEC);
-		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload,context) -> {
-			if (payload.isPressed() && payload.keyPressed().equals("head") && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null){
+		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload, context) -> {
+			if (payload.isPressed() && payload.keyPressed().equals("head") && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null) {
 				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.HEAD_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("torso") && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null){
+			} else if (payload.isPressed() && payload.keyPressed().equals("torso") && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null) {
 				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TORSO_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("arm") && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null){
+			} else if (payload.isPressed() && payload.keyPressed().equals("arm") && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null) {
 				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.ARM_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("leg") && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null){
+			} else if (payload.isPressed() && payload.keyPressed().equals("leg") && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null) {
 				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.LEG_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("tail") && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null){
+			} else if (payload.isPressed() && payload.keyPressed().equals("tail") && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null) {
 				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TAIL_MUTATION)).mutationAction(context.player());
 			}
 		});

@@ -39,6 +39,9 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftArm);
 
+            int color1 = accessedState.genetic_chimerism$getArmInfo().color1();
+            int color2 = accessedState.genetic_chimerism$getArmInfo().color2();
+
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;
             matrices.push();

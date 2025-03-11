@@ -11,5 +11,5 @@ public class SpecialTree {
     public static void initialize() {
     }
 
-    public static final Mutation shroomby_1 = special.addToTree(new Mutation("shroomby_1", "special",null, List.of()));
+    public static final Mutation shroomby_1 = special.addToTree(new Mutation("shroomby_1", "special",null));
 }

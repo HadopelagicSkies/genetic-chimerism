@@ -11,5 +11,5 @@ public class AmphibiousTree {
     public static void initialize() {
     }
 
-    public static final Mutation amphibious_1 = amphibious.addToTree(new Mutation("amphibious_1", "amphibious", null, List.of()));
+    public static final Mutation amphibious_1 = amphibious.addToTree(new Mutation("amphibious_1", "amphibious", null));
 }

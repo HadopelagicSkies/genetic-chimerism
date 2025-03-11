@@ -36,9 +36,10 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             Identifier texture = mutation.getTexture();
             Animation animationL = mutation.getPartAnimationL();
             Animation animationR = mutation.getPartAnimationR();
-
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftLeg);
+            int color1 = accessedState.genetic_chimerism$getLegInfo().color1();
+            int color2 = accessedState.genetic_chimerism$getLegInfo().color2();
 
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;

@@ -37,6 +37,8 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().head);
+            int color1 = accessedState.genetic_chimerism$getHeadInfo().color1();
+            int color2 = accessedState.genetic_chimerism$getHeadInfo().color2();
 
             MutationEntityModel entityModel = new MutationEntityModel(model);
             int animationSpeed = 3;

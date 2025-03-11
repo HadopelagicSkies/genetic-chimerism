@@ -52,7 +52,22 @@ public class MutationTreesClient {
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
     }
 
+    public static MutationBodyInfo mutationToCodec(MutationClient mutation, int patternIndex, int color1, int color2){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2);
+    }
+
     public static MutationClient mutationFromCodec(MutationInfo mutationCodec){
+        for(MutationTreesClient trees: mutationTreesListClient){
+            if (trees.treeID.equals(mutationCodec.treeID())){
+                for(MutationClient mut: trees.mutations){
+                    if (mut.getMutID().equals(mutationCodec.mutID())){return mut;}
+                }
+            }
+        }
+        return null;
+    }
+
+    public static MutationClient mutationFromCodec(MutationBodyInfo mutationCodec){
         for(MutationTreesClient trees: mutationTreesListClient){
             if (trees.treeID.equals(mutationCodec.treeID())){
                 for(MutationClient mut: trees.mutations){

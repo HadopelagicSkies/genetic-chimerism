@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.entity.DiplocaulusEntityModel;
 import com.genetic_chimerism.entity.DiplocaulusEntityRenderer;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup.MutationInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.api.ClientModInitializer;
@@ -27,6 +28,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	private static KeyBinding armActionKeybindings;
 	private static KeyBinding legActionKeybindings;
 	private static KeyBinding tailActionKeybindings;
+	private static KeyBinding chromaMenuKeybindings;
 	public static final EntityModelLayer DIPLOCAULUS_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus");
 	public static final EntityModelLayer DIPLOCAULUS_BABY_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus_baby");
 
@@ -70,9 +72,14 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				GLFW.GLFW_KEY_B,
 				"category.genetic_chimerism.keybindings"));
 
+		chromaMenuKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.chroma_menu",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_O,
+				"category.genetic_chimerism.keybindings"));
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (headActionKeybindings.wasPressed()) {
-				MutationInfo headMut = client.player.getAttached(MutationAttachments.HEAD_MUTATION);
+				MutationBodyInfo headMut = client.player.getAttached(MutationAttachments.HEAD_MUTATION);
 				if(headMut != null) {
 					MutationTreesClient.mutationFromCodec(headMut).mutationAction(client.player);
 					ClientPlayNetworking.send(new MutActionPayload(true,"head"));
@@ -82,7 +89,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (torsoActionKeybindings.wasPressed()) {
-				MutationInfo torsoMut = client.player.getAttached(MutationAttachments.TORSO_MUTATION);
+				MutationBodyInfo torsoMut = client.player.getAttached(MutationAttachments.TORSO_MUTATION);
 				if(torsoMut != null) {
 					MutationTreesClient.mutationFromCodec(torsoMut).mutationAction(client.player);
 					ClientPlayNetworking.send(new MutActionPayload(true,"torso"));
@@ -92,7 +99,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (armActionKeybindings.wasPressed()) {
-				MutationInfo armMut = client.player.getAttached(MutationAttachments.ARM_MUTATION);
+				MutationBodyInfo armMut = client.player.getAttached(MutationAttachments.ARM_MUTATION);
 				if(armMut != null) {
 					MutationTreesClient.mutationFromCodec(armMut).mutationAction(client.player);
 					ClientPlayNetworking.send(new MutActionPayload(true,"arm"));
@@ -102,7 +109,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (legActionKeybindings.wasPressed()) {
-				MutationInfo legMut = client.player.getAttached(MutationAttachments.LEG_MUTATION);
+				MutationBodyInfo legMut = client.player.getAttached(MutationAttachments.LEG_MUTATION);
 				if(legMut != null) {
 					MutationTreesClient.mutationFromCodec(legMut).mutationAction(client.player);
 					ClientPlayNetworking.send(new MutActionPayload(true,"leg"));
@@ -112,11 +119,18 @@ public class GeneticChimerismClient implements ClientModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (tailActionKeybindings.wasPressed()) {
-				MutationInfo tailMut = client.player.getAttached(MutationAttachments.TAIL_MUTATION);
+				MutationBodyInfo tailMut = client.player.getAttached(MutationAttachments.TAIL_MUTATION);
 				if(tailMut != null) {
 					MutationTreesClient.mutationFromCodec(tailMut).mutationAction(client.player);
 					ClientPlayNetworking.send(new MutActionPayload(true,"tail"));
 				}
+			}
+		});
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			while (chromaMenuKeybindings.wasPressed()) {
+				if(client.player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST).contains(new MutationInfo("chroma","tentacled")))
+					client.setScreen(new ChromaScreen(client.player));
 			}
 		});
 	}

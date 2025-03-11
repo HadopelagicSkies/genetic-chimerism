@@ -11,5 +11,5 @@ public class TuskedTree {
     public static void initialize() {
     }
 
-    public static final Mutation tusked_1 = tusked.addToTree(new Mutation("tusked_1", "tusked", null, List.of()));
+    public static final Mutation tusked_1 = tusked.addToTree(new Mutation("tusked_1", "tusked", null));
 }

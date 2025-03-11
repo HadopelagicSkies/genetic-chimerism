@@ -11,5 +11,5 @@ public class SmallMammalTree {
     public static void initialize() {
     }
 
-    public static final Mutation small_mammal_1 = small_mammal.addToTree(new Mutation("small_mammal_1", "small_mammal", null, List.of()));
+    public static final Mutation small_mammal_1 = small_mammal.addToTree(new Mutation("small_mammal_1", "small_mammal", null));
 }

@@ -21,25 +21,25 @@ public class MutationAttachments {
                     .persistent(Codec.list(MutationInfo.MUTATION_CODEC))
                     .syncWith(MutationInfo.MUTATION_PACKET_CODEC.collect(PacketCodecs.toList()), AttachmentSyncPredicate.targetOnly()));
 
-    public static final AttachmentType<MutationInfo> HEAD_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "head_mutation"), infoBuilder ->
+    public static final AttachmentType<MutationBodyInfo> HEAD_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "head_mutation"), infoBuilder ->
             infoBuilder.initializer(() -> null)
-                    .persistent(MutationInfo.MUTATION_CODEC)
-                    .syncWith(MutationInfo.MUTATION_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
-    public static final AttachmentType<MutationInfo> TORSO_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "torso_mutation"), infoBuilder ->
+                    .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                    .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
+    public static final AttachmentType<MutationBodyInfo> TORSO_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "torso_mutation"), infoBuilder ->
             infoBuilder.initializer(() -> null)
-                    .persistent(MutationInfo.MUTATION_CODEC)
-                    .syncWith(MutationInfo.MUTATION_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
-    public static final AttachmentType<MutationInfo> ARM_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "arm_mutation"), infoBuilder ->
+                    .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                    .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
+    public static final AttachmentType<MutationBodyInfo> ARM_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "arm_mutation"), infoBuilder ->
             infoBuilder.initializer(() -> null)
-                    .persistent(MutationInfo.MUTATION_CODEC)
-                    .syncWith(MutationInfo.MUTATION_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
-    public static final AttachmentType<MutationInfo> LEG_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "leg_mutation"), infoBuilder ->
+                    .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                    .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
+    public static final AttachmentType<MutationBodyInfo> LEG_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "leg_mutation"), infoBuilder ->
             infoBuilder.initializer(() -> null)
-                    .persistent(MutationInfo.MUTATION_CODEC)
-                    .syncWith(MutationInfo.MUTATION_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
-    public static final AttachmentType<MutationInfo> TAIL_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "tail_mutation"), infoBuilder ->
+                    .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                    .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
+    public static final AttachmentType<MutationBodyInfo> TAIL_MUTATION = AttachmentRegistry.create(Identifier.of(MOD_ID, "tail_mutation"), infoBuilder ->
             infoBuilder.initializer(() -> null)
-                    .persistent(MutationInfo.MUTATION_CODEC)
-                    .syncWith(MutationInfo.MUTATION_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
+                    .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                    .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly()));
 
 }

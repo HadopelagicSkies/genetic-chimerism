@@ -17,6 +17,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.joml.Vector3f;
 
 public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
@@ -37,6 +38,8 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
+            int color1 = accessedState.genetic_chimerism$getTailInfo().color1();
+            int color2 = accessedState.genetic_chimerism$getTailInfo().color2();
 
             int animationSpeed = 3;
             if (state.isSwimming || state.isGliding){
@@ -50,6 +53,7 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
                 AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture));
+            vertexConsumer.color(ColorHelper.withAlpha(255,color1));
             entityModel.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
             matrices.pop();
             if (animation != null) {

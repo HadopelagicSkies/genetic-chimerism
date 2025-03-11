@@ -11,5 +11,5 @@ public class WoolenTree {
     public static void initialize() {
     }
 
-    public static final Mutation woolen_1 = woolen.addToTree(new Mutation("woolen_1", "woolen", null, List.of()));
+    public static final Mutation woolen_1 = woolen.addToTree(new Mutation("woolen_1", "woolen", null));
 }

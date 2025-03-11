@@ -33,6 +33,18 @@ public class MutationTrees {
         mutationTreesList.add(mutationTree);
         return mutationTree;
     }
+
+    public static Mutation mutationFromCodec(MutationBodyInfo mutationCodec){
+        for(MutationTrees trees: mutationTreesList){
+            if (trees.treeID.equals(mutationCodec.treeID())){
+                for(Mutation mut: trees.mutations){
+                    if (mut.getMutID().equals(mutationCodec.mutID())){return mut;}
+                }
+            }
+        }
+        return null;
+    }
+
     public static void assignRecipes(ServerWorld server){
         for (MutationTrees trees : mutationTreesList) {
             for (Mutation setMutation : trees.mutations) {
@@ -71,8 +83,8 @@ public class MutationTrees {
         SpinedTree.initialize();
         TuskedTree.initialize();
         WoolenTree.initialize();
+        TentacledTree.initialize();
         SpecialTree.initialize();
-
     }
 
     public Mutation addToTree(Mutation mutation){
@@ -126,6 +138,10 @@ public class MutationTrees {
 
     public static MutationInfo mutationToCodec(Mutation mutation){
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
+    }
+
+    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2);
     }
 
     public static Mutation mutationFromCodec(MutationInfo mutationCodec){

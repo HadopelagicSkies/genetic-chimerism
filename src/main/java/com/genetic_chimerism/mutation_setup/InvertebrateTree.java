@@ -10,5 +10,5 @@ public class InvertebrateTree {
 
     public static void initialize() {
     }
-    public static final Mutation invertebrate_1 = invertebrate.addToTree(new Mutation("invertebrate_1", "invertebrate", null, List.of()));
+    public static final Mutation invertebrate_1 = invertebrate.addToTree(new Mutation("invertebrate_1", "invertebrate", null));
 }
