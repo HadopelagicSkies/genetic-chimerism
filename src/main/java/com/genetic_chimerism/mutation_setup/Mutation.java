@@ -46,6 +46,9 @@ public class Mutation {
     public Mutation getPrereq(){
         return this.prereq;
     }
+    public int getMaxGrowth(){
+        return 0;
+    }
     public Set<MutatableParts> getParts() {return parts; }
 
     public void setRecipe(SynthRecipe recipe){

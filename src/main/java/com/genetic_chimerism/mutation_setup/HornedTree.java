@@ -16,6 +16,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
@@ -69,13 +70,16 @@ public class HornedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(ramhorns1,0,0,0));
+            MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(ramhorns1,0,
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
+            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
+            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
         }
 
         @Override
@@ -119,6 +123,11 @@ public class HornedTree {
                 }
             } else rammingTime = 0;
             if (this.cooldown > 0) this.cooldown--;
+        }
+
+        @Override
+        public int getMaxGrowth() {
+            return 2000;
         }
     }
 

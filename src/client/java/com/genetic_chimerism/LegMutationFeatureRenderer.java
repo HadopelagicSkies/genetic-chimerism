@@ -39,8 +39,11 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             Identifier texture2 = mutation.getTexture2();
             Animation animationL = mutation.getPartAnimationL();
             Animation animationR = mutation.getPartAnimationR();
+            Animation growthAnimationL = mutation.getGrowthAnimation();
+            Animation growthAnimationR = mutation.getGrowthAnimation();
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftLeg);
+            int growth = mutInfo.growth();
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
 

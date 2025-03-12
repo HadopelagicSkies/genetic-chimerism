@@ -120,8 +120,8 @@ public class MutationTrees {
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
     }
 
-    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2){
-        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2);
+    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2,growth,isReceding);
     }
 
     public static Mutation mutationFromCodec(MutationInfo mutationCodec){

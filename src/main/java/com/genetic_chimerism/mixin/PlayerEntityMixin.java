@@ -1,10 +1,8 @@
 package com.genetic_chimerism.mixin;
 
+import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.infusionblock.InfusionStation;
-import com.genetic_chimerism.mutation_setup.Mutation;
-import com.genetic_chimerism.mutation_setup.MutationAttachments;
-import com.genetic_chimerism.mutation_setup.MutationInfo;
-import com.genetic_chimerism.mutation_setup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,9 +36,42 @@ public class PlayerEntityMixin {
 	private void callMutationTickers(CallbackInfo ci){
 		PlayerEntity player = (PlayerEntity) (Object) this;
 		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
-		for(MutationInfo mutationInfo : mutList) {
-			Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
-			if (mutation != null) mutation.tick(player);
+		if(mutList != null) {
+			for (MutationInfo mutationInfo : mutList) {
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) mutation.tick(player);
+			}
 		}
 	}
-}
+
+	@Inject(at = @At ("RETURN"), method = "tick")
+	private void updatePartGrowth(CallbackInfo ci){
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
+
+		for(MutatableParts part : MutatableParts.values()) {
+			MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, part);
+			if(partMut != null && !partMut.isReceding() && partMut.growth() < MutationTrees.mutationFromCodec(partMut).getMaxGrowth()) {
+				if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
+					MutationAttachments.setPartAttached(player, part,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 2, partMut.isReceding()));
+				} else {
+					MutationAttachments.setPartAttached(player, part,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding()));
+				}
+			}
+			else if(partMut != null && partMut.isReceding() && partMut.growth() > 0) {
+				if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
+					MutationAttachments.setPartAttached(player, part,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 2, partMut.isReceding()));
+				} else {
+					MutationAttachments.setPartAttached(player, part,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 1, partMut.isReceding()));
+				}
+			}
+			else if(partMut != null && partMut.isReceding() && partMut.growth() <= 0) {
+					MutationAttachments.removePartAttached(player,part);
+				}
+			}
+		}
+	}

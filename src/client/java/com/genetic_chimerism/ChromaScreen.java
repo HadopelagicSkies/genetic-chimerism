@@ -133,7 +133,9 @@ public class ChromaScreen extends Screen {
     protected void setNewPartColors(){
         MutationBodyInfo oldMut = oldParts.get(selectedPart);
         if (oldMut != null) {
-            MutationBodyInfo newMut = new MutationBodyInfo(oldMut.mutID(), oldMut.treeID(), this.patternIndex, ColorHelper.getArgb(this.red1, this.green1, this.blue1), ColorHelper.getArgb(this.red2, this.green2, this.blue2));
+            MutationBodyInfo newMut = new MutationBodyInfo(oldMut.mutID(), oldMut.treeID(), this.patternIndex,
+                    ColorHelper.getArgb(this.red1, this.green1, this.blue1),
+                    ColorHelper.getArgb(this.red2, this.green2, this.blue2), oldMut.growth(), oldMut.isReceding());
             newParts.put(selectedPart, newMut);
         }
     }
@@ -195,7 +197,7 @@ public class ChromaScreen extends Screen {
                         MutationBodyInfo newMut = newParts.get(part);
                         if (oldMut != null && newMut != null) {
                             // Can potentially be a single packet for all parts
-                            ClientPlayNetworking.send(new PartRecolorPayload(part, newMut));
+                            ClientPlayNetworking.send(new PartRecolorPayload(part, newMut.patternIndex(), newMut.color1(), newMut.color2()));
                         }
                     }
                     this.close();

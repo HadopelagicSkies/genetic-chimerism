@@ -39,8 +39,11 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             Identifier texture2 = mutation.getTexture2();
             Animation animationL = mutation.getPartAnimationL();
             Animation animationR = mutation.getPartAnimationR();
+            Animation growthAnimationL = mutation.getGrowthAnimation();
+            Animation growthAnimationR = mutation.getGrowthAnimation();
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftArm);
+            int growth = mutInfo.growth();
 
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
@@ -48,10 +51,12 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;
             matrices.push();
-            if (animationL != null) {
+            if (animationL != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelL, animationL, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
-            this.getContextModel().leftArm.hidden = true;
+            if (growthAnimationL != null) {
+                AnimationHelper.animate(entityModelL, growthAnimationL, growth, 1, new Vector3f(0, 0, 0));
+            }
 
             VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
@@ -66,8 +71,11 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
 
             MutationEntityModel entityModelR = new MutationEntityModel(modelR);
             matrices.push();
-            if (animationR != null) {
+            if (animationR != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelR, animationR, this.runningTime, 1, new Vector3f(0, 0, 0));
+            }
+            if (growthAnimationR != null) {
+                AnimationHelper.animate(entityModelR, growthAnimationR, growth, 1, new Vector3f(0, 0, 0));
             }
             this.getContextModel().rightArm.hidden = true;
 
