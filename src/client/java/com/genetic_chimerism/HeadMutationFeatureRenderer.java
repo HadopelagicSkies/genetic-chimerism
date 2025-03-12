@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.minecraft.client.model.ModelPart;
@@ -12,7 +13,6 @@ import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -31,16 +31,17 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        if(accessedState.genetic_chimerism$getHeadInfo() != null) {
-            MutationClient mutation = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getHeadInfo());
+        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.HEAD);
+        if(mutInfo != null) {
+            MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().head);
-            int color1 = accessedState.genetic_chimerism$getHeadInfo().color1();
-            int color2 = accessedState.genetic_chimerism$getHeadInfo().color2();
+            int color1 = mutInfo.color1();
+            int color2 = mutInfo.color2();
 
             MutationEntityModel entityModel = new MutationEntityModel(model);
             int animationSpeed = 3;

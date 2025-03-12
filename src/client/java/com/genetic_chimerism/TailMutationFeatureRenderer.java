@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.minecraft.client.model.ModelPart;
@@ -31,16 +32,17 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        if (accessedState.genetic_chimerism$getTailInfo() != null) {
-            MutationClient mutation = MutationTreesClient.mutationFromCodec(accessedState.genetic_chimerism$getTailInfo());
+        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.TAIL);
+        if (mutInfo != null) {
+            MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
-            int color1 = accessedState.genetic_chimerism$getTailInfo().color1();
-            int color2 = accessedState.genetic_chimerism$getTailInfo().color2();
+            int color1 = mutInfo.color1();
+            int color2 = mutInfo.color2();
 
             int animationSpeed = 3;
             if (state.isSwimming || state.isGliding){

@@ -141,7 +141,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     }
 
     private void renderButtonOverlay(DrawContext context,int mouseX, int mouseY) {
-        List<MutationInfo> mutList = handler.player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
+        List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(handler.player);
         MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex - TREE_BUTTON_START_INDEX);
         for (int l = 0; l < selectedTree.mutations.size(); ++l) {
             MutationSelectButton button = mutationButtons[l];

@@ -4,7 +4,6 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-//import net.minecraft.client.model.*;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -14,10 +13,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AquaticTree {
-    public static final MutationTrees aquatic = MutationTrees.addTree(new ArrayList<Mutation>(), "aquatic", Identifier.ofVanilla("textures/mob_effect/dolphins_grace.png"));
+    public static final MutationTrees aquatic = MutationTrees.addTree(new ArrayList<>(), "aquatic", Identifier.ofVanilla("textures/mob_effect/dolphins_grace.png"));
 
     public static void initialize() {
     }
@@ -142,16 +140,15 @@ public class AquaticTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
-            if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null)
-                player.removeAttached(MutationAttachments.TAIL_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail1,0,0,0));
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharktail1,0,0,0));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            player.removeAttached(MutationAttachments.TAIL_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
         }
     }
 
@@ -167,16 +164,15 @@ public class AquaticTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
-            if(player.getAttached(MutationAttachments.TAIL_MUTATION) != null)
-                player.removeAttached(MutationAttachments.TAIL_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            player.setAttached(MutationAttachments.TAIL_MUTATION, MutationTrees.mutationToCodec(sharktail2,0, ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137)));
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharktail2,0, ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            player.removeAttached(MutationAttachments.TAIL_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
         }
     }
 

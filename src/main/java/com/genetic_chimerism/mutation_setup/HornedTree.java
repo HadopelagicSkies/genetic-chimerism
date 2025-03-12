@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HornedTree {
-    public static final MutationTrees horned = MutationTrees.addTree(new ArrayList<Mutation>(), "horned", Identifier.ofVanilla("textures/item/goat_horn.png"));
+    public static final MutationTrees horned = MutationTrees.addTree(new ArrayList<>(), "horned", Identifier.ofVanilla("textures/item/goat_horn.png"));
 
     public static void initialize() {
     }
@@ -67,16 +67,15 @@ public class HornedTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
-            if(player.getAttached(MutationAttachments.HEAD_MUTATION) != null)
-                player.removeAttached(MutationAttachments.HEAD_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            player.setAttached(MutationAttachments.HEAD_MUTATION, MutationTrees.mutationToCodec(ramhorns1,0,0,0));
+            MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(ramhorns1,0,0,0));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            player.removeAttached(MutationAttachments.HEAD_MUTATION);
+            MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
         }
 
         @Override

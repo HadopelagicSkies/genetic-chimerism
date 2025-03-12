@@ -1,6 +1,8 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup.Mutation;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import com.genetic_chimerism.synthblock.SynthRecipeSerializer;
@@ -13,7 +15,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -43,31 +44,25 @@ public class GeneticChimerism implements ModInitializer {
 
 		PayloadTypeRegistry.playC2S().register(MutActionPayload.ID, MutActionPayload.MUT_ACTION_CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload, context) -> {
-			if (payload.isPressed() && payload.keyPressed().equals("head") && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null) {
-				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.HEAD_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("torso") && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null) {
-				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TORSO_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("arm") && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null) {
-				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.ARM_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("leg") && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null) {
-				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.LEG_MUTATION)).mutationAction(context.player());
-			} else if (payload.isPressed() && payload.keyPressed().equals("tail") && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null) {
-				MutationTrees.mutationFromCodec(context.player().getAttached(MutationAttachments.TAIL_MUTATION)).mutationAction(context.player());
+			if (payload.isPressed()) {
+				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.keyPressed());
+				if (mutationInfo != null) {
+					Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+					if (mutation != null) {
+						mutation.mutationAction(context.player());
+					}
+				}
 			}
 		});
 
 		PayloadTypeRegistry.playC2S().register(PartRecolorPayload.ID, PartRecolorPayload.PART_RECOLOR_CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(PartRecolorPayload.ID, (payload, context) -> {
-			if (payload.part().equals(MutatableParts.HEAD) && context.player().getAttached(MutationAttachments.HEAD_MUTATION) != null) {
-				context.player().setAttached(MutationAttachments.HEAD_MUTATION,payload.bodyInfo());
-			} if (payload.part().equals(MutatableParts.TORSO) && context.player().getAttached(MutationAttachments.TORSO_MUTATION) != null) {
-				context.player().setAttached(MutationAttachments.TORSO_MUTATION,payload.bodyInfo());
-			} if (payload.part().equals(MutatableParts.ARM) && context.player().getAttached(MutationAttachments.ARM_MUTATION) != null) {
-				context.player().setAttached(MutationAttachments.ARM_MUTATION,payload.bodyInfo());
-			} if (payload.part().equals(MutatableParts.LEG) && context.player().getAttached(MutationAttachments.LEG_MUTATION) != null) {
-				context.player().setAttached(MutationAttachments.LEG_MUTATION,payload.bodyInfo());
-			} if (payload.part().equals(MutatableParts.TAIL) && context.player().getAttached(MutationAttachments.TAIL_MUTATION) != null) {
-				context.player().setAttached(MutationAttachments.TAIL_MUTATION,payload.bodyInfo());
+			MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.part());
+			if (mutationInfo != null) {
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) {
+					MutationAttachments.setPartAttached(context.player(), payload.part(), payload.bodyInfo());
+				}
 			}
 			GeneticChimerism.LOGGER.info( "packet sent:"+ payload.bodyInfo());
 

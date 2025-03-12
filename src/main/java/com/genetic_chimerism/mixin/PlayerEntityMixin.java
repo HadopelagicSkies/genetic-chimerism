@@ -37,11 +37,10 @@ public class PlayerEntityMixin {
 	@Inject(at = @At ("RETURN"), method = "tick")
 	private void callMutationTickers(CallbackInfo ci){
 		PlayerEntity player = (PlayerEntity) (Object) this;
-		List<MutationInfo> mutList = player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
-		if(mutList != null){
-			for(MutationInfo mutation : mutList) {
-				MutationTrees.mutationFromCodec(mutation).tick(player);
-			}
+		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
+		for(MutationInfo mutationInfo : mutList) {
+			Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+			if (mutation != null) mutation.tick(player);
 		}
 	}
 }
