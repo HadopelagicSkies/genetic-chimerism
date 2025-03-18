@@ -16,15 +16,20 @@
   "item.genetic_chimerism.diamond_scalpel_head": "Precise Scalpel Head",
   "item.genetic_chimerism.soul_scalpel_head": "Soul Scalpel Head",
 
+  "item.genetic_chimerism.diplocaulus_spawn_egg": "Diplocaulus Spawn Egg",
+
+  "category.genetic_chimerism.keybindings": "Genetic Chimerism",
+  "key.genetic_chimerism.head_action" : "Head Mutation Action",
+  "key.genetic_chimerism.torso_action" : "Torso Mutation Action",
+  "key.genetic_chimerism.arm_action" : "Arm Mutation Action",
+  "key.genetic_chimerism.leg_action" : "Leg Mutation Action",
+  "key.genetic_chimerism.tail_action" : "Tail Mutation Action",
+
   "block.genetic_chimerism.mutagen_synthesizer": "Mutagen Synthesizer",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_prereqs": "Requires: %1$s",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_none": "None",
   "block.genetic_chimerism.mutagen_synthesizer.tooltip_parts": "Body Parts: %1$s",
-  "block.genetic_chimerism.mutagen_synthesizer.tooltip_head_part": "Head",
-  "block.genetic_chimerism.mutagen_synthesizer.tooltip_torso_part": "Torso",
-  "block.genetic_chimerism.mutagen_synthesizer.tooltip_arm_part": "Arms",
-  "block.genetic_chimerism.mutagen_synthesizer.tooltip_leg_part": "Legs",
-  "block.genetic_chimerism.mutagen_synthesizer.tooltip_tail_part": "Tail",
+
 
   "block.genetic_chimerism.infusion_station": "Infusion Station",
   "block.genetic_chimerism.infusion_station.contents": "This infusion station contains a vial of %1$s mutagen",
@@ -37,6 +42,19 @@
   "block.genetic_chimerism.infusion_station.infuse_success": "You have been infused with the %1$s mutation.",
   "block.genetic_chimerism.infusion_station.already_infused": "You have already been infused with the %1$s mutation.",
 
+  "genetic_chimerism.head_part": "Head",
+  "genetic_chimerism.torso_part": "Torso",
+  "genetic_chimerism.arm_part": "Arms",
+  "genetic_chimerism.leg_part": "Legs",
+  "genetic_chimerism.tail_part": "Tail",
+
+  "gui.genetic_chimerism.chroma_menu": "Chromatophore Recoloring",
+  "gui.genetic_chimerism.chroma_menu.red": "Red: ",
+  "gui.genetic_chimerism.chroma_menu.green": "Green: ",
+  "gui.genetic_chimerism.chroma_menu.blue": "Blue: ",
+  "gui.genetic_chimerism.chroma_menu.confirm": "Confirm",
+  "gui.genetic_chimerism.chroma_menu.part": "Part",
+
   "mutations.tree.human": "Human",
   "mutations.mutation.antigen": "Human Antigen",
   "mutations.mutation.desc.antigen": "Antigen to revert all mutations",
@@ -44,6 +62,14 @@
   "mutations.tree.horned": "Horned",
   "mutations.mutation.horned_1": "horns and such",
   "mutations.mutation.desc.horned_1": "horns and stuff lol this is test",
+  "mutations.mutation.horned_2": "horns 2",
+  "mutations.mutation.desc.horned_2": "horns and stuff 2",
+  "mutations.mutation.horned_3": "horns 3",
+  "mutations.mutation.desc.horned_3": "horns and stuff 3",
+  "mutations.mutation.ramhorns1": "Ram Horns",
+  "mutations.mutation.desc.ramhorns1": "Lets you ram enemies, knocking them back!",
+  "mutations.mutation.cooldown.ramhorns1": "Ramming is still on cooldown!",
+
 
   "mutations.tree.winged": "Winged",
   "mutations.tree.shelled": "Shelled",

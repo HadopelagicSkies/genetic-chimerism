@@ -3,11 +3,10 @@
   "package": "com.genetic_chimerism.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "InfusionAsBedMixin",
-    "InfusionDaytimeBypass",
-    "InfusionSleepMixin",
-    "ServerInfusionMixin",
-    "UnderwaterBreathSwapMixin"
+    "BedBlockMixin",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

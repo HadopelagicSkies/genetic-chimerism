@@ -11,5 +11,5 @@ public class HoovedTree {
     public static void initialize() {
     }
 
-    public static final Mutation hooved_1 = hooved.addToTree(new Mutation("hooved_1", "hooved", null, List.of()));
+    public static final Mutation hooved_1 = hooved.addToTree(new Mutation("hooved_1", "hooved", null));
 }

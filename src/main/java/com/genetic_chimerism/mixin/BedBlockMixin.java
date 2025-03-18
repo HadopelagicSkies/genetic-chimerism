@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 
 @Mixin(BedBlock.class)
-public class InfusionAsBedMixin {
+public class BedBlockMixin {
         @WrapOperation(method = {"getDirection", "isBedBelow", "findWakeUpPosition*"}, constant = @Constant(classValue = BedBlock.class))
         private static boolean allowInfusionStation(Object block, Operation<Boolean> original) {
             return block instanceof InfusionStation || original.call(block);

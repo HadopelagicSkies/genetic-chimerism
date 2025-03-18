@@ -18,6 +18,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -140,7 +141,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     }
 
     private void renderButtonOverlay(DrawContext context,int mouseX, int mouseY) {
-        List<MutationInfo> mutList = handler.player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST);
+        List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(handler.player);
         MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex - TREE_BUTTON_START_INDEX);
         for (int l = 0; l < selectedTree.mutations.size(); ++l) {
             MutationSelectButton button = mutationButtons[l];
@@ -306,14 +307,16 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 text.add(TooltipComponent.of(Text.translatableWithFallback(("mutations.mutation."+ mutation.getMutID()),mutation.getMutID()).asOrderedText()));
                 text.add(TooltipComponent.of(Text.translatableWithFallback("mutations.mutation.desc." + mutation.getMutID(),mutation.getMutID()).asOrderedText()));
 
-                if(!mutation.getParts().equals(List.of())) {
-                    StringBuilder parts = new StringBuilder();
-                    for(int i = 0; i<mutation.getParts().size(); i++) {
-                        String partTranslate = "block.genetic_chimerism.mutagen_synthesizer.tooltip_" + mutation.getParts().get(i) + "_part";
-                        if (i > 0) parts.append(" ,");
-                        parts.append(Text.translatable(partTranslate).getString());
+                if(!mutation.getParts().isEmpty()) {
+                    MutableText parts = Text.literal("");
+                    boolean isFirst = true;
+                    for(MutatableParts part :mutation.getParts()) {
+                        Text partTranslate = part.getTranslatableName();
+                        if(!isFirst) parts.append(", ");
+                            else isFirst = false;
+                        parts.append(partTranslate);
                     }
-                    text.add(TooltipComponent.of(Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_parts", parts.toString()).asOrderedText()));
+                    text.add(TooltipComponent.of(Text.translatable("block.genetic_chimerism.mutagen_synthesizer.tooltip_parts", parts).asOrderedText()));
                 }
 
                 if(mutation.getPrereq() != null) {

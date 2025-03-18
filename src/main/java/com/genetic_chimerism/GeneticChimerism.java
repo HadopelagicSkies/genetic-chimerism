@@ -1,6 +1,8 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup.Mutation;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
+import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup.MutationTrees;
 import com.genetic_chimerism.synthblock.SynthRecipe;
 import com.genetic_chimerism.synthblock.SynthRecipeSerializer;
@@ -8,6 +10,8 @@ import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -20,30 +24,47 @@ public class GeneticChimerism implements ModInitializer {
 	public static final String MOD_ID = "genetic_chimerism";
 
 	public static final Identifier INITIAL_SYNC = Identifier.of(MOD_ID, "initial_sync");
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ScreenHandlerType<SynthScreenHandler> SYNTH_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(GeneticChimerism.MOD_ID, "mutagen_synthesizer"), new ScreenHandlerType<>(SynthScreenHandler::new, FeatureSet.empty()));
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
-		ModItems.initialize();
-		ModBlocks.initialize();
-		ModComponents.initialize();
-		ModBlockEntities.initialize();
+		GeneticChimerismItems.initialize();
+		GeneticChimerismBlocks.initialize();
+		GeneticChimerismComponents.initialize();
+		GeneticChimerismBlockEntities.initialize();
 		MutationTrees.initialize();
 		MutationAttachments.initialize();
 		MobInfoReloadListener.initialize();
+		GeneticChimerismEntities.initialize();
+
 
 		Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipeSerializer.ID), SynthRecipeSerializer.INSTANCE);
 		Registry.register(Registries.RECIPE_TYPE, Identifier.of(GeneticChimerism.MOD_ID, SynthRecipe.Type.ID), SynthRecipe.Type.INSTANCE);
 
-		//StateSaverLoader.initialize();
+		PayloadTypeRegistry.playC2S().register(MutActionPayload.ID, MutActionPayload.MUT_ACTION_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload, context) -> {
+			if (payload.isPressed()) {
+				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.keyPressed());
+				if (mutationInfo != null) {
+					Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+					if (mutation != null) {
+						mutation.mutationAction(context.player());
+					}
+				}
+			}
+		});
+
+		PayloadTypeRegistry.playC2S().register(PartRecolorPayload.ID, PartRecolorPayload.PART_RECOLOR_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(PartRecolorPayload.ID, (payload, context) -> {
+			MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.part());
+			if (mutationInfo != null) {
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) {
+					MutationAttachments.setPartAttached(context.player(), payload.part(), new MutationBodyInfo(mutation.getMutID(),mutation.getTreeID(), payload.patternIndex(), payload.color1(), payload.color2(), mutationInfo.growth(), mutationInfo.isReceding()));
+				}
+			}
+		});
 
 		ServerWorldEvents.LOAD.register((server, serverWorld) -> {
 			GeneticChimerism.LOGGER.info("Assigning Synth Recipes");

@@ -8,7 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 
-public class ModComponents {
+public class GeneticChimerismComponents {
     protected static void initialize() {
         GeneticChimerism.LOGGER.info("Registering {} components", GeneticChimerism.MOD_ID);
         // Technically this method can stay empty, but some developers like to notify

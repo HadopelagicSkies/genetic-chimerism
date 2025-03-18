@@ -2,5 +2,17 @@
   "parent": "minecraft:item/handheld",
   "textures": {
     "layer0": "genetic_chimerism:item/iron_scalpel"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [-90,90,135],
+      "translation": [ 0, 4, 2 ],
+      "scale": [ 0.9, 0.9, 0.9 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [-90,90,135],
+      "translation": [ 0, 4, 2 ],
+      "scale": [ 0.9, 0.9, 0.9 ]
+    }
   }
 }

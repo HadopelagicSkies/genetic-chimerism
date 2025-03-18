@@ -21,56 +21,23 @@ public class AquaticTreeClient {
     public static void initialize() {
     }
 
-    public static final MutationClient gills1 = aquatic.addToTree(new Gills1Mutation("gills1", "aquatic"));
-    public static final MutationClient gills2 = aquatic.addToTree(new Gills2Mutation("gills2", "aquatic"));
-    public static final MutationClient gills3 = aquatic.addToTree(new Gills3Mutation("gills3", "aquatic"));
-    public static final MutationClient gills4 = aquatic.addToTree(new Gills4Mutation("gills4", "aquatic"));
 
-    public static final MutationClient fastswim1 = aquatic.addToTree(new FastSwim1Mutation("fastswim1", "aquatic"));
-    public static final MutationClient sharktail1 = aquatic.addToTree(new SharkTail1Mutation("sharktail1", "aquatic"));
-    public static final MutationClient sharktail2 = aquatic.addToTree(new SharkTail2Mutation("sharktail2", "aquatic"));
+    public static final MutationClient sharkTail = aquatic.addToTree(new SharkTailMutation("sharktail", "aquatic"));
+    public static final MutationClient thresherTail = aquatic.addToTree(new ThresherTailMutation("threshertail", "aquatic"));
 
-    public static class Gills1Mutation extends MutationClient {
-        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-        public static final EntityAttributeModifier GILLS1_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "gills1_modifier"), 1, EntityAttributeModifier.Operation.ADD_VALUE);
 
-        public Gills1Mutation(String mutID, String treeID) {
-            super(mutID, treeID);
-        }
-    }
-
-    public static class Gills2Mutation extends MutationClient {
-        public Gills2Mutation(String mutID, String treeID) {
-            super(mutID, treeID);
-        }
-    }
-
-    public static class Gills3Mutation extends MutationClient {
-        public Gills3Mutation(String mutID, String treeID) {
-            super(mutID, treeID);
-        }
-    }
-
-    public static class Gills4Mutation extends MutationClient {
-        public Gills4Mutation(String mutID, String treeID) {
-            super(mutID, treeID);
-        }
-    }
-
-    public static class FastSwim1Mutation extends MutationClient {
-        public FastSwim1Mutation(String mutID, String treeID) {
-            super(mutID, treeID);
-        }
-    }
-
-    public static class SharkTail1Mutation extends MutationClient {
-        public SharkTail1Mutation(String mutID, String treeID) {
+    public static class SharkTailMutation extends MutationClient {
+        public SharkTailMutation(String mutID, String treeID) {
             super(mutID, treeID);
         }
 
         @Override
-        public Identifier getTexture() {
+        public Identifier getTexture1() {
             return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail1.png");
+        }
+        @Override
+        public Identifier getTexture2() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail2.png");
         }
 
         @Override
@@ -105,45 +72,80 @@ public class AquaticTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.ROTATE,
-                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 7.5F, -10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 10.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.ROTATE,
-                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 15.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 15.0F, -10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 10.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .build();
+        }
+
+        @Override
+        public Animation getGrowthAnimation() {
+            return Animation.Builder.create(1.0F)
+                    .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 2.0F, -7.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 5.0F, -12.5F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone3", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
     }
 
-    public static class SharkTail2Mutation extends MutationClient {
-        public SharkTail2Mutation(String mutID, String treeID) {
+    public static class ThresherTailMutation extends MutationClient {
+        public ThresherTailMutation(String mutID, String treeID) {
             super(mutID, treeID);
         }
 
         @Override
-        public Identifier getTexture() {
-            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/shark_tail2.png");
+        public Identifier getTexture1() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/thresher_tail1.png");
+        }
+
+        @Override
+        public Identifier getTexture2() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/thresher_tail2.png");
         }
 
         @Override
@@ -181,34 +183,65 @@ public class AquaticTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.ROTATE,
-                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 7.5F, -10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 10.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.ROTATE,
-                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createRotationalVector(0.0F, 7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 15.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 15.0F, -10.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 10.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
+
+        @Override
+        public Animation getGrowthAnimation() {
+            return Animation.Builder.create(1.0F)
+                    .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 2.0F, -7.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 5.0F, -12.5F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("bone3", new Transformation(Transformation.Targets.SCALE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .build();
+        }
+
     }
 }

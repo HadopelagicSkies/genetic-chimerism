@@ -8,7 +8,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class ModBlockEntities {
+public class GeneticChimerismBlockEntities {
 
     public static void initialize() {
     }
@@ -20,10 +20,10 @@ public class ModBlockEntities {
 
     public static final BlockEntityType<BasicSynthEntity> MUTAGEN_SYNTHESIZER_BLOCK_ENTITY = register(
             "mutagen_synthesizer",
-            FabricBlockEntityTypeBuilder.create(BasicSynthEntity::new, ModBlocks.MUTAGEN_SYNTHESIZER).build());
+            FabricBlockEntityTypeBuilder.create(BasicSynthEntity::new, GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER).build());
 
     public static final BlockEntityType<InfusionStationEntity> INFUSION_STATION_BLOCK_ENTITY = register(
             "infusion_station",
-            FabricBlockEntityTypeBuilder.create(InfusionStationEntity::new, ModBlocks.INFUSION_STATION).build());
+            FabricBlockEntityTypeBuilder.create(InfusionStationEntity::new, GeneticChimerismBlocks.INFUSION_STATION).build());
 
 }

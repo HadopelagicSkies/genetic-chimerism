@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import java.util.function.Consumer;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerInfusionMixin {
+public abstract class ServerPlayerEntityMixin {
 
 	@WrapWithCondition(method = "trySleep", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;setSpawnPoint(Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/util/math/BlockPos;FZZ)V") )
 	private boolean infusionNotSetSpawn(ServerPlayerEntity instance, RegistryKey<World> dimension, BlockPos pos, float angle, boolean forced, boolean sendMessage) {
@@ -30,7 +30,6 @@ public abstract class ServerInfusionMixin {
 		return original && !( player.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation);
 	}
 
-	// deal with achievement for sleep here
 	@ModifyArg(method = "trySleep", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/util/Either;ifRight(Ljava/util/function/Consumer;)Lcom/mojang/datafixers/util/Either;", remap = false))
 	private Consumer<? super Unit> infusionNoSleepAdvancement(Consumer<? super Unit> consumer, @Local(argsOnly = true) BlockPos pos) {
 		PlayerEntity player = (PlayerEntity) (Object) this;

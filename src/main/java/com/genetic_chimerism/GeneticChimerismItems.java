@@ -14,11 +14,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 
-public class ModItems {
+public class GeneticChimerismItems {
 
     public static final RegistryKey<ItemGroup> GENETIC_CHIMERISM_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(GeneticChimerism.MOD_ID, "item_group"));
     public static final ItemGroup GENETIC_CHIMERISM_GROUP = FabricItemGroup.builder()
-            .icon(() -> new ItemStack(ModItems.ENSOULED_TISSUE_SAMPLE))
+            .icon(() -> new ItemStack(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE))
             .displayName(Text.translatable("itemGroup.genetic_chimerism"))
             .build();
 
@@ -29,18 +29,18 @@ public class ModItems {
         // And register an event handler that adds our items to the ingredients group.
         ItemGroupEvents.modifyEntriesEvent(GENETIC_CHIMERISM_GROUP_KEY)
                 .register((itemGroup) -> {
-                    itemGroup.add(ModItems.CRUDE_TISSUE_SAMPLE);
-                    itemGroup.add(ModItems.FRESH_TISSUE_SAMPLE);
-                    itemGroup.add(ModItems.ENSOULED_TISSUE_SAMPLE);
+                    itemGroup.add(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE);
+                    itemGroup.add(GeneticChimerismItems.FRESH_TISSUE_SAMPLE);
+                    itemGroup.add(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE);
 
-                    itemGroup.add(ModItems.IRON_SCALPEL);
-                    itemGroup.add(ModItems.DIAMOND_SCALPEL);
-                    itemGroup.add(ModItems.SOUL_SCALPEL);
-                    itemGroup.add(ModItems.IRON_SCALPEL_HEAD);
-                    itemGroup.add(ModItems.DIAMOND_SCALPEL_HEAD);
-                    itemGroup.add(ModItems.SOUL_SCALPEL_HEAD);
+                    itemGroup.add(GeneticChimerismItems.IRON_SCALPEL);
+                    itemGroup.add(GeneticChimerismItems.DIAMOND_SCALPEL);
+                    itemGroup.add(GeneticChimerismItems.SOUL_SCALPEL);
+                    itemGroup.add(GeneticChimerismItems.IRON_SCALPEL_HEAD);
+                    itemGroup.add(GeneticChimerismItems.DIAMOND_SCALPEL_HEAD);
+                    itemGroup.add(GeneticChimerismItems.SOUL_SCALPEL_HEAD);
 
-                    itemGroup.add(ModItems.MUTAGEN_VIAL);
+                    itemGroup.add(GeneticChimerismItems.MUTAGEN_VIAL);
 
                 });
     }
@@ -77,7 +77,7 @@ public class ModItems {
         Item.Settings settings = itemSettings.registryKey(key);
 
         // Return the registered item!
-        return Registry.register(Registries.ITEM, key, new TissueItem(settings.component(ModComponents.TISSUE_TYPE,"")));
+        return Registry.register(Registries.ITEM, key, new TissueItem(settings.component(GeneticChimerismComponents.TISSUE_TYPE,"")));
     }
 
     private static Item vialRegister(Item.Settings itemSettings, String name) {
@@ -89,7 +89,7 @@ public class ModItems {
         Item.Settings settings = itemSettings.registryKey(key);
 
         // Return the registered item!
-        return Registry.register(Registries.ITEM, key, new MutagenVialItem(settings.component(ModComponents.MUTATION_STORED,new MutationInfo("",""))));
+        return Registry.register(Registries.ITEM, key, new MutagenVialItem(settings.component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("",""))));
     }
 
     public static final Item CRUDE_TISSUE_SAMPLE = tissueRegister(

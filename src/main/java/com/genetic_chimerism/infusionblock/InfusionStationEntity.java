@@ -1,8 +1,8 @@
 package com.genetic_chimerism.infusionblock;
 
 import com.genetic_chimerism.ImplementInventory;
-import com.genetic_chimerism.ModBlockEntities;
-import com.genetic_chimerism.ModItems;
+import com.genetic_chimerism.GeneticChimerismBlockEntities;
+import com.genetic_chimerism.GeneticChimerismItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
@@ -25,7 +25,7 @@ public class InfusionStationEntity extends BlockEntity implements ImplementInven
     }
 
     public InfusionStationEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.INFUSION_STATION_BLOCK_ENTITY, pos, state);
+        super(GeneticChimerismBlockEntities.INFUSION_STATION_BLOCK_ENTITY, pos, state);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, InfusionStationEntity blockEntity) {
@@ -52,7 +52,7 @@ public class InfusionStationEntity extends BlockEntity implements ImplementInven
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return slot == 0 && stack.isOf(ModItems.MUTAGEN_VIAL);
+        return slot == 0 && stack.isOf(GeneticChimerismItems.MUTAGEN_VIAL);
     }
 
     @Override

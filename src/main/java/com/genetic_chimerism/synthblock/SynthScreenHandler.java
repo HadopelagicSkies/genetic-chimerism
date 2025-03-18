@@ -28,25 +28,17 @@ public class SynthScreenHandler extends ScreenHandler {
     private static final int TREE_BUTTON_START_INDEX = 1;
     private final int MUTATION_BUTTON_START_INDEX = treeNum+1;
 
-    // This constructor gets called on the client when the server wants it to open the screenHandler,
-    // The client will call the other constructor with an empty Inventory and the screenHandler will automatically
-    // sync this empty inventory with the inventory on the server.
     public SynthScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, new SimpleInventory(2));
     }
 
-
-    // This constructor gets called from the BlockEntity on the server without calling the other constructor first, the server knows the inventory of the container
-    // and can therefore directly provide it as an argument. This inventory will then be synced to the client.
     public SynthScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(GeneticChimerism.SYNTH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 2);
         this.inventory = inventory;
         this.player = playerInventory.player;
-        // some inventories do custom logic when a player opens it.
         inventory.onOpen(playerInventory.player);
 
-        // Our inventory
         this.addSlot(new Slot(inventory, 0, 279, 114) {
             @Override
             public boolean canInsert(ItemStack stack) {
@@ -79,8 +71,8 @@ public class SynthScreenHandler extends ScreenHandler {
 
         if(bottleStack.isOf(Items.GLASS_BOTTLE) && vialStack.isEmpty() && bottleStack.getCount() > 0){
 
-            vialStack = new ItemStack(ModItems.MUTAGEN_VIAL,1);
-            vialStack.set(ModComponents.MUTATION_STORED,MutationTrees.mutationToCodec(this.setMutation));
+            vialStack = new ItemStack(GeneticChimerismItems.MUTAGEN_VIAL,1);
+            vialStack.set(GeneticChimerismComponents.MUTATION_STORED,MutationTrees.mutationToCodec(this.setMutation));
 
 
             GeneticChimerism.LOGGER.info("checking recipe for: " + this.setMutation.getMutID());
@@ -109,8 +101,8 @@ public class SynthScreenHandler extends ScreenHandler {
         for(int i=0; i<player.getInventory().size();i++){
             ItemStack stack = player.getInventory().getStack(i).copy();
             if (stack.isOf(input.getItem())){
-                if(input.isOf(ModItems.CRUDE_TISSUE_SAMPLE)||input.isOf(ModItems.FRESH_TISSUE_SAMPLE)||input.isOf(ModItems.ENSOULED_TISSUE_SAMPLE)){
-                    if (input.get(ModComponents.TISSUE_TYPE).equals(stack.get(ModComponents.TISSUE_TYPE))){
+                if(input.isOf(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.FRESH_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE)){
+                    if (input.get(GeneticChimerismComponents.TISSUE_TYPE).equals(stack.get(GeneticChimerismComponents.TISSUE_TYPE))){
                         player.getInventory().getStack(i).setCount(stack.getCount() - inputStack.getCount());
                         inputStack.increment(-1 * stack.getCount());
                         if (inputStack.getCount() == 0) {break;}
@@ -131,8 +123,8 @@ public class SynthScreenHandler extends ScreenHandler {
         for(int i=0; i<player.getInventory().size();i++){
             ItemStack stack = player.getInventory().getStack(i).copy();
             if (stack.isOf(input.getItem())){
-                if(input.isOf(ModItems.CRUDE_TISSUE_SAMPLE)||input.isOf(ModItems.FRESH_TISSUE_SAMPLE)||input.isOf(ModItems.ENSOULED_TISSUE_SAMPLE)){
-                    if (input.get(ModComponents.TISSUE_TYPE).equals(stack.get(ModComponents.TISSUE_TYPE))){
+                if(input.isOf(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.FRESH_TISSUE_SAMPLE)||input.isOf(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE)){
+                    if (input.get(GeneticChimerismComponents.TISSUE_TYPE).equals(stack.get(GeneticChimerismComponents.TISSUE_TYPE))){
                         inputStack.increment(-1 * stack.getCount());
                         if (inputStack.getCount() == 0) {
                             break;

@@ -11,7 +11,7 @@ public class ScaledTree {
     public static void initialize() {
     }
 
-    public static final Mutation scaled_1 = scaled.addToTree(new Mutation("scaled_1", "scaled", null, List.of()));
+    public static final Mutation scaled_1 = scaled.addToTree(new Mutation("scaled_1", "scaled", null));
 
 
 }

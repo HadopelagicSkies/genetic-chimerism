@@ -11,8 +11,8 @@ public class ShelledTree {
     public static void initialize() {
     }
 
-    public static final Mutation shelled_1 = shelled.addToTree(new Mutation("shelled_1", "shelled", null, List.of()));
-    public static final Mutation shelled_2 = shelled.addToTree(new Mutation("shelled_2", "shelled", shelled_1, List.of()));
-    public static final Mutation shelled_3 = shelled.addToTree(new Mutation("shelled_3", "shelled", shelled_2, List.of()));
-    public static final Mutation shelled_4 = shelled.addToTree(new Mutation("shelled_4", "shelled", shelled_3, List.of()));
+    public static final Mutation shelled_1 = shelled.addToTree(new Mutation("shelled_1", "shelled", null));
+    public static final Mutation shelled_2 = shelled.addToTree(new Mutation("shelled_2", "shelled", shelled_1));
+    public static final Mutation shelled_3 = shelled.addToTree(new Mutation("shelled_3", "shelled", shelled_2));
+    public static final Mutation shelled_4 = shelled.addToTree(new Mutation("shelled_4", "shelled", shelled_3));
 }

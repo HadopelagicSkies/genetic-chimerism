@@ -11,5 +11,5 @@ public class SpinedTree {
     public static void initialize() {
     }
 
-    public static final Mutation spined_1 = spined.addToTree(new Mutation("spined_1", "spined", null, List.of()));
+    public static final Mutation spined_1 = spined.addToTree(new Mutation("spined_1", "spined", null));
 }

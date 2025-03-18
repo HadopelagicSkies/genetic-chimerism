@@ -53,44 +53,44 @@ public class ScalpelItem extends SwordItem {
                 double targetY = target.getY();
                 double targetZ = target.getZ();
 
-                if (stack.getItem() == ModItems.IRON_SCALPEL) {
-                    ItemStack crudeStack = new ItemStack(ModItems.CRUDE_TISSUE_SAMPLE,count);
-                    crudeStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                if (stack.getItem() == GeneticChimerismItems.IRON_SCALPEL) {
+                    ItemStack crudeStack = new ItemStack(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE,count);
+                    crudeStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                     ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, crudeStack);
                     world.spawnEntity(itemDrop);
                 }
 
-                if (stack.getItem() == ModItems.DIAMOND_SCALPEL) {
+                if (stack.getItem() == GeneticChimerismItems.DIAMOND_SCALPEL) {
                     if (mobTier.equals("fresh") || mobTier.equals("ensouled")) {
-                        ItemStack freshStack = new ItemStack(ModItems.FRESH_TISSUE_SAMPLE,count);
-                        freshStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                        ItemStack freshStack = new ItemStack(GeneticChimerismItems.FRESH_TISSUE_SAMPLE,count);
+                        freshStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                         ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, freshStack);
                         world.spawnEntity(itemDrop);
                     }
                     else {
-                        ItemStack crudeStack = new ItemStack(ModItems.CRUDE_TISSUE_SAMPLE,count);
-                        crudeStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                        ItemStack crudeStack = new ItemStack(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE,count);
+                        crudeStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                         ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, crudeStack);
                         world.spawnEntity(itemDrop);
                     }
                 }
 
-                if (stack.getItem() == ModItems.SOUL_SCALPEL) {
+                if (stack.getItem() == GeneticChimerismItems.SOUL_SCALPEL) {
                     if (mobTier.equals("ensouled")) {
-                        ItemStack ensouledStack = new ItemStack(ModItems.ENSOULED_TISSUE_SAMPLE,count);
-                        ensouledStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                        ItemStack ensouledStack = new ItemStack(GeneticChimerismItems.ENSOULED_TISSUE_SAMPLE,count);
+                        ensouledStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                         ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, ensouledStack);
                         world.spawnEntity(itemDrop);
                     }
                     else if (mobTier.equals("fresh")) {
-                        ItemStack freshStack = new ItemStack(ModItems.FRESH_TISSUE_SAMPLE,count);
-                        freshStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                        ItemStack freshStack = new ItemStack(GeneticChimerismItems.FRESH_TISSUE_SAMPLE,count);
+                        freshStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                         ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, freshStack);
                         world.spawnEntity(itemDrop);
                     }
                     else {
-                        ItemStack crudeStack = new ItemStack(ModItems.CRUDE_TISSUE_SAMPLE,count);
-                        crudeStack.set(ModComponents.TISSUE_TYPE, mobTree);
+                        ItemStack crudeStack = new ItemStack(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE,count);
+                        crudeStack.set(GeneticChimerismComponents.TISSUE_TYPE, mobTree);
                         ItemEntity itemDrop = new ItemEntity(world, targetX, targetY, targetZ, crudeStack);
                         world.spawnEntity(itemDrop);
                     }

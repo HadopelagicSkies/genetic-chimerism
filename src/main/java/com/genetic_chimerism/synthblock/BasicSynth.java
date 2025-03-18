@@ -1,6 +1,6 @@
 package com.genetic_chimerism.synthblock;
 
-import com.genetic_chimerism.ModBlockEntities;
+import com.genetic_chimerism.GeneticChimerismBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -68,7 +68,7 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
 
     @Nullable
     protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> validateTicker(BlockEntityType<A> givenType, BlockEntityTicker<? super E> ticker) {
-        return ModBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY == givenType ? (BlockEntityTicker<A>) ticker : null;
+        return GeneticChimerismBlockEntities.MUTAGEN_SYNTHESIZER_BLOCK_ENTITY == givenType ? (BlockEntityTicker<A>) ticker : null;
     }
 
     @Override
@@ -80,12 +80,8 @@ public class BasicSynth extends HorizontalFacingBlock implements BlockEntityProv
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
-            // This will call the createScreenHandlerFactory method from BlockWithEntity, which will return our blockEntity casted to
-            // a namedScreenHandlerFactory. If your block class does not extend BlockWithEntity, it needs to implement createScreenHandlerFactory.
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-
             if (screenHandlerFactory != null) {
-                // With this call the server will request the client to open the appropriate Screenhandler
                 player.openHandledScreen(screenHandlerFactory);
             }
         }

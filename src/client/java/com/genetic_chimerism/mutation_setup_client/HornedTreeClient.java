@@ -22,8 +22,13 @@ public class HornedTreeClient {
         }
 
         @Override
-        public Identifier getTexture() {
+        public Identifier getTexture1() {
             return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/ram_horn1.png");
+        }
+
+        @Override
+        public Identifier getTexture2() {
+            return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/ram_horn2.png");
         }
         @Override
         public TexturedModelData getTexturedModelData() {
