@@ -1,10 +1,7 @@
 package com.genetic_chimerism.infusionblock;
 
 import com.genetic_chimerism.*;
-import com.genetic_chimerism.mutation_setup.Mutation;
-import com.genetic_chimerism.mutation_setup.MutationAttachments;
-import com.genetic_chimerism.mutation_setup.MutationInfo;
-import com.genetic_chimerism.mutation_setup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.*;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -181,6 +178,21 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                     return;
                 }
             }
+            if (mutation.getParts() != null && !mutation.getParts().isEmpty()) {
+                for(MutatableParts part : mutation.getParts()){
+                    MutationBodyInfo mutPart = MutationAttachments.getPartAttached(player, part);
+                    if (mutPart != null && !mutPart.isReceding() && mutPart.growth() < MutationTrees.mutationFromCodec(mutPart).getMaxGrowth()){
+                        player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.not_grown"), true);
+                        return;
+                    }
+                    else if (mutPart != null && mutPart.isReceding() && mutPart.growth() >= 0 ){
+                        player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.not_receded"), true);
+                        return;
+                    }
+                }
+
+            }
+
             String mutationName = Text.translatableWithFallback("mutations.mutation."+selectedMutation.mutID(),selectedMutation.mutID()).getString();
             if(selectedMutation.mutID().equals("antigen")){
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_antigen"), true);
@@ -189,7 +201,8 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                     if (parsedMutation != null) parsedMutation.onRemoved(player);
                 }
                 settingMutations.clear();
-            } else if (playerMutations.contains(selectedMutation)) {
+            }
+            else if (playerMutations.contains(selectedMutation)) {
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.already_infused", mutationName), true);
                 return;
             } else {

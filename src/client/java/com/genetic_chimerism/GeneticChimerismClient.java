@@ -96,7 +96,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	}
 
 	private static void processActionKeybind(ClientPlayerEntity player, KeyBinding keyBinding, MutatableParts part) {
-		while (tailActionKeybindings.wasPressed()) {
+		while (keyBinding.wasPressed()) {
 			MutationBodyInfo mut = MutationAttachments.getPartAttached(player, part);
 			if (mut != null) {
 				MutationClient clientMut = MutationTreesClient.mutationFromCodec(mut);

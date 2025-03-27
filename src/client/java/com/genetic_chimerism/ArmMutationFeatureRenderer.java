@@ -55,7 +55,7 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 AnimationHelper.animate(entityModelL, animationL, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimationL != null) {
-                AnimationHelper.animate(entityModelL, growthAnimationL, growth, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, growthAnimationL, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
 
             VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
@@ -75,7 +75,7 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 AnimationHelper.animate(entityModelR, animationR, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimationR != null) {
-                AnimationHelper.animate(entityModelR, growthAnimationR, growth, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelR, growthAnimationR, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
             this.getContextModel().rightArm.hidden = true;
 

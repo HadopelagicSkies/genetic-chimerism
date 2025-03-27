@@ -41,6 +41,10 @@
   "block.genetic_chimerism.infusion_station.infuse_antigen": "You have been infused with antigen, your mutations begin to revert.",
   "block.genetic_chimerism.infusion_station.infuse_success": "You have been infused with the %1$s mutation.",
   "block.genetic_chimerism.infusion_station.already_infused": "You have already been infused with the %1$s mutation.",
+  "block.genetic_chimerism.infusion_station.not_grown": "You are still growing into your mutations.",
+  "block.genetic_chimerism.infusion_station.not_receded": "Your previous mutations are still receding.",
+  "block.genetic_chimerism.infusion_station.fully_grown": "Your %1$s is fully grown!",
+  "block.genetic_chimerism.infusion_station.fully_receded": "Your %1$s has fully receded.",
 
   "genetic_chimerism.head_part": "Head",
   "genetic_chimerism.torso_part": "Torso",
@@ -60,15 +64,9 @@
   "mutations.mutation.desc.antigen": "Antigen to revert all mutations",
 
   "mutations.tree.horned": "Horned",
-  "mutations.mutation.horned_1": "horns and such",
-  "mutations.mutation.desc.horned_1": "horns and stuff lol this is test",
-  "mutations.mutation.horned_2": "horns 2",
-  "mutations.mutation.desc.horned_2": "horns and stuff 2",
-  "mutations.mutation.horned_3": "horns 3",
-  "mutations.mutation.desc.horned_3": "horns and stuff 3",
-  "mutations.mutation.ramhorns1": "Ram Horns",
-  "mutations.mutation.desc.ramhorns1": "Lets you ram enemies, knocking them back!",
-  "mutations.mutation.cooldown.ramhorns1": "Ramming is still on cooldown!",
+  "mutations.mutation.ramHorns1": "Ram Horns",
+  "mutations.mutation.desc.ramHorns1": "Lets you ram enemies, knocking them back!",
+  "mutations.mutation.cooldown.ramming": "Ramming is still on cooldown!",
 
 
   "mutations.tree.winged": "Winged",
@@ -85,8 +83,9 @@
   "mutations.mutation.desc.gills4": "Your gills have replaced your lungs! Fully adapted to underwater life, you cannot breathe on the surface.",
   "mutations.mutation.fastswim1": "Faster Swimming I",
   "mutations.mutation.desc.fastswim1": "Your physique is more hydrodynamic!",
-  "mutations.mutation.sharktail1": "Shark Tail Growth",
-  "mutations.mutation.desc.sharktail1": "You grow a shark tail! You can swim even faster",
-  "mutations.mutation.sharktail2": "Thresher Shark Tail",
-  "mutations.mutation.desc.sharktail2": "Your tail tip becomes long like a whip! You can use it to knock enemies back."
+  "mutations.mutation.sharktail": "Shark Tail Growth",
+  "mutations.mutation.desc.sharktail": "You grow a shark tail! You can swim even faster",
+  "mutations.mutation.threshertail": "Thresher Shark Tail",
+  "mutations.mutation.desc.threshertail": "Your tail tip becomes long like a whip! You can use it to knock enemies back.",
+  "mutations.mutation.cooldown.tailslap": "Tail Slap is still on cooldown!"
 }

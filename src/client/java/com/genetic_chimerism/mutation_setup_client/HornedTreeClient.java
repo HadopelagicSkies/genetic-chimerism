@@ -1,6 +1,9 @@
 package com.genetic_chimerism.mutation_setup_client;
 
 import com.genetic_chimerism.GeneticChimerism;
+import com.genetic_chimerism.MutatableParts;
+import com.genetic_chimerism.mutation_setup.HornedTree;
+import com.genetic_chimerism.mutation_setup.Mutation;
 import net.minecraft.client.model.*;
 import net.minecraft.util.Identifier;
 
@@ -12,8 +15,11 @@ public class HornedTreeClient {
     public static void initialize() {
     }
 
-
-    public static final MutationClient ramhorns1 = horned.addToTree(new RamHorns1Mutation("ramhorns1", "aquatic"));
+    public static final MutationClient hurtHorns1 = horned.addToTree(new MutationClient("hurtHorns1", "horned"));
+    public static final MutationClient hurtHorns2 = horned.addToTree(new MutationClient("hurtHorns2", "horned"));
+    public static final MutationClient ramHorns1 = horned.addToTree(new RamHorns1Mutation("ramHorns1", "horned"));
+    public static final MutationClient ramHorns2 = horned.addToTree(new RamHorns1Mutation("ramHorns2", "horned"));
+    public static final MutationClient ramLegs = horned.addToTree(new MutationClient("ramLegs", "horned"));
 
 
     public static class RamHorns1Mutation extends MutationClient {

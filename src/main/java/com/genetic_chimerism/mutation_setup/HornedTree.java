@@ -33,8 +33,8 @@ public class HornedTree {
     public static final Mutation armorTough3 = horned.addToTree(new ArmorTough3Mutation("armorTough3", "horned", armorTough2));
     public static final Mutation armorTough4 = horned.addToTree(new ArmorTough4Mutation("armorTough4", "horned", armorTough3));
 
-    public static final Mutation hurtHorns1 = horned.addToTree(new RamHorns1Mutation("hurtHorns1", "horned", armorTough3, MutatableParts.HEAD));
-    public static final Mutation hurtHorns2 = horned.addToTree(new RamHorns1Mutation("hurtHorns2", "horned", armorTough3, MutatableParts.HEAD));
+    public static final Mutation hurtHorns1 = horned.addToTree(new HurtHorns1Mutation("hurtHorns1", "horned", armorTough3, MutatableParts.HEAD));
+    public static final Mutation hurtHorns2 = horned.addToTree(new HurtHorns2Mutation("hurtHorns2", "horned", hurtHorns1, MutatableParts.HEAD));
 
     public static final Mutation knockback1 = horned.addToTree(new Knockback1Mutation("knockback1", "horned", null));
     public static final Mutation knockback2 = horned.addToTree(new Knockback2Mutation("knockback2", "horned", knockback1));
@@ -42,7 +42,7 @@ public class HornedTree {
     public static final Mutation knockback4 = horned.addToTree(new Knockback4Mutation("knockback4", "horned", knockback3));
 
 
-    public static final Mutation ramHorns1 = horned.addToTree(new RamHorns1Mutation("ramHorns1", "horned", knockback3, MutatableParts.HEAD));
+    public static final Mutation ramHorns1 = horned.addToTree(new RamHorns1Mutation("ramHorns1", "horned", knockback2, MutatableParts.HEAD));
     public static final Mutation ramHorns2 = horned.addToTree(new RamHorns2Mutation("ramHorns2", "horned", ramHorns1, MutatableParts.HEAD));
     public static final Mutation ramLegs = horned.addToTree(new RamLegsMutation("ramLegs", "horned", ramHorns1, MutatableParts.LEG));
 
@@ -239,13 +239,13 @@ public class HornedTree {
         @Override
         public void mutationAction(PlayerEntity player){
             if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramHorns1"),true);
+            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
             if (this.ramming && !player.getWorld().isClient) {
-                if (this.cooldown == 0) this.cooldown = 300;
+                if (this.cooldown <= 0) this.cooldown = 300;
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
@@ -318,7 +318,7 @@ public class HornedTree {
         @Override
         public void mutationAction(PlayerEntity player){
             if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramHorns1"),true);
+            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
@@ -396,7 +396,7 @@ public class HornedTree {
         @Override
         public void mutationAction(PlayerEntity player){
             if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramHorns1"),true);
+            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
@@ -475,7 +475,7 @@ public class HornedTree {
         @Override
         public void mutationAction(PlayerEntity player){
             if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramHorns1"),true);
+            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
