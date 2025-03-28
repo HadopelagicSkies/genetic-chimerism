@@ -2,9 +2,7 @@ package com.genetic_chimerism;
 
 import com.genetic_chimerism.entity.DiplocaulusEntityModel;
 import com.genetic_chimerism.entity.DiplocaulusEntityRenderer;
-import com.genetic_chimerism.mutation_setup.MutationAttachments;
-import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
-import com.genetic_chimerism.mutation_setup.MutationInfo;
+import com.genetic_chimerism.mutation_setup.*;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,6 +12,8 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
@@ -45,7 +45,6 @@ public class GeneticChimerismClient implements ClientModInitializer {
 
 		MutationTreesClient.initialize();
 		initKeybindings();
-
 	}
 
 	public void initKeybindings(){

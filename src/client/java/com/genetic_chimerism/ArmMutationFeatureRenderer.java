@@ -115,7 +115,7 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     this.actionRunningTime = 0;
                 } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationL.lengthInSeconds() && !actionAnimationL.looping()) {
                     this.actionRunningTime = 0;
-                    ClientPlayNetworking.send(new UnsetAnimPayload(MutatableParts.ARM,false));
+                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.ARM,false));
                 } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationL.lengthInSeconds()) {
                     this.actionRunningTime += animationSpeed;
                 }
@@ -125,9 +125,9 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     this.actionRunningTime = 0;
                 } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationR.lengthInSeconds() && !actionAnimationR.looping()) {
                     this.actionRunningTime = 0;
-                    ClientPlayNetworking.send(new UnsetAnimPayload(MutatableParts.ARM,false));
+                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.ARM,false));
                 } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationR.lengthInSeconds()) {
-                    this.actionRunningTime += animationSpeed;
+                    this.actionRunningTime += 2*animationSpeed;
                 }
             }
         }

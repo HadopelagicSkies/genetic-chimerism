@@ -67,8 +67,8 @@ public class GeneticChimerism implements ModInitializer {
 			}
 		});
 
-		PayloadTypeRegistry.playC2S().register(UnsetAnimPayload.ID, UnsetAnimPayload.UNSET_ANIM_CODEC);
-		ServerPlayNetworking.registerGlobalReceiver(UnsetAnimPayload.ID, (payload, context) -> {
+		PayloadTypeRegistry.playC2S().register(SetAnimPayload.ID, SetAnimPayload.SET_ANIM_CODEC);
+		ServerPlayNetworking.registerGlobalReceiver(SetAnimPayload.ID, (payload, context) -> {
 			MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.part());
 			if (mutationInfo != null) {
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
