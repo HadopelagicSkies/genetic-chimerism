@@ -64,7 +64,7 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
                 AnimationHelper.animate(entityModel, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
-                AnimationHelper.animate(entityModel, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModel, growthAnimation, (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
             }
             VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));

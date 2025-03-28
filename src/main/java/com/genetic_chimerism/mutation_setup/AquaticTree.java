@@ -344,6 +344,11 @@ public class AquaticTree {
         @Override
         public void tick(PlayerEntity player) {
             if (this.cooldown > 0) this.cooldown--;
+            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+            if (partMut != null && partMut.isReceding() && partMut.growth() <= 0) {
+                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharkTail,partMut.patternIndex(),
+                        partMut.color1(),partMut.color2(),2000, true,false));
+            }
         }
 
         @Override

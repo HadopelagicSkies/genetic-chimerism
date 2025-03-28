@@ -52,11 +52,11 @@ public class AquaticTreeClient {
 
             ModelPartData cube_r2 = bone.addChild("cube_r2", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -2.0F, -2.0F, 4.0F, 4.0F, 9.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.3491F, 0.0F, 0.0F));
 
-            ModelPartData bone2 = modelPartData.addChild("bone2", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 13.0F, 9.0F));
+            ModelPartData bone2 = bone.addChild("bone2", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 2.0F, 7.0F));
 
             ModelPartData cube_r3 = bone2.addChild("cube_r3", ModelPartBuilder.create().uv(0, 13).cuboid(-1.5F, -1.0F, -2.0F, 3.0F, 3.0F, 8.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.5672F, 0.0F, 0.0F));
 
-            ModelPartData bone3 = modelPartData.addChild("bone3", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 16.0F, 14.5F));
+            ModelPartData bone3 = bone2.addChild("bone3", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 3.0F, 5.5F));
 
             ModelPartData cube_r4 = bone3.addChild("cube_r4", ModelPartBuilder.create().uv(22, 13).cuboid(-1.0F, -1.0F, -2.0F, 2.0F, 3.0F, 6.0F, new Dilation(0.0F))
                     .uv(0, 24).cuboid(-1.0F, -1.0F, -2.0F, 2.0F, 6.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.2618F, 0.0F, 0.0F));
@@ -81,11 +81,11 @@ public class AquaticTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -7.5F, 10.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.0F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.55F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-0.2F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.25F, AnimationHelper.createTranslationalVector(0.25F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.2F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-0.25F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.2F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -15.0F, 10.0F), Transformation.Interpolations.LINEAR),
@@ -96,9 +96,9 @@ public class AquaticTreeClient {
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.25F, AnimationHelper.createTranslationalVector(1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.25F, AnimationHelper.createTranslationalVector(0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-1.75F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.75F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.5F, -0.25F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
