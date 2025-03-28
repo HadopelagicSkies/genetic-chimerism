@@ -4,6 +4,8 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.model.*;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
@@ -146,6 +148,11 @@ public class AquaticTreeClient {
         @Override
         public Identifier getTexture2() {
             return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/thresher_tail2.png");
+        }
+
+        @Override
+        public void mutationAction(ClientPlayerEntity player) {
+
         }
 
         @Override

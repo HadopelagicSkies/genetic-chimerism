@@ -135,7 +135,7 @@ public class ChromaScreen extends Screen {
         if (oldMut != null) {
             MutationBodyInfo newMut = new MutationBodyInfo(oldMut.mutID(), oldMut.treeID(), this.patternIndex,
                     ColorHelper.getArgb(this.red1, this.green1, this.blue1),
-                    ColorHelper.getArgb(this.red2, this.green2, this.blue2), oldMut.growth(), oldMut.isReceding());
+                    ColorHelper.getArgb(this.red2, this.green2, this.blue2), oldMut.growth(), oldMut.isReceding(),oldMut.isAnimating());
             newParts.put(selectedPart, newMut);
         }
     }

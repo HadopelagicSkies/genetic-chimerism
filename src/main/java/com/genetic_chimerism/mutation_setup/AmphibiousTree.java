@@ -149,7 +149,7 @@ public class AmphibiousTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(axolotl_gills,0,
-                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false));
+                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
         }
 
         @Override
@@ -157,7 +157,7 @@ public class AmphibiousTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
         }
 
         @Override
@@ -182,7 +182,7 @@ public class AmphibiousTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(tadpole_tail,0,
-                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false));
+                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
         }
 
         @Override
@@ -190,7 +190,7 @@ public class AmphibiousTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
         }
 
         @Override

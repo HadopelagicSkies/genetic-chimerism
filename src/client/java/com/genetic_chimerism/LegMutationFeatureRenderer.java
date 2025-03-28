@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.OverlayTexture;
@@ -22,6 +23,7 @@ import org.joml.Vector3f;
 
 public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private long runningTime = 0;
+    private long actionRunningTime = 0;
 
     public LegMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
@@ -41,6 +43,8 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             Animation animationR = mutation.getPartAnimationR();
             Animation growthAnimationL = mutation.getGrowthAnimation();
             Animation growthAnimationR = mutation.getGrowthAnimation();
+            Animation actionAnimationL = mutation.getActionAnimation();
+            Animation actionAnimationR = mutation.getActionAnimation();
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftLeg);
             int growth = mutInfo.growth();
@@ -50,8 +54,11 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;
             matrices.push();
-            if (animationL != null) {
+            if (animationL != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelL, animationL, this.runningTime, 1, new Vector3f(0, 0, 0));
+            }
+            else if (actionAnimationL != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
+                AnimationHelper.animate(entityModelL, actionAnimationL, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimationL != null) {
                 AnimationHelper.animate(entityModelL, growthAnimationL, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
@@ -70,10 +77,13 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
 
             MutationEntityModel entityModelR = new MutationEntityModel(modelR);
             matrices.push();
-            if (animationR != null) {
+            if (animationR != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelR, animationR, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
-            if (growthAnimationR != null) {
+            else if (actionAnimationR != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
+                AnimationHelper.animate(entityModelR, actionAnimationR, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
+            }
+            if (growthAnimationR != null ) {
                 AnimationHelper.animate(entityModelR, growthAnimationR, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
             this.getContextModel().rightLeg.hidden = true;
@@ -95,6 +105,26 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     this.runningTime = 0;
                 } else if ((float) this.runningTime / 1000.0F <= animationR.lengthInSeconds()) {
                     this.runningTime += animationSpeed;
+                }
+            }
+            if (actionAnimationL != null) {
+                if ((float) this.actionRunningTime / 1000.0F > actionAnimationL.lengthInSeconds() && actionAnimationL.looping()) {
+                    this.actionRunningTime = 0;
+                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationL.lengthInSeconds() && !actionAnimationL.looping()) {
+                    this.actionRunningTime = 0;
+                    ClientPlayNetworking.send(new UnsetAnimPayload(MutatableParts.LEG,false));
+                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationL.lengthInSeconds()) {
+                    this.actionRunningTime += animationSpeed;
+                }
+            }
+            else if (actionAnimationR != null) {
+                if ((float) this.actionRunningTime / 1000.0F > actionAnimationR.lengthInSeconds() && actionAnimationR.looping()) {
+                    this.actionRunningTime = 0;
+                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationR.lengthInSeconds() && !actionAnimationR.looping()) {
+                    this.actionRunningTime = 0;
+                    ClientPlayNetworking.send(new UnsetAnimPayload(MutatableParts.LEG,false));
+                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationR.lengthInSeconds()) {
+                    this.actionRunningTime += animationSpeed;
                 }
             }
         }

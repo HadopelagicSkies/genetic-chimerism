@@ -52,8 +52,8 @@ public class MutationTreesClient {
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
     }
 
-    public static MutationBodyInfo mutationToCodec(MutationClient mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding){
-        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2, growth, isReceding);
+    public static MutationBodyInfo mutationToCodec(MutationClient mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding, boolean isAnimating){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2, growth, isReceding, isAnimating);
     }
 
     public static MutationClient mutationFromCodec(MutationInfo mutationCodec){

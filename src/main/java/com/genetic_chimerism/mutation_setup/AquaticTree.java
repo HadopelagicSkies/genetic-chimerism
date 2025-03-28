@@ -261,7 +261,7 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharkTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false,false));
         }
 
         @Override
@@ -269,7 +269,7 @@ public class AquaticTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
         }
 
         @Override
@@ -294,7 +294,7 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(thresherTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false, false));
         }
 
         @Override
@@ -302,13 +302,16 @@ public class AquaticTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
+                    MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                    MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                            partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
                     this.cooldown = 300;
                     int range = 4;
                     GeneticChimerism.LOGGER.info("slapped");
@@ -360,7 +363,7 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(fishTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
         }
 
         @Override
@@ -368,7 +371,7 @@ public class AquaticTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true));
+                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
         }
 
         @Override
@@ -392,9 +395,9 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
         }
 
         @Override
@@ -402,10 +405,10 @@ public class AquaticTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationBodyInfo partMut1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut1.mutID(), partMut1.treeID(),
-                    partMut1.patternIndex(), partMut1.color1(), partMut1.color2(), partMut1.growth(), true));
+                    partMut1.patternIndex(), partMut1.color1(), partMut1.color2(), partMut1.growth(), true,false));
             MutationBodyInfo partMut2 = MutationAttachments.getPartAttached(player, MutatableParts.LEG);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG,new MutationBodyInfo(partMut2.mutID(), partMut2.treeID(),
-                    partMut2.patternIndex(), partMut2.color1(), partMut2.color2(), partMut2.growth(), true));
+                    partMut2.patternIndex(), partMut2.color1(), partMut2.color2(), partMut2.growth(), true,false));
         }
 
         @Override

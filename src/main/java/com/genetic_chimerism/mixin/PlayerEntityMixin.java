@@ -58,22 +58,22 @@ public class PlayerEntityMixin {
 			if (partMut != null && !partMut.isReceding() && partMut.growth() < MutationTrees.mutationFromCodec(partMut).getMaxGrowth()) {
 				if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
 					MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 2, partMut.isReceding()));
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 2, partMut.isReceding(), partMut.isAnimating()));
 				} else {
 					MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding()));
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding(), partMut.isAnimating()));
 				}
 			} else if (partMut != null && !partMut.isReceding() && partMut.growth() == MutationTrees.mutationFromCodec(partMut).getMaxGrowth()) {
 				player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.fully_grown", part.getTranslatableName()), true);
 				MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-						partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding()));
+						partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding(), partMut.isAnimating()));
 			} else if (partMut != null && partMut.isReceding() && partMut.growth() > 0) {
 				if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
 					MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 2, partMut.isReceding()));
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 2, partMut.isReceding(), partMut.isAnimating()));
 				} else {
 					MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 1, partMut.isReceding()));
+							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 1, partMut.isReceding(), partMut.isAnimating()));
 				}
 			} else if (partMut != null && partMut.isReceding() && partMut.growth() <= 0) {
 				MutationAttachments.removePartAttached(player, part);

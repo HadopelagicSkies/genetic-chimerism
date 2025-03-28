@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.OverlayTexture;
@@ -22,6 +23,7 @@ import org.joml.Vector3f;
 
 public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private long runningTime = 0;
+    private int actionRunningTime = 0;
 
     public TorsoMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
@@ -39,6 +41,7 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
             Animation growthAnimation = mutation.getGrowthAnimation();
+            Animation actionAnimation = mutation.getActionAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
             int growth = mutInfo.growth();
@@ -48,8 +51,11 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             MutationEntityModel entityModel = new MutationEntityModel(model);
             int animationSpeed = 3;
             matrices.push();
-            if (animation != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+            if (animation != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
+            }
+            else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
+                AnimationHelper.animate(entityModel, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
                 AnimationHelper.animate(entityModel, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
@@ -65,6 +71,16 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
                     this.runningTime = 0;
                 } else if ((float) this.runningTime / 1000.0F <= animation.lengthInSeconds()) {
                     this.runningTime += animationSpeed;
+                }
+            }
+            if (actionAnimation != null) {
+                if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && actionAnimation.looping()) {
+                    this.actionRunningTime = 0;
+                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && !actionAnimation.looping()) {
+                    this.actionRunningTime = 0;
+                    ClientPlayNetworking.send(new UnsetAnimPayload(MutatableParts.TORSO,false));
+                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimation.lengthInSeconds()) {
+                    this.actionRunningTime += animationSpeed;
                 }
             }
         }

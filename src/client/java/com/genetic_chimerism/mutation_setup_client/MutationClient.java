@@ -29,6 +29,7 @@ public class MutationClient {
     public TexturedModelData getTexturedModelData() {return null;}
     public Identifier getTexture1(){return null;}
     public Identifier getTexture2(){return null;}
+
     public Animation getPartAnimation() {return null;}
     public Animation getPartAnimationL() {return null;}
     public Animation getPartAnimationR() {return null;}
@@ -36,6 +37,10 @@ public class MutationClient {
     public Animation getGrowthAnimation() {return null;}
     public Animation getGrowthAnimationL() {return null;}
     public Animation getGrowthAnimationR() {return null;}
+
+    public Animation getActionAnimation() {return null;}
+    public Animation getActionAnimationL() {return null;}
+    public Animation getActionAnimationR() {return null;}
 
     public void mutationAction(ClientPlayerEntity player) {}
 
