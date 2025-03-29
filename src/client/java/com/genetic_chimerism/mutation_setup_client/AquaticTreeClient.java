@@ -116,7 +116,7 @@ public class AquaticTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 2.0F, -7.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, -1.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
@@ -124,7 +124,7 @@ public class AquaticTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 5.0F, -12.5F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, -1.0F, -1.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.SCALE,

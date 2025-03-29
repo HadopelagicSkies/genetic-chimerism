@@ -40,8 +40,15 @@ public class PlayerEntityMixin {
 	private void callMutationTickers(CallbackInfo ci) {
 		PlayerEntity player = (PlayerEntity) (Object) this;
 		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
-		if (mutList != null) {
+		if (mutList != null && !mutList.isEmpty()) {
 			for (MutationInfo mutationInfo : mutList) {
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) mutation.tick(player);
+			}
+		}
+		else{
+			for ( MutatableParts part : MutatableParts.values()){
+				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(player,part);
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) mutation.tick(player);
 			}

@@ -36,10 +36,14 @@ public class MutationTrees {
     }
 
     public static Mutation mutationFromCodec(MutationBodyInfo mutationCodec){
-        for(MutationTrees trees: mutationTreesList){
-            if (trees.treeID.equals(mutationCodec.treeID())){
-                for(Mutation mut: trees.mutations){
-                    if (mut.getMutID().equals(mutationCodec.mutID())){return mut;}
+        if(mutationCodec != null) {
+            for (MutationTrees trees : mutationTreesList) {
+                if (trees.treeID.equals(mutationCodec.treeID())) {
+                    for (Mutation mut : trees.mutations) {
+                        if (mut.getMutID().equals(mutationCodec.mutID())) {
+                            return mut;
+                        }
+                    }
                 }
             }
         }
