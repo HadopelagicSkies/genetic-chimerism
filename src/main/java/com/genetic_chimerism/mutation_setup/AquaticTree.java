@@ -391,7 +391,7 @@ public class AquaticTree {
 
     public static class MermaidTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "sharktail1_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "mermaidtail_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
 
         public MermaidTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts part1, MutatableParts part2) {
             super(mutID, treeID, prereq, part1,part2);
@@ -422,7 +422,7 @@ public class AquaticTree {
 
         @Override
         public int getMaxGrowth() {
-            return 500;
+            return 2000;
         }
     }
 
