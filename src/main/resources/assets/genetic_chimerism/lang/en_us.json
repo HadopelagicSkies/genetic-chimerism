@@ -51,6 +51,7 @@
   "genetic_chimerism.arm_part": "Arms",
   "genetic_chimerism.leg_part": "Legs",
   "genetic_chimerism.tail_part": "Tail",
+  "genetic_chimerism.misc_part": "Misc",
 
   "gui.genetic_chimerism.chroma_menu": "Chromatophore Recoloring",
   "gui.genetic_chimerism.chroma_menu.red": "Red: ",

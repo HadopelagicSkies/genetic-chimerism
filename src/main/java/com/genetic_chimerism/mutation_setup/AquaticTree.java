@@ -317,7 +317,6 @@ public class AquaticTree {
                             partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
                     this.cooldown = 300;
                     int range = 4;
-                    GeneticChimerism.LOGGER.info("slapped");
                     Vec3d boxPos = player.getPos();
                     for (int i = 0; i < range * 2; i++) {
                         List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
@@ -325,7 +324,6 @@ public class AquaticTree {
                             if (entity instanceof LivingEntity)
                                 ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 20), player);
                         }
-                        GeneticChimerism.LOGGER.info(colliders +"");
                         if (!colliders.isEmpty()) {
                             player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_TROPICAL_FISH_FLOP, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                             break;

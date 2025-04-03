@@ -29,6 +29,7 @@ public class PlayerEntityRendererMixin {
         playerEntityRenderer.addFeature(new ArmMutationFeatureRenderer(playerEntityRenderer));
         playerEntityRenderer.addFeature(new LegMutationFeatureRenderer(playerEntityRenderer));
         playerEntityRenderer.addFeature(new TailMutationFeatureRenderer(playerEntityRenderer));
+        playerEntityRenderer.addFeature(new MiscMutationFeatureRenderer(playerEntityRenderer));
     }
 }
 

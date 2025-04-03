@@ -30,6 +30,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	private static KeyBinding armActionKeybindings;
 	private static KeyBinding legActionKeybindings;
 	private static KeyBinding tailActionKeybindings;
+	private static KeyBinding miscActionKeybindings;
 	private static KeyBinding chromaMenuKeybindings;
 	public static final EntityModelLayer DIPLOCAULUS_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus");
 	public static final EntityModelLayer DIPLOCAULUS_BABY_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus_baby");
@@ -73,6 +74,11 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				GLFW.GLFW_KEY_B,
 				"category.genetic_chimerism.keybindings"));
 
+		tailActionKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.misc_action",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_N,
+				"category.genetic_chimerism.keybindings"));
+
 		chromaMenuKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.chroma_menu",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_O,
@@ -85,6 +91,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				processActionKeybind(client.player, armActionKeybindings, MutatableParts.ARM);
 				processActionKeybind(client.player, legActionKeybindings, MutatableParts.LEG);
 				processActionKeybind(client.player, tailActionKeybindings, MutatableParts.TAIL);
+				processActionKeybind(client.player, miscActionKeybindings, MutatableParts.MISC);
 
 				while (chromaMenuKeybindings.wasPressed()) {
 					if (MutationAttachments.getMutationsAttached(client.player).contains(new MutationInfo("chroma", "tentacled")))

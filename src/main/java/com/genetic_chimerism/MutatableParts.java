@@ -14,7 +14,8 @@ public enum MutatableParts implements StringIdentifiable {
     TORSO("torso"),
     ARM("arm"),
     LEG("leg"),
-    TAIL("tail");
+    TAIL("tail"),
+    MISC("misc");;
 
     private final String name;
     private final Text translatableName;

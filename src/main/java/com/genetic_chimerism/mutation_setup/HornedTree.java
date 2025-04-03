@@ -9,15 +9,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -526,6 +526,7 @@ public class HornedTree {
     public static class RamLegsMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "ramlegs_modifier"), 0.5, EntityAttributeModifier.Operation.ADD_VALUE);
+        private int cooldown = 0;
 
         public RamLegsMutation(String mutID, String treeID, Mutation prereq, MutatableParts part) {
             super(mutID, treeID, prereq, part);
@@ -540,6 +541,30 @@ public class HornedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.LEG).growth() >= this.getMaxGrowth()) {
+                if (this.cooldown <= 0) {
+                    this.cooldown = 300;
+                    List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 3, 2, 3));
+                    for(Entity entity : colliders){
+                        if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                    }
+
+                    if(!colliders.isEmpty()){
+                        player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_HORSE_GALLOP, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                    }
+
+                }
+                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.stomp"),true);
+            }
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
         }
     }
 
