@@ -4,20 +4,57 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InvertebrateTree {
     public static final MutationTrees invertebrate = MutationTrees.addTree(new ArrayList<Mutation>(), "invertebrate", Identifier.ofVanilla("textures/mob_effect/weaving.png"));
 
     public static void initialize() {
+        AttackEntityCallback.EVENT.register(((playerEntity, world, hand, entity, entityHitResult) -> {
+            LivingEntity livingEntity;
+            if(!(entity instanceof LivingEntity)) return ActionResult.PASS;
+            else livingEntity = (LivingEntity) entity;
+
+            List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(playerEntity);
+            if(mutations != null && mutations.contains(MutationTrees.mutationToCodec(poisonChance1))) {
+                double poisonChance = 0.25;
+                int poisonDamage = 1;
+                if(mutations.contains(MutationTrees.mutationToCodec(poisonChance2))) {
+                    poisonChance += 0.25;
+                    if(mutations.contains(MutationTrees.mutationToCodec(poisonChance3))) {
+                        poisonChance += 0.25;
+                        if(mutations.contains(MutationTrees.mutationToCodec(poisonChance4))) {
+                            poisonChance += 0.25;
+                        }
+                        if(mutations.contains(MutationTrees.mutationToCodec(scorpionStinger1))) {
+                            poisonDamage += 1;
+                            if(mutations.contains(MutationTrees.mutationToCodec(scorpionStinger2))) {
+                                poisonDamage += 1;
+                            }
+                        }
+                    }
+                }
+                if(Math.random() >= poisonChance){
+                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200,poisonDamage));
+                }
+            }
+                return ActionResult.PASS;
+        }));
+
     }
 
     public static final Mutation moveEff1 = invertebrate.addToTree(new MoveEff1Mutation("moveEff1", "invertebrate", null));

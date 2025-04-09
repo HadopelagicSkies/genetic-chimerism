@@ -17,18 +17,19 @@ public class MutationTreesClient {
 
     public static void initialize() {
         MutationClient.initialize();
-        HornedTreeClient.initialize();
-//        WingedTreeClient.initialize();
-//        ShelledTreeClient.initialize();
 //        AmphibiousTreeClient.initialize();
-//        ScaledTreeClient.initialize();
-//        HoovedTreeClient.initialize();
         AquaticTreeClient.initialize();
+//        HoovedTreeClient.initialize();
+        HornedTreeClient.initialize();
 //        InvertebrateTreeClient.initialize();
+//        ScaledTreeClient.initialize();
+//        ShelledTreeClient.initialize();
 //        SmallMammalTreeClient.initialize();
 //        SpinedTreeClient.initialize();
+        TentacledTreeClient.initialize();
 //        TuskedTreeClient.initialize();
 //        WoolenTreeClient.initialize();
+//        WingedTreeClient.initialize();
 //        SpecialTreeClient.initialize();
 
     }

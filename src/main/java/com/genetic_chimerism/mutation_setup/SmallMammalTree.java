@@ -26,7 +26,7 @@ public class SmallMammalTree {
     public static final Mutation followRange4 = small_mammal.addToTree(new FollowRange4Mutation("followRange4", "small_mammal", followRange3));
 
     public static final Mutation fallMultDown1 = small_mammal.addToTree(new FallMultDown1Mutation("fallMultDown1", "small_mammal", followRange2));
-    public static final Mutation FallMultDown2 = small_mammal.addToTree(new MiningEff1Mutation("FallMultDown2", "small_mammal", fallMultDown1));
+    public static final Mutation fallMultDown2 = small_mammal.addToTree(new FallMultDown2Mutation("fallMultDown2", "small_mammal", fallMultDown1));
 
     public static final Mutation dogEars = small_mammal.addToTree(new DogEarsMutation("dogEars", "small_mammal", null, MutatableParts.HEAD));
     public static final Mutation catEars = small_mammal.addToTree(new CatEarsMutation("catEars", "small_mammal", null, MutatableParts.HEAD));
@@ -134,7 +134,7 @@ public class SmallMammalTree {
 
         public FallMultDown1Mutation(String mutID, String treeID, Mutation prereq) {
             super(mutID, treeID, prereq);
-            modifierMultimap.put(EntityAttributes.FOLLOW_RANGE, MODIFIER);
+            modifierMultimap.put(EntityAttributes.FALL_DAMAGE_MULTIPLIER, MODIFIER);
         }
 
         @Override
@@ -154,7 +154,7 @@ public class SmallMammalTree {
 
         public FallMultDown2Mutation(String mutID, String treeID, Mutation prereq) {
             super(mutID, treeID, prereq);
-            modifierMultimap.put(EntityAttributes.FOLLOW_RANGE, MODIFIER);
+            modifierMultimap.put(EntityAttributes.FALL_DAMAGE_MULTIPLIER, MODIFIER);
         }
 
         @Override

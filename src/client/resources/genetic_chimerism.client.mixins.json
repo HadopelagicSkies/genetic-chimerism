@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "DrawContextAccessor",
+    "ArmorFeatureRendererMixin",
     "PlayerEntityRendererMixin",
     "PlayerRenderStateMixin",
     "UnderwaterBreathSwapClientMixin"

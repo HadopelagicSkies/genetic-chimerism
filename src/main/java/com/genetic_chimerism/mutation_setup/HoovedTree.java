@@ -4,15 +4,23 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.LavaFluid;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class HoovedTree {
     public static final MutationTrees hooved = MutationTrees.addTree(new ArrayList<Mutation>(), "hooved", Identifier.ofVanilla("textures/item/golden_horse_armor.png"));
@@ -25,9 +33,9 @@ public class HoovedTree {
     public static final Mutation speed3 = hooved.addToTree(new Speed3Mutation("speed3", "hooved", speed2));
     public static final Mutation speed4 = hooved.addToTree(new Speed4Mutation("speed4", "hooved", speed3));
 
-    public static final Mutation sprint1 = hooved.addToTree(new Speed4Mutation("sprint1", "hooved", speed3));
-    public static final Mutation sprint2 = hooved.addToTree(new Speed4Mutation("sprint2", "hooved", sprint1));
-    public static final Mutation lavaSprint = hooved.addToTree(new Speed4Mutation("lavasprint", "hooved", sprint1));
+    public static final Mutation sprint1 = hooved.addToTree(new Sprint1Mutation("sprint1", "hooved", speed3));
+    public static final Mutation sprint2 = hooved.addToTree(new Sprint2Mutation("sprint2", "hooved", sprint1));
+    public static final Mutation lavaSprint = hooved.addToTree(new LavaSprintMutation("lavasprint", "hooved", sprint1));
 
     public static final Mutation step1 = hooved.addToTree(new Step1Mutation("step1", "hooved", null));
     public static final Mutation step2 = hooved.addToTree(new Step2Mutation("step2", "hooved", step1));
@@ -38,6 +46,57 @@ public class HoovedTree {
     public static final Mutation centaur = hooved.addToTree(new CentaurMutation("centaur", "hooved", step3, MutatableParts.LEG, MutatableParts.TAIL));
     public static final Mutation camelHump = hooved.addToTree(new CamelHumpMutation("camelHump", "hooved", step2, MutatableParts.TORSO));
 
+    public static class Sprint1Mutation extends Mutation {
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "sprint1_modifier"), 1, EntityAttributeModifier.Operation.ADD_VALUE);
+        public Sprint1Mutation(String mutID, String treeID, Mutation prereq) {
+            super(mutID, treeID, prereq);
+            modifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, MODIFIER);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if(player.isSprinting() && !player.getAttributes().hasModifierForAttribute(EntityAttributes.MOVEMENT_SPEED,Identifier.of(GeneticChimerism.MOD_ID,"sprint1_modifier"))){
+                player.getAttributes().addTemporaryModifiers(modifierMultimap);
+            }
+            else if(!player.isSprinting()){
+                player.getAttributes().removeModifiers(modifierMultimap);
+            }
+        }
+    }
+
+    public static class Sprint2Mutation extends Mutation {
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "sprint1_modifier"), 2, EntityAttributeModifier.Operation.ADD_VALUE);
+        public Sprint2Mutation(String mutID, String treeID, Mutation prereq) {
+            super(mutID, treeID, prereq);
+            modifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, MODIFIER);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if(player.isSprinting() && !player.getAttributes().hasModifierForAttribute(EntityAttributes.MOVEMENT_SPEED,Identifier.of(GeneticChimerism.MOD_ID,"sprint1_modifier"))){
+                player.getAttributes().addTemporaryModifiers(modifierMultimap);
+            }
+            else if(!player.isSprinting()){
+                player.getAttributes().removeModifiers(modifierMultimap);
+            }
+        }
+    }
+
+    public static class LavaSprintMutation extends Mutation {
+        public LavaSprintMutation(String mutID, String treeID, Mutation prereq) {
+            super(mutID, treeID, prereq);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (player.isSubmergedIn(FluidTags.LAVA) || player.getWorld().getBlockState(player.getBlockPos().down()).getFluidState().getFluid().equals(Fluids.LAVA)) {
+                player.setOnGround(true);
+
+            }
+        }
+    }
 
     public static class Speed1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();

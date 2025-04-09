@@ -25,11 +25,17 @@ public class ShelledTree {
     public static final Mutation armor3 = shelled.addToTree(new Armor3Mutation("armor3", "shelled", armor2));
     public static final Mutation armor4 = shelled.addToTree(new Armor4Mutation("armor4", "shelled", armor3));
 
-    public static final Mutation armadilloShell1 = shelled.addToTree(new ArmadilloShell1Mutation("armadilloShell1", "shelled", armor2, MutatableParts.TORSO));
-    public static final Mutation armadilloShell2 = shelled.addToTree(new ArmadilloShell2Mutation("armadilloShell2", "shelled", armadilloShell1, MutatableParts.TORSO));
-
     public static final Mutation turtleShell1 = shelled.addToTree(new TurtleShell1Mutation("turtleShell1", "shelled", armor3, MutatableParts.TORSO));
     public static final Mutation turtleShell2 = shelled.addToTree(new TurtleShell2Mutation("turtleShell2", "shelled", turtleShell1, MutatableParts.TORSO));
+
+    public static final Mutation projResist1 = shelled.addToTree(new Mutation("projResist1", "shelled", null));
+    public static final Mutation projResist2 = shelled.addToTree(new Mutation("projResist2", "shelled", projResist1));
+    public static final Mutation projResist3 = shelled.addToTree(new Mutation("projResist3", "shelled", projResist2));
+    public static final Mutation projResist4 = shelled.addToTree(new Mutation("projResist4", "shelled", projResist3));
+
+    public static final Mutation armadilloShell1 = shelled.addToTree(new ArmadilloShell1Mutation("armadilloShell1", "shelled", projResist2, MutatableParts.TORSO));
+    public static final Mutation armadilloShell2 = shelled.addToTree(new ArmadilloShell2Mutation("armadilloShell2", "shelled", armadilloShell1, MutatableParts.TORSO));
+
 
     public static class Armor1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();

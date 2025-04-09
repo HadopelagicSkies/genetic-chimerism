@@ -74,7 +74,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				GLFW.GLFW_KEY_B,
 				"category.genetic_chimerism.keybindings"));
 
-		tailActionKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.misc_action",
+		miscActionKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.misc_action",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_N,
 				"category.genetic_chimerism.keybindings"));

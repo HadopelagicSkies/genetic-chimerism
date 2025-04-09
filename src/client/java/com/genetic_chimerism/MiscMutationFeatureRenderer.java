@@ -37,6 +37,8 @@ public class MiscMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
         if(mutInfo != null) {
             MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
             TexturedModelData modelData = mutation.getTexturedModelData();
+            if(modelData == null) return;
+
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
@@ -59,6 +61,7 @@ public class MiscMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
 
             VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+
             entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
             if (animation != null) {

@@ -20,21 +20,21 @@ public class AmphibiousTree {
     public static void initialize() {
     }
 
-    public static final Mutation jump_1 = amphibious.addToTree(new Jump1Mutation("jump_1", "amphibious", null));
-    public static final Mutation jump_2 = amphibious.addToTree(new Jump2Mutation("jump_2", "amphibious", jump_1));
-    public static final Mutation jump_3 = amphibious.addToTree(new Jump3Mutation("jump_3", "amphibious", jump_2));
-    public static final Mutation jump_4 = amphibious.addToTree(new Jump4Mutation("jump_4", "amphibious", jump_3));
+    public static final Mutation jump1 = amphibious.addToTree(new Jump1Mutation("jump1", "amphibious", null));
+    public static final Mutation jump2 = amphibious.addToTree(new Jump2Mutation("jump2", "amphibious", jump1));
+    public static final Mutation jump3 = amphibious.addToTree(new Jump3Mutation("jump3", "amphibious", jump2));
+    public static final Mutation jump4 = amphibious.addToTree(new Jump4Mutation("jump4", "amphibious", jump3));
 
-    public static final Mutation amphi_gills = amphibious.addToTree(new AmphiGillsMutation("amphi_gills", "amphibious", jump_3));
-    public static final Mutation axolotl_gills = amphibious.addToTree(new AxolotlGillsMutation("axolotl_gills", "amphibious", amphi_gills,MutatableParts.HEAD));
+    public static final Mutation amphiGills = amphibious.addToTree(new AmphiGillsMutation("amphi_gills", "amphibious", jump3));
+    public static final Mutation axolotlGills = amphibious.addToTree(new AxolotlGillsMutation("axolotl_gills", "amphibious", amphiGills,MutatableParts.HEAD));
 
-    public static final Mutation tadpole_tail = amphibious.addToTree(new TadpoleTailMutation("tadpole_tail", "amphibious", jump_2, MutatableParts.TAIL));
-    public static final Mutation frog_tongue = amphibious.addToTree(new Mutation("frog_tongue", "amphibious", tadpole_tail));
+    public static final Mutation tadpoleTail = amphibious.addToTree(new TadpoleTailMutation("tadpoleTail", "amphibious", jump2, MutatableParts.TAIL));
+    public static final Mutation frogTongue = amphibious.addToTree(new Mutation("frogTongue", "amphibious", tadpoleTail));
 
-    public static final Mutation growth_speed = amphibious.addToTree(new Mutation("growth_speed", "amphibious", jump_1));
-    public static final Mutation regen_chance_1 = amphibious.addToTree(new Mutation("regen_chance_1", "amphibious", growth_speed));
-    public static final Mutation regen_chance_2 = amphibious.addToTree(new Mutation("regen_chance_2", "amphibious", regen_chance_1));
-    public static final Mutation burn_regen = amphibious.addToTree(new Mutation("burn_regen", "amphibious", regen_chance_1));
+    public static final Mutation growthSpeed = amphibious.addToTree(new Mutation("growthSpeed", "amphibious", jump1));
+    public static final Mutation regenChance1 = amphibious.addToTree(new Mutation("regenChance1", "amphibious", growthSpeed));
+    public static final Mutation regenChance2 = amphibious.addToTree(new Mutation("regenChance2", "amphibious", regenChance1));
+    public static final Mutation burnRegen = amphibious.addToTree(new Mutation("burnRegen", "amphibious", regenChance1));
 
 
     public static class Jump1Mutation extends Mutation {
@@ -148,7 +148,7 @@ public class AmphibiousTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(axolotl_gills,0,
+            MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(axolotlGills,0,
                     ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
         }
 
@@ -181,7 +181,7 @@ public class AmphibiousTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(tadpole_tail,0,
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(tadpoleTail,0,
                     ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
         }
 
@@ -195,7 +195,7 @@ public class AmphibiousTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST).contains(MutationTrees.mutationToCodec(AmphibiousTree.frog_tongue))){
+            if (player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
 
             }
         }

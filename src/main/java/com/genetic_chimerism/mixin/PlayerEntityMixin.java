@@ -64,7 +64,7 @@ public class PlayerEntityMixin {
 			MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, part);
 			if (part != MutatableParts.MISC) {
 				if (partMut != null && !partMut.isReceding() && partMut.growth() < MutationTrees.mutationFromCodec(partMut).getMaxGrowth()) {
-					if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
+					if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growthSpeed))) {
 						MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
 								partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 2, partMut.isReceding(), partMut.isAnimating()));
 					} else {
@@ -76,7 +76,7 @@ public class PlayerEntityMixin {
 					MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
 							partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() + 1, partMut.isReceding(), partMut.isAnimating()));
 				} else if (partMut != null && partMut.isReceding() && partMut.growth() > 0) {
-					if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growth_speed))) {
+					if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growthSpeed))) {
 						MutationAttachments.setPartAttached(player, part, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
 								partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth() - 2, partMut.isReceding(), partMut.isAnimating()));
 					} else {

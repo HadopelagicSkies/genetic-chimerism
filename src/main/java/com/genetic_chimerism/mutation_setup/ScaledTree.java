@@ -4,15 +4,24 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.datafixers.types.templates.Tag;
+import net.minecraft.data.tag.vanilla.VanillaBiomeTagProvider;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class ScaledTree {
     public static final MutationTrees scaled = MutationTrees.addTree(new ArrayList<Mutation>(), "scaled", Identifier.ofVanilla("textures/item/turtle_scute.png"));
@@ -21,7 +30,7 @@ public class ScaledTree {
     }
 
     public static final Mutation poisonRes1 = scaled.addToTree(new Mutation("poisonRes1", "scaled", null));
-    public static final Mutation coldBlooded = scaled.addToTree(new Mutation("coldBlooded", "scaled", poisonRes1));
+    public static final Mutation coldBlooded = scaled.addToTree(new ColdBloodedMutation("coldBlooded", "scaled", poisonRes1));
     public static final Mutation poisonRes2 = scaled.addToTree(new Mutation("poisonRes2", "scaled", coldBlooded));
     public static final Mutation poisonRes3 = scaled.addToTree(new Mutation("poisonRes3", "scaled", poisonRes2));
 
@@ -34,6 +43,35 @@ public class ScaledTree {
 
     public static final Mutation lizardTail1 = scaled.addToTree(new LizardTail1Mutation("lizardTail1", "scaled", burnTime1,MutatableParts.TAIL));
     public static final Mutation lizardTail2 = scaled.addToTree(new LizardTail2Mutation("lizardTail2", "scaled", lizardTail1,MutatableParts.TAIL));
+
+    public static class ColdBloodedMutation extends Mutation {
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> warmModifierMultimap = HashMultimap.create();
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> coldModifierMultimap = HashMultimap.create();
+        public static final EntityAttributeModifier WARM_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "cold_modifier"), 1, EntityAttributeModifier.Operation.ADD_VALUE);
+        public static final EntityAttributeModifier COLD_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "warm_modifier"), -1, EntityAttributeModifier.Operation.ADD_VALUE);
+        public ColdBloodedMutation(String mutID, String treeID, Mutation prereq) {
+            super(mutID, treeID, prereq);
+            warmModifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, WARM_MODIFIER);
+            coldModifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, COLD_MODIFIER);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            RegistryEntry<Biome> biome = player.getWorld().getBiome(player.getBlockPos());
+
+            if (biome.isIn(BiomeTags.SPAWNS_COLD_VARIANT_FROGS) && !player.getAttributes().hasModifierForAttribute(EntityAttributes.MOVEMENT_SPEED,Identifier.of(GeneticChimerism.MOD_ID,"cold_modifier"))){
+                player.getAttributes().addTemporaryModifiers(coldModifierMultimap);
+            }
+            else if (biome.isIn(BiomeTags.SPAWNS_WARM_VARIANT_FROGS) && !player.getAttributes().hasModifierForAttribute(EntityAttributes.MOVEMENT_SPEED,Identifier.of(GeneticChimerism.MOD_ID,"warm_modifier"))) {
+                player.getAttributes().addTemporaryModifiers(warmModifierMultimap);
+            }
+            else {
+                player.getAttributes().removeModifiers(coldModifierMultimap);
+                player.getAttributes().removeModifiers(warmModifierMultimap);
+            }
+        }
+    }
+
 
     public static class BurnTime1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
