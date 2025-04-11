@@ -5,6 +5,7 @@ import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BedBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
@@ -48,5 +51,15 @@ public abstract class LivingEntityMixin {
 				return false;
 		}
 		return original.call(instance);
+	}
+
+	@Inject(method = {"fall"}, at = @At(value = "TAIL"))
+	private void bouncyLanding(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci){
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if(entity instanceof PlayerEntity && onGround && MutationAttachments.getMutationsAttached(entity).contains(MutationTrees.mutationToCodec(WoolenTree.bouncyLanding))){
+			if(heightDifference >= 3){
+				entity.addVelocity(0,entity.getVelocity().y * 0.75,0);
+			}
+		}
 	}
 }

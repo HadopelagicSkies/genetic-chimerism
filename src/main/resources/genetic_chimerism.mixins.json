@@ -5,6 +5,8 @@
   "mixins": [
     "BedBlockMixin",
     "BeeEntityMixin",
+    "ConsumableComponentMixin",
+    "FoodComponentMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PowderSnowBlockMixin",

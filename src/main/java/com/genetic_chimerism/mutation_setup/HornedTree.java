@@ -9,10 +9,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -250,7 +254,11 @@ public class HornedTree {
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
-                    if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                    if (entity instanceof LivingEntity){
+                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),4F);
+                    }
+
                 }
 
                 if(!colliders.isEmpty()){
@@ -329,7 +337,10 @@ public class HornedTree {
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
-                    if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                    if (entity instanceof LivingEntity){
+                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(2.5));
+                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),6F);
+                    }
                 }
 
                 if(!colliders.isEmpty()){
@@ -407,8 +418,10 @@ public class HornedTree {
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
-                    //make damage instead
-                    //if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                    if (entity instanceof LivingEntity){
+                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
+                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),10F);
+                    }
                 }
 
                 if(!colliders.isEmpty()){
@@ -486,8 +499,10 @@ public class HornedTree {
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
-                    // make damage instead
-                    //if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                    if (entity instanceof LivingEntity){
+                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
+                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),14F);
+                    }
                 }
 
                 if(!colliders.isEmpty()){
@@ -550,13 +565,12 @@ public class HornedTree {
                     this.cooldown = 300;
                     List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 3, 2, 3));
                     for(Entity entity : colliders){
-                        if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
+                        if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(2.0));
                     }
 
                     if(!colliders.isEmpty()){
                         player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_HORSE_GALLOP, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                     }
-
                 }
                 else player.sendMessage(Text.translatable("mutations.mutation.cooldown.stomp"),true);
             }

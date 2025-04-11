@@ -4,6 +4,9 @@ import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,14 +48,30 @@ public class PlayerEntityMixin {
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) mutation.tick(player);
 			}
-		}
-		else{
-			for ( MutatableParts part : MutatableParts.values()){
-				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(player,part);
+		} else {
+			for (MutatableParts part : MutatableParts.values()) {
+				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(player, part);
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) mutation.tick(player);
 			}
 		}
+	}
+
+	@WrapOperation(method = {"addExhaustion"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;addExhaustion(F)V"))
+	private void noExhaustion(HungerManager instance, float exhaustion, Operation<Void> original) {
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(player);
+		boolean exhausting = true;
+		if (mutations != null && (mutations.contains(MutationTrees.mutationToCodec(TuskedTree.slowHunger1)))) {
+			double noExhaustChance = 0.2;
+			if (mutations.contains(MutationTrees.mutationToCodec(TuskedTree.slowHunger2))) {
+				noExhaustChance += 0.2;
+			}
+			if (Math.random() >= noExhaustChance) {
+				exhausting = false;
+			}
+		}
+		original.call(instance, exhausting ? exhaustion : 0);
 	}
 
 	@Inject(at = @At("RETURN"), method = "tick")

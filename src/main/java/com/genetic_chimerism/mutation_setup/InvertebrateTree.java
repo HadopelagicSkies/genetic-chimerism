@@ -5,17 +5,25 @@ import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +39,14 @@ public class InvertebrateTree {
 
             List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(playerEntity);
             if(mutations != null && mutations.contains(MutationTrees.mutationToCodec(poisonChance1))) {
-                double poisonChance = 0.25;
+                double poisonChance = 25;
                 int poisonDamage = 1;
                 if(mutations.contains(MutationTrees.mutationToCodec(poisonChance2))) {
-                    poisonChance += 0.25;
+                    poisonChance += 25;
                     if(mutations.contains(MutationTrees.mutationToCodec(poisonChance3))) {
-                        poisonChance += 0.25;
+                        poisonChance += 25;
                         if(mutations.contains(MutationTrees.mutationToCodec(poisonChance4))) {
-                            poisonChance += 0.25;
+                            poisonChance += 25;
                         }
                         if(mutations.contains(MutationTrees.mutationToCodec(scorpionStinger1))) {
                             poisonDamage += 1;
@@ -48,7 +56,7 @@ public class InvertebrateTree {
                         }
                     }
                 }
-                if(Math.random() >= poisonChance){
+                if(playerEntity.getRandom().nextBetween(0,100) <= poisonChance){
                     livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200,poisonDamage));
                 }
             }
@@ -78,8 +86,8 @@ public class InvertebrateTree {
     public static final Mutation scorpionStinger2 = invertebrate.addToTree(new ScorpionStinger2Mutation("scorpionStinger2", "invertebrate", scorpionStinger1,MutatableParts.TAIL));
 
     public static final Mutation hivePheromones = invertebrate.addToTree(new Mutation("hivePheromones", "invertebrate", poisonChance1));
-    public static final Mutation beeStinger = invertebrate.addToTree(new BeeStingerMutation("beeStinger", "invertebrate", hivePheromones,MutatableParts.TAIL));
-    public static final Mutation queenPheromones = invertebrate.addToTree(new Mutation("queenPheromones", "invertebrate", beeStinger));
+    public static final Mutation beeAbdomen = invertebrate.addToTree(new BeeAbdomenMutation("beeAbdomen", "invertebrate", hivePheromones,MutatableParts.TAIL));
+    public static final Mutation queenPheromones = invertebrate.addToTree(new Mutation("queenPheromones", "invertebrate", beeAbdomen));
 
     public static class MoveEff1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
@@ -299,7 +307,36 @@ public class InvertebrateTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-
+            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
+                if (this.cooldown <= 0) {
+                    MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                    MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                            partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                    this.cooldown = 300;
+                    int range = 4;
+                    Vec3d boxPos = player.getPos();
+                    for (int i = 0; i < range * 2; i++) {
+                        List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
+                        for (Entity entity : colliders) {
+                            if (entity instanceof LivingEntity) {
+                                entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
+                                entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player),2F);
+                                ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 1), player);
+                            }
+                        }
+                        if (!colliders.isEmpty()) {
+                            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                            break;
+                        }
+                        boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
+                        BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
+                        if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(),boxBlock)){
+                            break;
+                        }
+                    }
+                }
+                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
+            }
         }
     }
 
@@ -326,21 +363,51 @@ public class InvertebrateTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-
+            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
+                if (this.cooldown <= 0) {
+                    MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                    MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                            partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                    this.cooldown = 300;
+                    int range = 4;
+                    Vec3d boxPos = player.getPos();
+                    for (int i = 0; i < range * 2; i++) {
+                        List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
+                        for (Entity entity : colliders) {
+                            if (entity instanceof LivingEntity) {
+                                entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
+                                entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player),4F);
+                                ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 2), player);
+                            }
+                        }
+                        if (!colliders.isEmpty()) {
+                            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                            break;
+                        }
+                        boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
+                        BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
+                        if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(),boxBlock)){
+                            break;
+                        }
+                    }
+                }
+                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
+            }
         }
     }
 
-    public static class BeeStingerMutation extends Mutation {
+    public static class BeeAbdomenMutation extends Mutation {
         private int cooldown = 0;
+        private int storedHoney =0;
 
-        public BeeStingerMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
+        public BeeAbdomenMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
         }
 
         @Override
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(beeStinger, 0,
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(beeAbdomen, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
         }
 
@@ -353,6 +420,11 @@ public class InvertebrateTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
+
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
 
         }
     }

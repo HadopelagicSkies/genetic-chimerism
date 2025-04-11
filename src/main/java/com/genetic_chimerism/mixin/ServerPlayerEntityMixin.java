@@ -58,12 +58,12 @@ public abstract class ServerPlayerEntityMixin {
 		List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(playerEntity);
 		if(mutations != null && !mutations.isEmpty()) {
 			if(mutations.contains(MutationTrees.mutationToCodec(AmphibiousTree.regenChance1))){
-				double regenChance = 0.1;
+				double regenChance = 10;
 				boolean fromFire = damageSource.getType().equals(DamageTypes.ON_FIRE) || damageSource.getType().equals(DamageTypes.IN_FIRE) || damageSource.getType().equals(DamageTypes.CAMPFIRE);
 				if (mutations.contains(MutationTrees.mutationToCodec(AmphibiousTree.regenChance2))) {
-					regenChance += 0.1;
+					regenChance += 10;
 				}
-				if (Math.random() >= regenChance) {
+				if (playerEntity.getRandom().nextBetween(0,100) <= regenChance) {
 					playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200, fromFire ? 2 : 1));
 				} else if (fromFire) {
 					playerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200, 1));
@@ -71,38 +71,38 @@ public abstract class ServerPlayerEntityMixin {
 			}
 
 			if(damageSource.getAttacker() instanceof LivingEntity && mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsChance1))) {
-				double thornsChance = 0.25;
+				double thornsChance = 25;
 				int thornsDamage = 2;
 				if(mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsChance2))) {
-					thornsChance += 0.25;
+					thornsChance += 25;
 					if(mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsChance3))) {
-						thornsChance += 0.25;
+						thornsChance += 25;
 					}
 				}
 				if(mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg1))) {
-					thornsDamage += 2;
+					thornsDamage += 20;
 					if(mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg2))) {
-						thornsDamage += 2;
+						thornsDamage += 20;
 						if(mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg3))) {
-							thornsDamage += 2;
+							thornsDamage += 20;
 						}
 					}
 				}
-				if(Math.random() >= thornsChance){
+				if(playerEntity.getRandom().nextBetween(0,100) <= thornsChance){
 					damageSource.getAttacker().damage((ServerWorld) damageSource.getAttacker().getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.CACTUS,playerEntity),thornsDamage);
 				}
 			}
 
 			if (damageSource.getType().equals(DamageTypes.MAGIC) && playerEntity.hasStatusEffect(StatusEffects.POISON)){
 				if(mutations.contains(MutationTrees.mutationToCodec(ScaledTree.poisonRes1))){
-					double poisonResChance = 0.2;
+					double poisonResChance = 20;
 					if (mutations.contains(MutationTrees.mutationToCodec(ScaledTree.poisonRes2))) {
-						poisonResChance += 0.2;
+						poisonResChance += 20;
 						if (mutations.contains(MutationTrees.mutationToCodec(ScaledTree.poisonRes3))) {
-							poisonResChance += 0.2;
+							poisonResChance += 20;
 						}
 					}
-					if (Math.random() >= poisonResChance) {
+					if (playerEntity.getRandom().nextBetween(0,100) <= poisonResChance) {
 						playerEntity.removeStatusEffect(StatusEffects.POISON);
 					}
 				}

@@ -4,15 +4,23 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AmphibiousTree {
     public static final MutationTrees amphibious = MutationTrees.addTree(new ArrayList<Mutation>(), "amphibious", Identifier.ofVanilla("textures/item/axolotl_bucket.png"));
@@ -171,6 +179,7 @@ public class AmphibiousTree {
     public static class TadpoleTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "tadpole_tail_modifier"), 0.2, EntityAttributeModifier.Operation.ADD_VALUE);
+        int cooldown = 0;
 
         public TadpoleTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -195,8 +204,33 @@ public class AmphibiousTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (player.getAttached(MutationAttachments.PLAYER_MUTATION_LIST).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
-
+            if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
+                if (!player.getWorld().isClient) {
+                    if (this.cooldown <= 0) {
+                        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                        MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                                partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                        this.cooldown = 300;
+                        int range = 4;
+                        Vec3d boxPos = player.getPos();
+                        for (int i = 0; i < range * 2; i++) {
+                            List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
+                            for (Entity entity : colliders) {
+                                    entity.addVelocity(player.getPos().subtract(entity.getPos()).multiply(1.5));
+                            }
+                            if (!colliders.isEmpty()) {
+                                player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_FROG_TONGUE, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                                break;
+                            }
+                            boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
+                            BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
+                            if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(),boxBlock)) {
+                                break;
+                            }
+                        }
+                    }
+                    else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
+                }
             }
         }
 
