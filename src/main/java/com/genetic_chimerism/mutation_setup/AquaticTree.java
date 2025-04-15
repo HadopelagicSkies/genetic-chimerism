@@ -45,7 +45,7 @@ public class AquaticTree {
     public static final Mutation fastswim4 = aquatic.addToTree(new FastSwim4Mutation("fastswim4", "aquatic", fastswim3 ));
 
     public static final Mutation sharkTail = aquatic.addToTree(new SharkTailMutation("sharktail", "aquatic", fastswim3, MutatableParts.TAIL));
-    public static final Mutation thresherTail = aquatic.addToTree(new ThresherTailMutation("threshertail", "aquatic", null, MutatableParts.TAIL));
+    public static final Mutation thresherTail = aquatic.addToTree(new ThresherTailMutation("threshertail", "aquatic", sharkTail, MutatableParts.TAIL));
 
     public static final Mutation fishTail = aquatic.addToTree(new FishTailMutation("fishtail", "aquatic", fastswim2, MutatableParts.TAIL));
     public static final Mutation mermaidTail = aquatic.addToTree(new MermaidTailMutation("mermaidtail", "aquatic", fishTail,MutatableParts.TAIL,MutatableParts.LEG));

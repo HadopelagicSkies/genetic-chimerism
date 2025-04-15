@@ -43,7 +43,7 @@ public class HoovedTree {
     public static final Mutation step4 = hooved.addToTree(new Step4Mutation("step4", "hooved", step3));
 
     public static final Mutation hooves = hooved.addToTree(new HoovesMutation("hooves", "hooved", step2, MutatableParts.LEG));
-    public static final Mutation centaur = hooved.addToTree(new CentaurMutation("centaur", "hooved", step3, MutatableParts.LEG, MutatableParts.TAIL));
+    public static final Mutation centaur = hooved.addToTree(new CentaurMutation("centaur", "hooved", hooves, MutatableParts.LEG, MutatableParts.TAIL));
     public static final Mutation camelHump = hooved.addToTree(new CamelHumpMutation("camelHump", "hooved", step2, MutatableParts.TORSO));
 
     public static class Sprint1Mutation extends Mutation {

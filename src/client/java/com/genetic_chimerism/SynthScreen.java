@@ -8,7 +8,6 @@ import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.datafixers.kinds.IdF;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -26,6 +25,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
+import java.util.List;
 
 
 public class SynthScreen extends HandledScreen<SynthScreenHandler> {
@@ -58,6 +58,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     private final MutationSelectButton[] mutationButtons = new MutationSelectButton[32];
     int indexStartOffset;
     private boolean scrolling;
+    private Map<Mutation, int[]> mutationCoords;
 
     public SynthScreen(SynthScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -95,37 +96,20 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
 
     }
 
-    private void renderMutationMenu(int x, int y){
+    private Map<Mutation,int[]> renderMutationMenu(int x, int y){
         MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex-TREE_BUTTON_START_INDEX);
         int maxDepth = 0;
-        Mutation deepestMut = selectedTree.mutations.getFirst();
         for (Mutation mutation : selectedTree.mutations){
             int mutDepth = MutationTrees.treeDepth(mutation, 1);
             if (mutDepth > maxDepth) {
                 maxDepth = mutDepth;
-                deepestMut = mutation;
             }
         }
 
-        Map<Integer,List<Mutation>> tierMutations = HashMap.newHashMap(maxDepth);
+
+        Map<Mutation,int[]> mutationCoords = HashMap.newHashMap(selectedTree.mutations.size());
         for (Mutation mut : selectedTree.mutations){
-            List<Mutation> tierList = tierMutations.get(MutationTrees.treeDepth(mut, 1)-1);
-            if(tierList == null) {
-                tierList = new ArrayList<>();
-            }
-            tierList.add(mut);
-            tierMutations.put(MutationTrees.treeDepth(mut,1)-1, tierList);
-        }
-
-        int maxCount = 0;
-        int widestTier = 0;
-        for (int i = 0; i < maxDepth; i++) {
-            List<Mutation> tierList = tierMutations.get(i);
-            int count = tierList.size();
-            if (count > maxCount) {
-                maxCount = count;
-                widestTier = i;
-            }
+            mutationCoords.put(mut, new int[]{-1, MutationTrees.treeDepth(mut, 1) - 1});
         }
 
         List<Mutation> treeEnds = new ArrayList<>();
@@ -138,34 +122,20 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 treeEnds.add(mutation);
             }
         }
+        int maxCount = treeEnds.size();
 
-        maxCount = treeEnds.size();
-
-        Map<Mutation,int[]> mutationCoords = HashMap.newHashMap(selectedTree.mutations.size());
-        for (int i = 0; i < maxDepth; i++) {
-            List<Mutation> tierList = tierMutations.get(i);
-            for (int j = 0; j < tierList.size(); j++) {
-                int[] coords;
-                if(tierList.get(j).getPrereq() != null){
-                    int prereqX = mutationCoords.get(tierList.get(j).getPrereq())[0];
-                    Set<Map.Entry<Mutation, int[]>> entrySet = mutationCoords.entrySet();
-
-                    int numAtCoords =0;
-                    for(Map.Entry<Mutation, int[]> entry : entrySet){
-                        if(Arrays.equals(entry.getValue(), new int[]{prereqX, i}) || Arrays.equals(entry.getValue(), new int[]{prereqX+1+numAtCoords, i})){
-                            numAtCoords++;
-                        }
-                    }
-                    coords = new int[]{prereqX+numAtCoords,i};
-
-                } else {
-                    int startX = 0;
-                    if(j > 0){
-                        startX = numSameRoot(mutationCoords.get(tierList.get(j-1))[0], tierMutations.get(widestTier));
-                    }
-                    coords = new int[]{startX, i};
+        for(Mutation treeEnd:treeEnds){
+            int[] coords = mutationCoords.get(treeEnd);
+            coords[0] = treeEnds.indexOf(treeEnd);
+            mutationCoords.put(treeEnd,coords);
+            Mutation prereq = treeEnd;
+            for (int i = 0; i < MutationTrees.treeDepth(treeEnd, 1); i++) {
+                prereq = prereq.getPrereq();
+                int[] prereqCoords = mutationCoords.get(prereq);
+                if(prereqCoords != null && prereqCoords[0] == -1){
+                    prereqCoords[0] = treeEnds.indexOf(treeEnd);
                 }
-                mutationCoords.put(tierList.get(j),coords);
+                mutationCoords.put(prereq,prereqCoords);
             }
         }
 
@@ -173,8 +143,10 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         int xInterval = Math.round((float)MUTATION_CHART_WIDTH /((float)maxCount+1f));
         for(int i = 0; i < selectedTree.mutations.size(); ++i) {
             Mutation buttonMut = selectedTree.mutations.get(i);
-            int buttonX = x + (xInterval * (mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
-            int buttonY = y + (yInterval * (maxDepth - mutationCoords.get(buttonMut)[1])) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonX = x + (yInterval * (mutationCoords.get(buttonMut)[1]+1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonY = y + (xInterval * (mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
+
+
 
             this.mutationButtons[i] = this.addDrawableChild(new MutationSelectButton(buttonX, buttonY, MUTATION_BUTTON_START_INDEX + i, (button) -> {
                 if (button instanceof MutationSelectButton) {
@@ -186,66 +158,12 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }));
 
         }
-    }
-
-    private int numSameRoot(int startIndex, List<Mutation> mutationRow){
-        List<Mutation> row = new ArrayList<>(mutationRow);
-        for (int i = startIndex; i < row.size() ; i++) {
-            row.set(i,Mutation.findRootMutation(row.get(i)));
-        }
-        int totalNum = 0;
-        Mutation checking = row.get(startIndex);
-        for (int i = startIndex; i < row.size() ; i++) {
-            if (checking == row.get(i)) totalNum++;
-        }
-        return totalNum;
+        return mutationCoords;
     }
 
 
-//    private void renderMutationMenu(int x, int y){
-//        MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex-TREE_BUTTON_START_INDEX);
-//        int maxDepth = 0;
-//        for (Mutation mutation : selectedTree.mutations){
-//            maxDepth = Math.max(maxDepth,MutationTrees.treeDepth(mutation,1));
-//        }
-//
-//        int[] tierCounts = new int[maxDepth];
-//        for (Mutation mut : selectedTree.mutations){
-//            tierCounts[MutationTrees.treeDepth(mut,1)-1] += 1;
-//        }
-//
-//        int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxDepth+1f));
-//
-//        int[] tierInterval = new int[maxDepth];
-//        int tierNum = 0;
-//        for (int count :tierCounts){
-//            tierInterval[tierNum] = Math.round( (float)MUTATION_CHART_WIDTH /((float)count+1f) - (float)(count%2));
-//            tierNum++;
-//        }
-//
-//        int[] tierTracker = new int[maxDepth];
-//        Arrays.fill(tierTracker,1);
-//
-//        for(int l = 0; l < selectedTree.mutations.size(); ++l) {
-//            int tier = Math.min(MutationTrees.treeDepth(selectedTree.mutations.get(l),1),maxDepth)-1;
-//            int buttonX = x + (tierInterval[tier] * tierTracker[tier]) - (MUTATION_BUTTON_SIZE/2);
-//            int buttonY = y + (yInterval * (maxDepth-tier)) - (MUTATION_BUTTON_SIZE/2);
-//
-//            this.mutationButtons[l] = this.addDrawableChild(new MutationSelectButton(buttonX,buttonY, MUTATION_BUTTON_START_INDEX+l, (button) -> {
-//                if (button instanceof MutationSelectButton) {
-//                    // on button click portion
-//                    this.handler.setMutationIndex(((MutationSelectButton) button).getIndex());
-//                    GeneticChimerism.LOGGER.info("mutation selected:" + (this.handler.mutationIndex-MUTATION_BUTTON_START_INDEX));
-//                    this.client.interactionManager.clickButton(((SynthScreenHandler)this.handler).syncId, this.handler.mutationIndex);
-//                }
-//            }));
-//
-//
-//            tierTracker[tier]++;
-//        }
-//    }
 
-    private void renderButtonOverlay(DrawContext context,int mouseX, int mouseY) {
+    private void renderButtonOverlay(DrawContext context) {
         List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(handler.player);
         MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex - TREE_BUTTON_START_INDEX);
         for (int l = 0; l < selectedTree.mutations.size(); ++l) {
@@ -264,12 +182,51 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         }
     }
 
+    private void renderTreeLines(DrawContext context, int x, int y ) {
+        MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex-TREE_BUTTON_START_INDEX);
+        int maxDepth = 0;
+        for (Mutation mutation : selectedTree.mutations){
+            int mutDepth = MutationTrees.treeDepth(mutation, 1);
+            if (mutDepth > maxDepth) {
+                maxDepth = mutDepth;
+            }
+        }
+        List<Mutation> treeEnds = new ArrayList<>();
+        for(Mutation mutation : selectedTree.mutations){
+            if(treeEnds.contains(mutation.getPrereq())){
+                treeEnds.remove(mutation.getPrereq());
+                treeEnds.add(mutation);
+            }
+            else{
+                treeEnds.add(mutation);
+            }
+        }
+        int maxCount = treeEnds.size();
+
+        int yInterval = Math.round((float) MUTATION_CHART_HEIGHT / ((float) maxDepth + 1f));
+        int xInterval = Math.round((float) MUTATION_CHART_WIDTH / ((float) maxCount + 1f));
+
+        for (int i = 0; i < selectedTree.mutations.size(); ++i) {
+            Mutation buttonMut = selectedTree.mutations.get(i);
+            int buttonX = x + (yInterval * (this.mutationCoords.get(buttonMut)[1] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonY = y + (xInterval * (this.mutationCoords.get(buttonMut)[0] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+
+            if (buttonMut.getPrereq() != null) {
+                int prereqX = x + (yInterval * (this.mutationCoords.get(buttonMut.getPrereq())[1] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+                int prereqY = y + (xInterval * (this.mutationCoords.get(buttonMut.getPrereq())[0] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+
+                context.drawVerticalLine(RenderLayer.getGuiOverlay(),prereqY,buttonX,prereqX, 0);
+                context.drawHorizontalLine(RenderLayer.getGuiOverlay(),buttonY,prereqY,prereqX, 0);
+
+            }
+        }
+    }
+
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
         drawMouseoverTooltip(context, mouseX, mouseY);
-
 
 
         List<MutationTrees>  mutationTrees = (this.handler).getTrees();
@@ -287,14 +244,17 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
            treesTried++;
         }
 
-        if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderButtonOverlay(context,mouseX,mouseY);
+        if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderButtonOverlay(context);
         context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CHECKMARK,i+this.backgroundWidth -33 , j+(this.backgroundHeight/2) -45,24,24,24,24,24,24);
 
+        if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderTreeLines(context,i+114,j+7);
 
         this.renderScrollbar(context, i, j);
         for (MutationSelectButton button :this.mutationButtons){
             if(button != null) {button.renderTooltip(context,mouseX,mouseY);}
         }
+
+
     }
 
     private boolean canScroll(int listSize) {
@@ -350,7 +310,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             handler.setMutationIndex(-1);
             this.children().removeAll(Arrays.asList(this.mutationButtons));
             Arrays.fill(this.mutationButtons, null);
-            renderMutationMenu(i+114,j+7);
+            mutationCoords = renderMutationMenu(i+114,j+7);
         }
 
         for(int l = 0; l < Math.min(treeNum,maxViewable); ++l) {

@@ -20,6 +20,14 @@ public class SmallMammalTree {
     public static void initialize() {
     }
 
+    public static final Mutation miningEff1 = small_mammal.addToTree(new MiningEff1Mutation("miningEff1", "small_mammal", null));
+    public static final Mutation miningEff2 = small_mammal.addToTree(new MiningEff2Mutation("miningEff2", "small_mammal", miningEff1));
+    public static final Mutation miningEff3 = small_mammal.addToTree(new MiningEff3Mutation("miningEff3", "small_mammal", miningEff2));
+    public static final Mutation miningEff4 = small_mammal.addToTree(new MiningEff4Mutation("miningEff4", "small_mammal", miningEff3));
+
+    public static final Mutation breakSpeed1 = small_mammal.addToTree(new BreakSpeed1Mutation("breakSpeed1", "small_mammal", miningEff3));
+    public static final Mutation breakSpeed2 = small_mammal.addToTree(new BreakSpeed2Mutation("breakSpeed2", "small_mammal", breakSpeed1));
+
     public static final Mutation followRange1 = small_mammal.addToTree(new FollowRange1Mutation("followRange1", "small_mammal", null));
     public static final Mutation followRange2 = small_mammal.addToTree(new FollowRange2Mutation("followRange2", "small_mammal", followRange1));
     public static final Mutation followRange3 = small_mammal.addToTree(new FollowRange3Mutation("followRange3", "small_mammal", followRange2));
@@ -33,18 +41,14 @@ public class SmallMammalTree {
     public static final Mutation bunnyEars = small_mammal.addToTree(new BunnyEarsMutation("bunnyEars", "small_mammal", null, MutatableParts.HEAD));
     public static final Mutation foxEars = small_mammal.addToTree(new FoxEarsMutation("foxEars", "small_mammal", null, MutatableParts.HEAD));
 
-    public static final Mutation miningEff1 = small_mammal.addToTree(new MiningEff1Mutation("miningEff1", "small_mammal", null));
-    public static final Mutation miningEff2 = small_mammal.addToTree(new MiningEff2Mutation("miningEff2", "small_mammal", miningEff1));
-    public static final Mutation miningEff3 = small_mammal.addToTree(new MiningEff3Mutation("miningEff3", "small_mammal", miningEff2));
-    public static final Mutation miningEff4 = small_mammal.addToTree(new MiningEff4Mutation("miningEff4", "small_mammal", miningEff3));
+    public static final Mutation dogTail = small_mammal.addToTree(new DogTailMutation("dogTail", "small_mammal", dogEars, MutatableParts.TAIL));
+    public static final Mutation catTail = small_mammal.addToTree(new CatTailMutation("catTail", "small_mammal", catEars, MutatableParts.TAIL));
+    public static final Mutation bunnyTail = small_mammal.addToTree(new BunnyTailMutation("bunnyTail", "small_mammal", bunnyEars, MutatableParts.TAIL));
+    public static final Mutation foxTail = small_mammal.addToTree(new FoxTailMutation("foxTail", "small_mammal", foxEars, MutatableParts.TAIL));
 
-    public static final Mutation breakSpeed1 = small_mammal.addToTree(new BreakSpeed1Mutation("breakSpeed1", "small_mammal", miningEff3));
-    public static final Mutation breakSpeed2 = small_mammal.addToTree(new BreakSpeed2Mutation("breakSpeed2", "small_mammal", breakSpeed1));
 
-    public static final Mutation dogTail = small_mammal.addToTree(new DogTailMutation("dogTail", "small_mammal", miningEff1, MutatableParts.TAIL));
-    public static final Mutation catTail = small_mammal.addToTree(new CatTailMutation("catTail", "small_mammal", miningEff1, MutatableParts.TAIL));
-    public static final Mutation bunnyTail = small_mammal.addToTree(new BunnyTailMutation("bunnyTail", "small_mammal", miningEff1, MutatableParts.TAIL));
-    public static final Mutation foxTail = small_mammal.addToTree(new FoxTailMutation("foxTail", "small_mammal", miningEff1, MutatableParts.TAIL));
+
+
 
 
 

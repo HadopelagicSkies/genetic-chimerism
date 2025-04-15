@@ -32,7 +32,6 @@ public class SynthRecipeSerializer implements RecipeSerializer<SynthRecipe> {
     public PacketCodec<RegistryByteBuf, SynthRecipe> packetCodec() {return this.packetCodec;}
 
     public static final SynthRecipeSerializer INSTANCE = new SynthRecipeSerializer();
-    // This will be the "type" field in the json
     public static final String ID = "synth_recipe";
 
 
