@@ -56,7 +56,7 @@ public abstract class LivingEntityMixin {
 	@Inject(method = {"fall"}, at = @At(value = "TAIL"))
 	private void bouncyLanding(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition, CallbackInfo ci){
 		LivingEntity entity = (LivingEntity) (Object) this;
-		if(entity instanceof PlayerEntity && onGround && MutationAttachments.getMutationsAttached(entity).contains(MutationTrees.mutationToCodec(WoolenTree.bouncyLanding))){
+		if(entity instanceof PlayerEntity && onGround && MutationAttachments.getMutationsAttached(entity) != null && MutationAttachments.getMutationsAttached(entity).contains(MutationTrees.mutationToCodec(WoolenTree.bouncyLanding))){
 			if(heightDifference >= 3){
 				entity.addVelocity(0,entity.getVelocity().y * 0.75,0);
 			}

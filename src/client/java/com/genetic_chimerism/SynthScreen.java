@@ -8,6 +8,7 @@ import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.kinds.IdF;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -24,9 +25,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class SynthScreen extends HandledScreen<SynthScreenHandler> {
@@ -97,48 +96,154 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     }
 
     private void renderMutationMenu(int x, int y){
-
         MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex-TREE_BUTTON_START_INDEX);
         int maxDepth = 0;
+        Mutation deepestMut = selectedTree.mutations.getFirst();
         for (Mutation mutation : selectedTree.mutations){
-            maxDepth = Math.max(maxDepth,MutationTrees.treeDepth(mutation,1));
+            int mutDepth = MutationTrees.treeDepth(mutation, 1);
+            if (mutDepth > maxDepth) {
+                maxDepth = mutDepth;
+                deepestMut = mutation;
+            }
         }
 
-        int[] tierCounts = new int[maxDepth];
+        Map<Integer,List<Mutation>> tierMutations = HashMap.newHashMap(maxDepth);
         for (Mutation mut : selectedTree.mutations){
-            tierCounts[MutationTrees.treeDepth(mut,1)-1] += 1;
+            List<Mutation> tierList = tierMutations.get(MutationTrees.treeDepth(mut, 1)-1);
+            if(tierList == null) {
+                tierList = new ArrayList<>();
+            }
+            tierList.add(mut);
+            tierMutations.put(MutationTrees.treeDepth(mut,1)-1, tierList);
+        }
+
+        int maxCount = 0;
+        int widestTier = 0;
+        for (int i = 0; i < maxDepth; i++) {
+            List<Mutation> tierList = tierMutations.get(i);
+            int count = tierList.size();
+            if (count > maxCount) {
+                maxCount = count;
+                widestTier = i;
+            }
+        }
+
+        List<Mutation> treeEnds = new ArrayList<>();
+        for(Mutation mutation : selectedTree.mutations){
+            if(treeEnds.contains(mutation.getPrereq())){
+                treeEnds.remove(mutation.getPrereq());
+                treeEnds.add(mutation);
+            }
+            else{
+                treeEnds.add(mutation);
+            }
+        }
+
+        maxCount = treeEnds.size();
+
+        Map<Mutation,int[]> mutationCoords = HashMap.newHashMap(selectedTree.mutations.size());
+        for (int i = 0; i < maxDepth; i++) {
+            List<Mutation> tierList = tierMutations.get(i);
+            for (int j = 0; j < tierList.size(); j++) {
+                int[] coords;
+                if(tierList.get(j).getPrereq() != null){
+                    int prereqX = mutationCoords.get(tierList.get(j).getPrereq())[0];
+                    Set<Map.Entry<Mutation, int[]>> entrySet = mutationCoords.entrySet();
+
+                    int numAtCoords =0;
+                    for(Map.Entry<Mutation, int[]> entry : entrySet){
+                        if(Arrays.equals(entry.getValue(), new int[]{prereqX, i}) || Arrays.equals(entry.getValue(), new int[]{prereqX+1+numAtCoords, i})){
+                            numAtCoords++;
+                        }
+                    }
+                    coords = new int[]{prereqX+numAtCoords,i};
+
+                } else {
+                    int startX = 0;
+                    if(j > 0){
+                        startX = numSameRoot(mutationCoords.get(tierList.get(j-1))[0], tierMutations.get(widestTier));
+                    }
+                    coords = new int[]{startX, i};
+                }
+                mutationCoords.put(tierList.get(j),coords);
+            }
         }
 
         int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxDepth+1f));
+        int xInterval = Math.round((float)MUTATION_CHART_WIDTH /((float)maxCount+1f));
+        for(int i = 0; i < selectedTree.mutations.size(); ++i) {
+            Mutation buttonMut = selectedTree.mutations.get(i);
+            int buttonX = x + (xInterval * (mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonY = y + (yInterval * (maxDepth - mutationCoords.get(buttonMut)[1])) - (MUTATION_BUTTON_SIZE / 2);
 
-        int[] tierInterval = new int[maxDepth];
-        int tierNum = 0;
-        for (int count :tierCounts){
-            tierInterval[tierNum] = Math.round( (float)MUTATION_CHART_WIDTH /((float)count+1f) - (float)(count%2));
-            tierNum++;
-        }
-
-        int[] tierTracker = new int[maxDepth];
-        Arrays.fill(tierTracker,1);
-
-        for(int l = 0; l < selectedTree.mutations.size(); ++l) {
-            int tier = Math.min(MutationTrees.treeDepth(selectedTree.mutations.get(l),1),maxDepth)-1;
-            int buttonX = x + (tierInterval[tier] * tierTracker[tier]) - (MUTATION_BUTTON_SIZE/2);
-            int buttonY = y + (yInterval * (maxDepth-tier)) - (MUTATION_BUTTON_SIZE/2);
-
-            this.mutationButtons[l] = this.addDrawableChild(new MutationSelectButton(buttonX,buttonY, MUTATION_BUTTON_START_INDEX+l, (button) -> {
+            this.mutationButtons[i] = this.addDrawableChild(new MutationSelectButton(buttonX, buttonY, MUTATION_BUTTON_START_INDEX + i, (button) -> {
                 if (button instanceof MutationSelectButton) {
                     // on button click portion
                     this.handler.setMutationIndex(((MutationSelectButton) button).getIndex());
-                    GeneticChimerism.LOGGER.info("mutation selected:" + (this.handler.mutationIndex-MUTATION_BUTTON_START_INDEX));
-                    this.client.interactionManager.clickButton(((SynthScreenHandler)this.handler).syncId, this.handler.mutationIndex);
+                    GeneticChimerism.LOGGER.info("mutation selected:" + (this.handler.mutationIndex - MUTATION_BUTTON_START_INDEX));
+                    this.client.interactionManager.clickButton(((SynthScreenHandler) this.handler).syncId, this.handler.mutationIndex);
                 }
             }));
 
-
-            tierTracker[tier]++;
         }
     }
+
+    private int numSameRoot(int startIndex, List<Mutation> mutationRow){
+        List<Mutation> row = new ArrayList<>(mutationRow);
+        for (int i = startIndex; i < row.size() ; i++) {
+            row.set(i,Mutation.findRootMutation(row.get(i)));
+        }
+        int totalNum = 0;
+        Mutation checking = row.get(startIndex);
+        for (int i = startIndex; i < row.size() ; i++) {
+            if (checking == row.get(i)) totalNum++;
+        }
+        return totalNum;
+    }
+
+
+//    private void renderMutationMenu(int x, int y){
+//        MutationTrees selectedTree = MutationTrees.mutationTreesList.get(handler.treeIndex-TREE_BUTTON_START_INDEX);
+//        int maxDepth = 0;
+//        for (Mutation mutation : selectedTree.mutations){
+//            maxDepth = Math.max(maxDepth,MutationTrees.treeDepth(mutation,1));
+//        }
+//
+//        int[] tierCounts = new int[maxDepth];
+//        for (Mutation mut : selectedTree.mutations){
+//            tierCounts[MutationTrees.treeDepth(mut,1)-1] += 1;
+//        }
+//
+//        int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxDepth+1f));
+//
+//        int[] tierInterval = new int[maxDepth];
+//        int tierNum = 0;
+//        for (int count :tierCounts){
+//            tierInterval[tierNum] = Math.round( (float)MUTATION_CHART_WIDTH /((float)count+1f) - (float)(count%2));
+//            tierNum++;
+//        }
+//
+//        int[] tierTracker = new int[maxDepth];
+//        Arrays.fill(tierTracker,1);
+//
+//        for(int l = 0; l < selectedTree.mutations.size(); ++l) {
+//            int tier = Math.min(MutationTrees.treeDepth(selectedTree.mutations.get(l),1),maxDepth)-1;
+//            int buttonX = x + (tierInterval[tier] * tierTracker[tier]) - (MUTATION_BUTTON_SIZE/2);
+//            int buttonY = y + (yInterval * (maxDepth-tier)) - (MUTATION_BUTTON_SIZE/2);
+//
+//            this.mutationButtons[l] = this.addDrawableChild(new MutationSelectButton(buttonX,buttonY, MUTATION_BUTTON_START_INDEX+l, (button) -> {
+//                if (button instanceof MutationSelectButton) {
+//                    // on button click portion
+//                    this.handler.setMutationIndex(((MutationSelectButton) button).getIndex());
+//                    GeneticChimerism.LOGGER.info("mutation selected:" + (this.handler.mutationIndex-MUTATION_BUTTON_START_INDEX));
+//                    this.client.interactionManager.clickButton(((SynthScreenHandler)this.handler).syncId, this.handler.mutationIndex);
+//                }
+//            }));
+//
+//
+//            tierTracker[tier]++;
+//        }
+//    }
 
     private void renderButtonOverlay(DrawContext context,int mouseX, int mouseY) {
         List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(handler.player);

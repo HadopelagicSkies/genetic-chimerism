@@ -178,7 +178,7 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                     return;
                 }
             }
-            if (mutation.getParts() != null && !mutation.getParts().isEmpty()) {
+            if (mutation !=null && mutation.getParts() != null && !mutation.getParts().isEmpty()) {
                 for(MutatableParts part : mutation.getParts()){
                     MutationBodyInfo mutPart = MutationAttachments.getPartAttached(player, part);
                     if (mutPart != null && !mutPart.isReceding() && mutPart.growth() < MutationTrees.mutationFromCodec(mutPart).getMaxGrowth()){

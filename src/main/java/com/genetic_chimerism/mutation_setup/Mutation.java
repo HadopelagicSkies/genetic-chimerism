@@ -33,6 +33,13 @@ public class Mutation {
         this(mutID,treeID,prereq,EnumSet.noneOf(MutatableParts.class));
     }
 
+    public static Mutation findRootMutation(Mutation mutation){
+        if(mutation.getPrereq() == null)
+            return mutation;
+        else
+            return findRootMutation(mutation.getPrereq());
+    }
+
 
     public static void initialize() {
     }
@@ -64,6 +71,5 @@ public class Mutation {
     public void tick(PlayerEntity player){};
 
     public static final Mutation human = MutationTrees.human.addToTree(new Mutation("antigen", "human", null));
-
 
 }

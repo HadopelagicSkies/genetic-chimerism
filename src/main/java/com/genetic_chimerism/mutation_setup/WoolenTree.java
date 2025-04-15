@@ -54,7 +54,7 @@ public class WoolenTree {
                         MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(miscMutation.mutID(), miscMutation.treeID(), miscMutation.patternIndex(), miscMutation.color1(), miscMutation.color2(), 0, miscMutation.isReceding(), miscMutation.isAnimating()));
                     }
                 }
-            return ActionResult.SUCCESS;
+            return ActionResult.PASS;
         });
 
         UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
@@ -71,7 +71,7 @@ public class WoolenTree {
                         MutationAttachments.setPartAttached(entity, MutatableParts.MISC, new MutationBodyInfo(miscMutation.mutID(), miscMutation.treeID(), miscMutation.patternIndex(), miscMutation.color1(), miscMutation.color2(), 0, miscMutation.isReceding(), miscMutation.isAnimating()));
                     }
                 }
-            return ActionResult.SUCCESS;
+            return ActionResult.PASS;
         });
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
@@ -99,7 +99,7 @@ public class WoolenTree {
                     }
                 }
             }
-            return ActionResult.SUCCESS;
+            return ActionResult.PASS;
         });
     }
 
