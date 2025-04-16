@@ -41,10 +41,10 @@ public class SmallMammalTree {
     public static final Mutation bunnyEars = small_mammal.addToTree(new BunnyEarsMutation("bunnyEars", "small_mammal", null, MutatableParts.HEAD));
     public static final Mutation foxEars = small_mammal.addToTree(new FoxEarsMutation("foxEars", "small_mammal", null, MutatableParts.HEAD));
 
-    public static final Mutation dogTail = small_mammal.addToTree(new DogTailMutation("dogTail", "small_mammal", dogEars, MutatableParts.TAIL));
-    public static final Mutation catTail = small_mammal.addToTree(new CatTailMutation("catTail", "small_mammal", catEars, MutatableParts.TAIL));
-    public static final Mutation bunnyTail = small_mammal.addToTree(new BunnyTailMutation("bunnyTail", "small_mammal", bunnyEars, MutatableParts.TAIL));
-    public static final Mutation foxTail = small_mammal.addToTree(new FoxTailMutation("foxTail", "small_mammal", foxEars, MutatableParts.TAIL));
+    public static final Mutation dogTail = small_mammal.addToTree(new DogTailMutation("dogTail", "small_mammal", null, MutatableParts.TAIL));
+    public static final Mutation catTail = small_mammal.addToTree(new CatTailMutation("catTail", "small_mammal", null, MutatableParts.TAIL));
+    public static final Mutation bunnyTail = small_mammal.addToTree(new BunnyTailMutation("bunnyTail", "small_mammal", null, MutatableParts.TAIL));
+    public static final Mutation foxTail = small_mammal.addToTree(new FoxTailMutation("foxTail", "small_mammal", null, MutatableParts.TAIL));
 
 
 

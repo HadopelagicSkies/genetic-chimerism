@@ -1,9 +1,6 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.mutation_setup.Mutation;
-import com.genetic_chimerism.mutation_setup.MutationAttachments;
-import com.genetic_chimerism.mutation_setup.MutationInfo;
-import com.genetic_chimerism.mutation_setup.MutationTrees;
+import com.genetic_chimerism.mutation_setup.*;
 import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
@@ -143,6 +140,30 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }
         }
 
+        if(selectedTree == SmallMammalTree.small_mammal){
+            for(Mutation mutation : selectedTree.mutations){
+                int[] coords = new int[2];
+                if(mutation == SmallMammalTree.dogTail){
+                    coords[0] = mutationCoords.get(SmallMammalTree.dogEars)[0];
+                    coords[1] = mutationCoords.get(SmallMammalTree.dogEars)[1]+1;
+                    mutationCoords.put(mutation,coords);
+                } else if(mutation == SmallMammalTree.catTail){
+                    coords[0] = mutationCoords.get(SmallMammalTree.catEars)[0];
+                    coords[1] = mutationCoords.get(SmallMammalTree.catTail)[1]+1;
+                    mutationCoords.put(mutation,coords);
+                } else if(mutation == SmallMammalTree.foxTail){
+                    coords[0] = mutationCoords.get(SmallMammalTree.foxEars)[0];
+                    coords[1] = mutationCoords.get(SmallMammalTree.foxEars)[1]+1;
+                    mutationCoords.put(mutation,coords);
+                } else if(mutation == SmallMammalTree.bunnyTail){
+                    coords[0] = mutationCoords.get(SmallMammalTree.bunnyEars)[0];
+                    coords[1] = mutationCoords.get(SmallMammalTree.bunnyEars)[1]+1;
+                    mutationCoords.put(mutation,coords);
+                }
+            }
+            maxCount -= 4;
+        }
+
         //yes i know some of the x/y labeling is super off from rotating the chart
         int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxCount+1f));
         int xInterval = Math.round((float)MUTATION_CHART_WIDTH /((float)maxDepth+1f));
@@ -204,6 +225,10 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }
         }
         int maxCount = treeEnds.size();
+
+        if(selectedTree == SmallMammalTree.small_mammal){
+            maxCount -= 4;
+        }
 
         //yes i know some of the x/y labeling is super off from rotating the chart
         int yInterval = Math.round((float) (MUTATION_CHART_HEIGHT) / ((float) maxCount+1f));
@@ -338,7 +363,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     public static class MutationPageButton extends ButtonWidget {
         final int index;
 
-        public MutationPageButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
+        public MutationPageButton(final int x, final int y, final int index, final PressAction onPress) {
             super(x, y, TREE_BUTTON_WIDTH, TREE_BUTTON_HEIGHT, ScreenTexts.EMPTY, onPress, DEFAULT_NARRATION_SUPPLIER);
             this.index = index;
             this.visible = true;
@@ -352,7 +377,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     public class MutationSelectButton extends ButtonWidget {
         final int index;
 
-        public MutationSelectButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
+        public MutationSelectButton(final int x, final int y, final int index, final PressAction onPress) {
             super(x, y, MUTATION_BUTTON_SIZE, MUTATION_BUTTON_SIZE, ScreenTexts.EMPTY, onPress, DEFAULT_NARRATION_SUPPLIER);
             this.index = index;
             this.visible = true;
@@ -402,7 +427,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     public static class MutationConfirmButton extends ButtonWidget {
         final int index;
 
-        public MutationConfirmButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
+        public MutationConfirmButton(final int x, final int y, final int index, final PressAction onPress) {
             super(x, y, 14, 14, ScreenTexts.EMPTY, onPress, DEFAULT_NARRATION_SUPPLIER);
             this.index = index;
             this.visible = true;
