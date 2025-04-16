@@ -36,16 +36,17 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     private static final Identifier SMALL_CHECKMARK = Identifier.of(GeneticChimerism.MOD_ID, "textures/gui/small_check.png");
     private static final Identifier SMALL_CROSS = Identifier.of(GeneticChimerism.MOD_ID, "textures/gui/small_cross.png");
     private static final Identifier GREEN_BORDER = Identifier.of(GeneticChimerism.MOD_ID, "textures/gui/green_border.png");
-    private static final int TREE_BUTTON_HEIGHT = 25;
+    private static final Identifier LINE = Identifier.of(GeneticChimerism.MOD_ID, "textures/gui/line.png");
+    private static final int TREE_BUTTON_HEIGHT = 24;
     private static final int TREE_BUTTON_WIDTH = 88;
     private static final int SCROLLBAR_HEIGHT = 27;
     private static final int SCROLLBAR_WIDTH = 6;
-    private static final int SCROLLBAR_AREA_HEIGHT = 198;
+    private static final int SCROLLBAR_AREA_HEIGHT = 241;
     private static final int SCROLLBAR_OFFSET_Y = 18;
-    private static final int SCROLLBAR_OFFSET_X = 94;
-    private static final int MUTATION_CHART_HEIGHT = 151;
+    private static final int SCROLLBAR_OFFSET_X = 99;
+    private static final int MUTATION_CHART_HEIGHT = 163;
     private static final int MUTATION_CHART_WIDTH = 154;
-    private static final int MUTATION_BUTTON_SIZE = 20;
+    private static final int MUTATION_BUTTON_SIZE = 16;
 
     private final int treeNum = MutationTrees.listTrees().size();
 
@@ -53,7 +54,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
     private static final int TREE_BUTTON_START_INDEX = 1;
     private final int MUTATION_BUTTON_START_INDEX = treeNum+1;
 
-    private final int maxViewable = 9;
+    private final int maxViewable = 10;
     private final MutationPageButton[] treeButtons = new MutationPageButton[treeNum];
     private final MutationSelectButton[] mutationButtons = new MutationSelectButton[32];
     int indexStartOffset;
@@ -62,12 +63,12 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
 
     public SynthScreen(SynthScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.titleX = 3;
+        this.titleX = 6;
         this.titleY = 6;
         this.playerInventoryTitleX = 1000 ;
         this.playerInventoryTitleY = 1000 ;
-        this.backgroundWidth = 301;
-        this.backgroundHeight = 254;
+        this.backgroundWidth = 306;
+        this.backgroundHeight = 268;
     }
 
     @Override
@@ -75,21 +76,24 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         int x = (width - backgroundWidth) /2;
         int y = (height - backgroundHeight) /2;
+
         drawContext.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight);
+        if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderTreeLines(drawContext,x+119,y+7);
+
     }
 
     private void renderScrollbar(DrawContext context, int x, int y) {
         if (treeNum > maxViewable) {
-            int i = treeNum - maxViewable;
-            int j = SCROLLBAR_AREA_HEIGHT - (SCROLLBAR_HEIGHT + (i - 1) * SCROLLBAR_AREA_HEIGHT / i);
-            int k = 1 + j / i + SCROLLBAR_AREA_HEIGHT / i;
-            int l = 198;
-            int m = Math.min(l, this.indexStartOffset * k);
-            if (this.indexStartOffset == i - 1) {
-                m = l;
+            int numHidden = treeNum - maxViewable;
+            int scrollableHeight = SCROLLBAR_AREA_HEIGHT - SCROLLBAR_HEIGHT;
+            int distPerScroll = scrollableHeight / numHidden;
+            int scrollHeight = distPerScroll * this.indexStartOffset;
+
+            if(this.indexStartOffset == numHidden){
+                scrollHeight = scrollableHeight;
             }
 
-            context.drawGuiTexture(RenderLayer::getGuiTextured, SCROLLER_TEXTURE, x + SCROLLBAR_OFFSET_X, y + SCROLLBAR_OFFSET_Y + m, SCROLLBAR_WIDTH, SCROLLBAR_HEIGHT);
+            context.drawGuiTexture(RenderLayer::getGuiTextured, SCROLLER_TEXTURE, x + SCROLLBAR_OFFSET_X, y + SCROLLBAR_OFFSET_Y + scrollHeight, SCROLLBAR_WIDTH, SCROLLBAR_HEIGHT);
         } else {
             context.drawGuiTexture(RenderLayer::getGuiTextured, SCROLLER_DISABLED_TEXTURE, x + SCROLLBAR_OFFSET_X, y + SCROLLBAR_OFFSET_Y, SCROLLBAR_WIDTH, SCROLLBAR_HEIGHT);
         }
@@ -139,14 +143,13 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }
         }
 
-        int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxDepth+1f));
-        int xInterval = Math.round((float)MUTATION_CHART_WIDTH /((float)maxCount+1f));
+        //yes i know some of the x/y labeling is super off from rotating the chart
+        int yInterval = Math.round((float)MUTATION_CHART_HEIGHT /((float)maxCount+1f));
+        int xInterval = Math.round((float)MUTATION_CHART_WIDTH /((float)maxDepth+1f));
         for(int i = 0; i < selectedTree.mutations.size(); ++i) {
             Mutation buttonMut = selectedTree.mutations.get(i);
-            int buttonX = x + (yInterval * (mutationCoords.get(buttonMut)[1]+1)) - (MUTATION_BUTTON_SIZE / 2);
-            int buttonY = y + (xInterval * (mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
-
-
+            int buttonX = x + (xInterval * (mutationCoords.get(buttonMut)[1]+1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonY = y + (yInterval * (mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
 
             this.mutationButtons[i] = this.addDrawableChild(new MutationSelectButton(buttonX, buttonY, MUTATION_BUTTON_START_INDEX + i, (button) -> {
                 if (button instanceof MutationSelectButton) {
@@ -156,7 +159,6 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                     this.client.interactionManager.clickButton(((SynthScreenHandler) this.handler).syncId, this.handler.mutationIndex);
                 }
             }));
-
         }
         return mutationCoords;
     }
@@ -171,13 +173,13 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             int buttonX = button.getX();
             int buttonY = button.getY();
 
-
+            int cornerOffset = 6;
             if (mutList != null && mutList.contains(new MutationInfo(selectedTree.mutations.get(l).getMutID(), selectedTree.mutations.get(l).getTreeID()))) {
-                context.drawTexture(RenderLayer::getGuiTexturedOverlay, GREEN_BORDER, buttonX - 1, buttonY - 1, 22, 22,22,22,22,22);
+                context.drawTexture(RenderLayer::getGuiTexturedOverlay, GREEN_BORDER, buttonX - 1, buttonY - 1, 0, 0,18,18,18,18);
             } else if (selectedTree.mutations.get(l).getPrereq() == null || (mutList != null && mutList.contains(new MutationInfo(selectedTree.mutations.get(l).getPrereq().getMutID(), selectedTree.mutations.get(l).getPrereq().getTreeID())))) {
-                context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CHECKMARK, buttonX - 2, buttonY - 2, 24, 24,24,24,24,24);
+                context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CHECKMARK, buttonX - cornerOffset, buttonY - cornerOffset, 0, 0,24,24,24,24);
             } else {
-                context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CROSS, buttonX - 2, buttonY - 2, 24, 24,24,24,24,24);
+                context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CROSS, buttonX - cornerOffset, buttonY - cornerOffset, 0, 0,24,24,24,24);
             }
         }
     }
@@ -203,20 +205,20 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
         }
         int maxCount = treeEnds.size();
 
-        int yInterval = Math.round((float) MUTATION_CHART_HEIGHT / ((float) maxDepth + 1f));
-        int xInterval = Math.round((float) MUTATION_CHART_WIDTH / ((float) maxCount + 1f));
-
+        //yes i know some of the x/y labeling is super off from rotating the chart
+        int yInterval = Math.round((float) (MUTATION_CHART_HEIGHT) / ((float) maxCount+1f));
+        int xInterval = Math.round((float) (MUTATION_CHART_WIDTH) / ((float) maxDepth+1f));
         for (int i = 0; i < selectedTree.mutations.size(); ++i) {
             Mutation buttonMut = selectedTree.mutations.get(i);
-            int buttonX = x + (yInterval * (this.mutationCoords.get(buttonMut)[1] + 1)) - (MUTATION_BUTTON_SIZE / 2);
-            int buttonY = y + (xInterval * (this.mutationCoords.get(buttonMut)[0] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonX = x + (xInterval * (this.mutationCoords.get(buttonMut)[1]+1)) - (MUTATION_BUTTON_SIZE / 2);
+            int buttonY = y + (yInterval * (this.mutationCoords.get(buttonMut)[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
 
             if (buttonMut.getPrereq() != null) {
-                int prereqX = x + (yInterval * (this.mutationCoords.get(buttonMut.getPrereq())[1] + 1)) - (MUTATION_BUTTON_SIZE / 2);
-                int prereqY = y + (xInterval * (this.mutationCoords.get(buttonMut.getPrereq())[0] + 1)) - (MUTATION_BUTTON_SIZE / 2);
+                int prereqX = x + (xInterval * (this.mutationCoords.get(buttonMut.getPrereq())[1]+1)) - (MUTATION_BUTTON_SIZE / 2);
+                int prereqY = y + (yInterval * (this.mutationCoords.get(buttonMut.getPrereq())[0]+1)) - (MUTATION_BUTTON_SIZE / 2);
 
-                context.drawVerticalLine(RenderLayer.getGuiOverlay(),prereqY,buttonX,prereqX, 0);
-                context.drawHorizontalLine(RenderLayer.getGuiOverlay(),buttonY,prereqY,prereqX, 0);
+                context.drawTexture(RenderLayer::getGuiTexturedOverlay, LINE, prereqX + (MUTATION_BUTTON_SIZE / 2), buttonY + (MUTATION_BUTTON_SIZE / 2)-1,2,2,buttonX-prereqX,2,2,2);
+                context.drawTexture(RenderLayer::getGuiTexturedOverlay, LINE, prereqX + (MUTATION_BUTTON_SIZE / 2)-1, prereqY + (MUTATION_BUTTON_SIZE / 2),2,2,2,buttonY-prereqY,2,2);
 
             }
         }
@@ -224,37 +226,32 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context, mouseX, mouseY, delta);
+        int i = (this.width - this.backgroundWidth) / 2;
+        int j = (this.height - this.backgroundHeight) / 2;
         super.render(context, mouseX, mouseY, delta);
-        drawMouseoverTooltip(context, mouseX, mouseY);
 
 
         List<MutationTrees>  mutationTrees = (this.handler).getTrees();
-        int i = (this.width - this.backgroundWidth) / 2;
-        int j = (this.height - this.backgroundHeight) / 2;
-
         int treesTried = 0;
         int drawn = 0;
         for( MutationTrees listTrees : mutationTrees) {
            if (this.canScroll(treeNum) && treesTried >= this.indexStartOffset && drawn < maxViewable) {
-               context.drawTexture(RenderLayer::getGuiTexturedOverlay, listTrees.icon, i + 8, TREE_BUTTON_HEIGHT * drawn + j + 22, 16, 16,16,16,16,16);
-               context.drawText(textRenderer,Text.translatableWithFallback("mutations.tree."+ listTrees.treeID,listTrees.treeID),i + 27, TREE_BUTTON_HEIGHT * drawn + j + 26, 0, false);
+               context.drawTexture(RenderLayer::getGuiTexturedOverlay, listTrees.icon, i + 14, TREE_BUTTON_HEIGHT * drawn + j + 22, 16, 16,16,16,16,16);
+               context.drawText(textRenderer,Text.translatableWithFallback("mutations.tree."+ listTrees.treeID,listTrees.treeID),i + 32, TREE_BUTTON_HEIGHT * drawn + j + 26, 0, false);
                drawn++;
            }
            treesTried++;
         }
 
         if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderButtonOverlay(context);
-        context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CHECKMARK,i+this.backgroundWidth -33 , j+(this.backgroundHeight/2) -45,24,24,24,24,24,24);
-
-        if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderTreeLines(context,i+114,j+7);
+        context.drawTexture(RenderLayer::getGuiTexturedOverlay, SMALL_CHECKMARK,i+this.backgroundWidth -33 , j+(this.backgroundHeight/2) -40,24,24,24,24,24,24);
 
         this.renderScrollbar(context, i, j);
         for (MutationSelectButton button :this.mutationButtons){
             if(button != null) {button.renderTooltip(context,mouseX,mouseY);}
         }
 
-
+        drawMouseoverTooltip(context, mouseX, mouseY);
     }
 
     private boolean canScroll(int listSize) {
@@ -304,17 +301,17 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
 
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        int k = j + 16 + 2;
+        int k = j + 18;
 
         if (handler.treeIndex != -1){
             handler.setMutationIndex(-1);
             this.children().removeAll(Arrays.asList(this.mutationButtons));
             Arrays.fill(this.mutationButtons, null);
-            mutationCoords = renderMutationMenu(i+114,j+7);
+            mutationCoords = renderMutationMenu(i+119,j+7);
         }
 
         for(int l = 0; l < Math.min(treeNum,maxViewable); ++l) {
-            this.treeButtons[l] = this.addDrawableChild(new MutationPageButton(i + 5, k, TREE_BUTTON_START_INDEX+l+indexStartOffset, (button) -> {
+            this.treeButtons[l] = this.addDrawableChild(new MutationPageButton(i + 10, k, TREE_BUTTON_START_INDEX+l+indexStartOffset, (button) -> {
                 if (button instanceof MutationPageButton) {
                     this.handler.setTreeIndex(((MutationPageButton)button).getIndex());
                     GeneticChimerism.LOGGER.info("tree selected:" + (this.handler.treeIndex-TREE_BUTTON_START_INDEX));
@@ -325,7 +322,7 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
             }));
             k += TREE_BUTTON_HEIGHT;
         }
-        this.addDrawableChild(new MutationConfirmButton(i + this.backgroundWidth - 21, j + (this.backgroundHeight / 2) - 32, CONFIRM_BUTTON_INDEX, (button) -> {
+        this.addDrawableChild(new MutationConfirmButton(i + this.backgroundWidth - 21, j + (this.backgroundHeight / 2) - 27, CONFIRM_BUTTON_INDEX, (button) -> {
             if (button instanceof MutationConfirmButton) {
                 // on button click portion
                 GeneticChimerism.LOGGER.info("confirm button client click");

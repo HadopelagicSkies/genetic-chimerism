@@ -34,12 +34,12 @@ public class ScaledTree {
     public static final Mutation poisonRes2 = scaled.addToTree(new Mutation("poisonRes2", "scaled", coldBlooded));
     public static final Mutation poisonRes3 = scaled.addToTree(new Mutation("poisonRes3", "scaled", poisonRes2));
 
+    public static final Mutation snakeTail = scaled.addToTree(new SnakeTailMutation("snakeTail", "scaled", poisonRes2,MutatableParts.TAIL));
+    public static final Mutation lamiaTail = scaled.addToTree(new LamiaTailMutation("lamiaTail", "scaled", snakeTail,MutatableParts.TAIL,MutatableParts.LEG));
+
     public static final Mutation burnTime1 = scaled.addToTree(new BurnTime1Mutation("burnTime1", "scaled", coldBlooded));
     public static final Mutation burnTime2 = scaled.addToTree(new BurnTime2Mutation("burnTime2", "scaled", burnTime1));
     public static final Mutation burnTime3 = scaled.addToTree(new BurnTime3Mutation("burnTime3", "scaled", burnTime2));
-
-    public static final Mutation snakeTail = scaled.addToTree(new SnakeTailMutation("snakeTail", "scaled", poisonRes2,MutatableParts.TAIL));
-    public static final Mutation lamiaTail = scaled.addToTree(new LamiaTailMutation("lamiaTail", "scaled", snakeTail,MutatableParts.TAIL,MutatableParts.LEG));
 
     public static final Mutation lizardTail1 = scaled.addToTree(new LizardTail1Mutation("lizardTail1", "scaled", burnTime1,MutatableParts.TAIL));
     public static final Mutation lizardTail2 = scaled.addToTree(new LizardTail2Mutation("lizardTail2", "scaled", lizardTail1,MutatableParts.TAIL));

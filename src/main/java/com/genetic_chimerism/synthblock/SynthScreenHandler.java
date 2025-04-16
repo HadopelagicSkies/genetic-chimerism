@@ -39,13 +39,13 @@ public class SynthScreenHandler extends ScreenHandler {
         this.player = playerInventory.player;
         inventory.onOpen(playerInventory.player);
 
-        this.addSlot(new Slot(inventory, 0, 279, 114) {
+        this.addSlot(new Slot(inventory, 0, 284, 126) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.isOf(Items.GLASS_BOTTLE);
             }
         });
-        this.addSlot(new Slot(inventory, 1, 279, 145){
+        this.addSlot(new Slot(inventory, 1, 284, 157){
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;
@@ -55,12 +55,12 @@ public class SynthScreenHandler extends ScreenHandler {
         // The player inventory
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + (i + 1) * 9, 108 + j * 18, 172 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + (i + 1) * 9, 113 + j * 18, 185 + i * 18));
             }
         }
         // The player Hotbar
         for(int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 108 + i * 18, 230));
+            this.addSlot(new Slot(playerInventory, i, 113 + i * 18, 243));
         }
 
     }
