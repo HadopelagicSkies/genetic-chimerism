@@ -1,5 +1,6 @@
 package com.genetic_chimerism.mixin;
 
+import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -25,6 +26,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
@@ -50,6 +52,24 @@ public abstract class ServerPlayerEntityMixin {
 		PlayerEntity player = (PlayerEntity) (Object) this;
 		if(player.getWorld().getBlockState(pos).getBlock() instanceof InfusionStation) return unit ->{};
 		else return consumer;
+	}
+
+	@Inject(at = @At("RETURN"), method = "tick")
+	private void callMutationTickers(CallbackInfo ci) {
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
+		if (mutList != null && !mutList.isEmpty()) {
+			for (MutationInfo mutationInfo : mutList) {
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) mutation.tick(player);
+			}
+		} else {
+			for (MutatableParts part : MutatableParts.values()) {
+				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(player, part);
+				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
+				if (mutation != null) mutation.tick(player);
+			}
+		}
 	}
 
 	@Inject(method = {"damage"},at = {@At("HEAD")})

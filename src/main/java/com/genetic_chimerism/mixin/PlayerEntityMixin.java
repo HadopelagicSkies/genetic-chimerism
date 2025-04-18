@@ -39,24 +39,6 @@ public class PlayerEntityMixin {
 		}
 	}
 
-	@Inject(at = @At("RETURN"), method = "tick")
-	private void callMutationTickers(CallbackInfo ci) {
-		PlayerEntity player = (PlayerEntity) (Object) this;
-		List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
-		if (mutList != null && !mutList.isEmpty()) {
-			for (MutationInfo mutationInfo : mutList) {
-				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
-				if (mutation != null) mutation.tick(player);
-			}
-		} else {
-			for (MutatableParts part : MutatableParts.values()) {
-				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(player, part);
-				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
-				if (mutation != null) mutation.tick(player);
-			}
-		}
-	}
-
 	@WrapOperation(method = {"addExhaustion"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/HungerManager;addExhaustion(F)V"))
 	private void noExhaustion(HungerManager instance, float exhaustion, Operation<Void> original) {
 		PlayerEntity player = (PlayerEntity) (Object) this;

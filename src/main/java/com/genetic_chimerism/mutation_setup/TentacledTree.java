@@ -12,7 +12,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
@@ -453,7 +452,8 @@ public class TentacledTree {
                             entity.setOnFireFor(10F);
                         }
                     }
-                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.FLAME, player.getX(), player.getY(), player.getZ(), 3000, 0, 0, 0, 3);
+                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.SOUL_FIRE_FLAME, player.getX(), player.getY(), player.getZ(), 2000, 0, 0, 0, 3);
+                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.GLOW_SQUID_INK, player.getX(), player.getY(), player.getZ(), 1500, 0, 0, 0, 3);
                     player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_SQUID_SQUIRT, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                 } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.ink"), true);
             }
@@ -467,6 +467,7 @@ public class TentacledTree {
 
     public static class SiphonJetMutation extends Mutation {
         private int cooldown = 0;
+        private int spawnParticles = 100;
 
         public SiphonJetMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -476,7 +477,7 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(siphonJet, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(34, 59, 77), ColorHelper.getArgb(56, 82, 101), 0, false, false));
         }
 
         @Override
@@ -490,14 +491,43 @@ public class TentacledTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient) {
                 if (this.cooldown <= 0) {
-                    this.cooldown = 500;
+                    this.cooldown = 100;
+                    Vec3d lookVec = player.getRotationVector(player.getPitch(),player.headYaw).multiply(3);
+                    player.addVelocity(lookVec);
+                    player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_TRIDENT_RIPTIDE_3.value(), SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                    spawnParticles = 0;
                 } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.jet"), true);
+            }
+            else if (player.getWorld().isClient) {
+                if (this.cooldown <= 0) {
+                    this.cooldown = 500;
+                    Vec3d lookVec = player.getRotationVector(player.getPitch(),player.headYaw).multiply(3);
+                    player.addVelocity(lookVec);
+                }
             }
         }
 
         @Override
         public void tick(PlayerEntity player) {
             if (this.cooldown > 0) this.cooldown--;
+
+            if (!player.getWorld().isClient) {
+                if (spawnParticles < 500) {
+                    float plusAngle = (float) (MathHelper.wrapDegrees(player.getBodyYaw() + 180f) + MathHelper.atan2(3, 4));
+                    float minusAngle = (float) (MathHelper.wrapDegrees(player.getBodyYaw() + 180f) - MathHelper.atan2(3 , 4));
+                    Vec3d leftJet = player.getRotationVector(0, plusAngle);
+                    Vec3d rightJet = player.getRotationVector(0, minusAngle);
+
+                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.DOLPHIN, player.getX() + leftJet.x, player.getY() + leftJet.y + 1 /*- (0.0625 * spawnParticles)*/, player.getZ() + leftJet.z, 50, 0, 0 , 0, 0);
+                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.DOLPHIN, player.getX() + rightJet.x, player.getY() + rightJet.y + 1 /*- (0.0625 * spawnParticles)*/, player.getZ() + rightJet.z, 50, 0, 0 , 0, 0);
+                //spawnParticles++;
+                }
+            }
+        }
+
+        @Override
+        public int getMaxGrowth() {
+            return 1000;
         }
     }
 
@@ -534,6 +564,11 @@ public class TentacledTree {
         @Override
         public void tick(PlayerEntity player) {
             if (this.cooldown > 0) this.cooldown--;
+        }
+
+        @Override
+        public int getMaxGrowth() {
+            return 1000;
         }
     }
 
