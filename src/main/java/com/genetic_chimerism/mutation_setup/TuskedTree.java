@@ -132,9 +132,7 @@ public class TuskedTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -157,9 +155,7 @@ public class TuskedTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override

@@ -235,9 +235,7 @@ public class HornedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -251,21 +249,18 @@ public class HornedTree {
             if (this.ramming && !player.getWorld().isClient) {
                 if (this.cooldown <= 0) this.cooldown = 300;
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-
+                player.velocityModified=true;
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
                     if (entity instanceof LivingEntity){
                         entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
                         entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),4F);
                     }
-
                 }
-
                 if(!colliders.isEmpty()){
                     player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                     ramming = false;
                 }
-
                 int maxRammingTime = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HornedTree.ramLegs)) ? 120:60;
                 this.rammingTime++;
                 if(rammingTime > maxRammingTime || !ramming){
@@ -273,19 +268,7 @@ public class HornedTree {
                     this.ramming=false;
                     this.rammingTime=0;
                 }
-            } else if (this.ramming && player.getWorld().isClient) {
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
-                if(!colliders.isEmpty()){
-                    ramming = false;
-                }
-                this.rammingTime++;
-                if(rammingTime > 60 || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
-            } else rammingTime = 0;
+            }
             if (this.cooldown > 0) this.cooldown--;
         }
 
@@ -318,9 +301,7 @@ public class HornedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -334,6 +315,7 @@ public class HornedTree {
             if (this.ramming && !player.getWorld().isClient) {
                 if (this.cooldown == 0) this.cooldown = 300;
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
+                player.velocityModified=true;
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
@@ -354,19 +336,7 @@ public class HornedTree {
                     this.ramming=false;
                     this.rammingTime=0;
                 }
-            } else if (this.ramming && player.getWorld().isClient) {
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
-                if(!colliders.isEmpty()){
-                    ramming = false;
-                }
-                this.rammingTime++;
-                if(rammingTime > 60 || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
-            } else rammingTime = 0;
+            }
             if (this.cooldown > 0) this.cooldown--;
         }
 
@@ -399,9 +369,7 @@ public class HornedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -415,6 +383,7 @@ public class HornedTree {
             if (this.ramming && !player.getWorld().isClient) {
                 if (this.cooldown == 0) this.cooldown = 300;
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
+                player.velocityModified=true;
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
@@ -435,19 +404,7 @@ public class HornedTree {
                     this.ramming=false;
                     this.rammingTime=0;
                 }
-            } else if (this.ramming && player.getWorld().isClient) {
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
-                if(!colliders.isEmpty()){
-                    ramming = false;
-                }
-                this.rammingTime++;
-                if(rammingTime > 60 || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
-            } else rammingTime = 0;
+            }
             if (this.cooldown > 0) this.cooldown--;
         }
 
@@ -480,9 +437,7 @@ public class HornedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -496,6 +451,7 @@ public class HornedTree {
             if (this.ramming && !player.getWorld().isClient) {
                 if (this.cooldown == 0) this.cooldown = 300;
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
+                player.velocityModified=true;
 
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
                 for(Entity entity : colliders){
@@ -516,19 +472,7 @@ public class HornedTree {
                     this.ramming=false;
                     this.rammingTime=0;
                 }
-            } else if (this.ramming && player.getWorld().isClient) {
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
-                if(!colliders.isEmpty()){
-                    ramming = false;
-                }
-                this.rammingTime++;
-                if(rammingTime > 60 || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
-            } else rammingTime = 0;
+            }
             if (this.cooldown > 0) this.cooldown--;
         }
 
@@ -550,12 +494,16 @@ public class HornedTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
+            MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
+            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(ramLegs,0,
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
         }
 
         @Override

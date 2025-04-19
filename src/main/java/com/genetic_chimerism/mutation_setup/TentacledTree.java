@@ -244,9 +244,7 @@ public class TentacledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.ARM);
-            MutationAttachments.setPartAttached(player, MutatableParts.ARM, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.ARM,true);
         }
 
         @Override
@@ -276,9 +274,7 @@ public class TentacledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.ARM);
-            MutationAttachments.setPartAttached(player, MutatableParts.ARM, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.ARM,true);
         }
 
         @Override
@@ -303,9 +299,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-            MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.MISC,true);
         }
 
         @Override
@@ -344,9 +338,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-            MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.MISC,true);
         }
 
         @Override
@@ -389,9 +381,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-            MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.MISC,true);
         }
 
         @Override
@@ -435,9 +425,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-            MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.MISC,true);
         }
 
         @Override
@@ -482,9 +470,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
 
         @Override
@@ -492,35 +478,38 @@ public class TentacledTree {
             if (!player.getWorld().isClient) {
                 if (this.cooldown <= 0) {
                     this.cooldown = 100;
+                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
                     Vec3d lookVec = player.getRotationVector(player.getPitch(),player.headYaw).multiply(3);
-                    player.addVelocity(lookVec);
+                    player.addVelocity(lookVec.x,lookVec.y+0.1,lookVec.z);
+                    player.velocityModified=true;
                     player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_TRIDENT_RIPTIDE_3.value(), SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                     spawnParticles = 0;
+
+
                 } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.jet"), true);
-            }
-            else if (player.getWorld().isClient) {
-                if (this.cooldown <= 0) {
-                    this.cooldown = 500;
-                    Vec3d lookVec = player.getRotationVector(player.getPitch(),player.headYaw).multiply(3);
-                    player.addVelocity(lookVec);
-                }
             }
         }
 
         @Override
         public void tick(PlayerEntity player) {
             if (this.cooldown > 0) this.cooldown--;
-
             if (!player.getWorld().isClient) {
-                if (spawnParticles < 500) {
-                    float plusAngle = (float) (MathHelper.wrapDegrees(player.getBodyYaw() + 180f) + MathHelper.atan2(3, 4));
-                    float minusAngle = (float) (MathHelper.wrapDegrees(player.getBodyYaw() + 180f) - MathHelper.atan2(3 , 4));
-                    Vec3d leftJet = player.getRotationVector(0, plusAngle);
-                    Vec3d rightJet = player.getRotationVector(0, minusAngle);
+                if (spawnParticles < 20) {
+                    float plusAngle = (float) (MathHelper.wrapDegrees(player.bodyYaw + 180f) + MathHelper.DEGREES_PER_RADIAN * MathHelper.atan2(3, 4));
+                    float minusAngle = (float) (MathHelper.wrapDegrees(player.bodyYaw + 180f) - MathHelper.DEGREES_PER_RADIAN * MathHelper.atan2(3 , 4));
+                    Vec3d leftJet = player.getRotationVector(0, plusAngle).multiply(0.25);
+                    Vec3d rightJet = player.getRotationVector(0, minusAngle).multiply(0.25);
 
-                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.DOLPHIN, player.getX() + leftJet.x, player.getY() + leftJet.y + 1 /*- (0.0625 * spawnParticles)*/, player.getZ() + leftJet.z, 50, 0, 0 , 0, 0);
-                    ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.DOLPHIN, player.getX() + rightJet.x, player.getY() + rightJet.y + 1 /*- (0.0625 * spawnParticles)*/, player.getZ() + rightJet.z, 50, 0, 0 , 0, 0);
-                //spawnParticles++;
+                    if(player.isGliding() || player.isInSwimmingPose()){
+                        leftJet = leftJet.add(player.getRotationVector(0,player.bodyYaw).normalize().multiply(0.25));
+                        rightJet = rightJet.add(player.getRotationVector(0,player.bodyYaw).normalize().multiply(0.25));
+                        ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.FALLING_WATER, player.getX() + leftJet.x, player.getY() + leftJet.y + 0.5, player.getZ() + leftJet.z, 100, 0.1, 0, 0.1, 0.2);
+                        ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.FALLING_WATER, player.getX() + rightJet.x, player.getY() + rightJet.y + 0.5, player.getZ() + rightJet.z, 100, 0.1, 0, 0.1, 0.2);
+                    }else {
+                        ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.FALLING_WATER, player.getX() + leftJet.x, player.getY() + leftJet.y + 1 , player.getZ() + leftJet.z, 100, 0.1, 0, 0.1, 0.2);
+                        ((ServerWorld) player.getWorld()).spawnParticles(ParticleTypes.FALLING_WATER, player.getX() + rightJet.x, player.getY() + rightJet.y + 1 , player.getZ() + rightJet.z, 100, 0.1, 0, 0.1, 0.2);
+                    }
+                    spawnParticles++;
                 }
             }
         }
@@ -547,9 +536,7 @@ public class TentacledTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
 
         @Override

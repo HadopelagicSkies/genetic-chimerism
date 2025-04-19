@@ -230,9 +230,7 @@ public class WingedTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
 
         @Override
@@ -256,9 +254,7 @@ public class WingedTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
 
         @Override
@@ -282,9 +278,7 @@ public class WingedTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
 
         @Override

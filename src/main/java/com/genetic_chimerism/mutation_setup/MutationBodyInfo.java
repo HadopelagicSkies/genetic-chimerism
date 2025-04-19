@@ -39,4 +39,6 @@ public record MutationBodyInfo(String mutID, String treeID, int patternIndex, in
             VarInts.write(buf,value.isAnimating ? 1:0);
         }
     };
+
+
 }

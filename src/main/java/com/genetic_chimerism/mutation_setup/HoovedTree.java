@@ -278,9 +278,7 @@ public class HoovedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.LEG);
-            MutationAttachments.setPartAttached(player, MutatableParts.LEG, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
         }
     }
 
@@ -300,7 +298,6 @@ public class HoovedTree {
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(centaur, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
-            player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(centaur, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
         }
@@ -308,13 +305,8 @@ public class HoovedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.LEG);
-            MutationAttachments.setPartAttached(player, MutatableParts.LEG, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
-            player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo(partMut2.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
     }
 
@@ -338,9 +330,7 @@ public class HoovedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
     }
 

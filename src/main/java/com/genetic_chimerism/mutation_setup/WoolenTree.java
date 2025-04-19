@@ -51,7 +51,7 @@ public class WoolenTree {
                         ItemStack itemStack = new ItemStack(woolItem == null ? Items.WHITE_WOOL : woolItem, woolCount);
                         world.spawnEntity(new ItemEntity(world, player.getX(), player.getY(), player.getZ(), itemStack));
 
-                        MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(miscMutation.mutID(), miscMutation.treeID(), miscMutation.patternIndex(), miscMutation.color1(), miscMutation.color2(), 0, miscMutation.isReceding(), miscMutation.isAnimating()));
+                        MutationAttachments.setPartGrowth(player, MutatableParts.TAIL,0);
                     }
                 }
             return ActionResult.PASS;
@@ -68,7 +68,7 @@ public class WoolenTree {
                         ItemStack itemStack = new ItemStack(woolItem == null ? Items.WHITE_WOOL : woolItem, woolCount);
                         world.spawnEntity(new ItemEntity(world, entity.getX(), entity.getY(), entity.getZ(), itemStack));
 
-                        MutationAttachments.setPartAttached(entity, MutatableParts.MISC, new MutationBodyInfo(miscMutation.mutID(), miscMutation.treeID(), miscMutation.patternIndex(), miscMutation.color1(), miscMutation.color2(), 0, miscMutation.isReceding(), miscMutation.isAnimating()));
+                        MutationAttachments.setPartGrowth(player, MutatableParts.TAIL,0);
                     }
                 }
             return ActionResult.PASS;
@@ -94,7 +94,7 @@ public class WoolenTree {
                         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, MathHelper.nextBetween(player.getRandom(), 0.9F, 1.0F));
                         if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(woolCoat))) {
                             MutationBodyInfo miscPart = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-                            MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(woolCoat, miscPart.patternIndex(), miscPart.color1(), miscPart.color2(), miscPart.growth() + 100, miscPart.isReceding(), miscPart.isAnimating()));
+                            MutationAttachments.setPartGrowth(player, MutatableParts.MISC, miscPart.growth() + 100);
                         }
                     }
                 }
@@ -225,9 +225,7 @@ public class WoolenTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-            MutationAttachments.setPartAttached(player, MutatableParts.MISC, new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true, false));
+            MutationAttachments.setPartReceding(player, MutatableParts.MISC,true);
         }
 
         @Override

@@ -163,9 +163,7 @@ public class AmphibiousTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.HEAD);
-            MutationAttachments.setPartAttached(player, MutatableParts.HEAD,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
         }
 
         @Override
@@ -197,9 +195,7 @@ public class AmphibiousTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
         @Override
@@ -207,9 +203,7 @@ public class AmphibiousTree {
             if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
                 if (!player.getWorld().isClient) {
                     if (this.cooldown <= 0) {
-                        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-                        MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                                partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                        MutationAttachments.setPartAnimating(player,MutatableParts.TAIL, true);
                         this.cooldown = 300;
                         int range = 4;
                         Vec3d boxPos = player.getPos();
@@ -239,7 +233,4 @@ public class AmphibiousTree {
             return 200;
         }
     }
-
-
-
 }

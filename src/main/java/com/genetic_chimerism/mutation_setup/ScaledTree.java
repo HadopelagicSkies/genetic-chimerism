@@ -153,9 +153,7 @@ public class ScaledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
         @Override
@@ -187,12 +185,8 @@ public class ScaledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut1.mutID(), partMut1.treeID(),
-                    partMut1.patternIndex(), partMut1.color1(), partMut1.color2(), partMut1.growth(), true,false));
-            MutationBodyInfo partMut2 = MutationAttachments.getPartAttached(player, MutatableParts.LEG);
-            MutationAttachments.setPartAttached(player, MutatableParts.LEG,new MutationBodyInfo(partMut2.mutID(), partMut2.treeID(),
-                    partMut2.patternIndex(), partMut2.color1(), partMut2.color2(), partMut2.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
         }
 
         @Override
@@ -221,9 +215,7 @@ public class ScaledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
         @Override
@@ -252,9 +244,7 @@ public class ScaledTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL,new MutationBodyInfo(partMut.mutID(), partMut.treeID(),
-                    partMut.patternIndex(), partMut.color1(), partMut.color2(), partMut.growth(), true,false));
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
         @Override

@@ -19,6 +19,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class GeneticChimerism implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(MutActionPayload.ID, (payload, context) -> {
 			if (payload.isPressed()) {
 				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.keyPressed());
-				if (mutationInfo != null) {
+				if (context.player() instanceof ServerPlayerEntity && mutationInfo != null) {
 					Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 					if (mutation != null) {
 						mutation.mutationAction(context.player());
@@ -64,8 +65,7 @@ public class GeneticChimerism implements ModInitializer {
 			if (mutationInfo != null) {
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) {
-					MutationAttachments.setPartAttached(context.player(), payload.part(), new MutationBodyInfo(mutation.getMutID(),mutation.getTreeID(),
-							payload.patternIndex(), payload.color1(), payload.color2(), mutationInfo.growth(), mutationInfo.isReceding(),mutationInfo.isAnimating()));
+					MutationAttachments.setPartVisuals(context.player(), payload.part(),payload.patternIndex(), payload.color1(), payload.color2());
 				}
 			}
 		});
@@ -76,8 +76,7 @@ public class GeneticChimerism implements ModInitializer {
 			if (mutationInfo != null) {
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) {
-					MutationAttachments.setPartAttached(context.player(), payload.part(), new MutationBodyInfo(mutation.getMutID(),mutation.getTreeID(),
-							mutationInfo.patternIndex(), mutationInfo.color1(), mutationInfo.color2(), mutationInfo.growth(), mutationInfo.isReceding(), payload.isAnimating()));
+					MutationAttachments.setPartAnimating(context.player(), payload.part(),payload.isAnimating());
 				}
 			}
 		});

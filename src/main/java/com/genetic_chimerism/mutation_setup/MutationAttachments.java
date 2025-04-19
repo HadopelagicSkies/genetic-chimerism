@@ -52,4 +52,30 @@ public class MutationAttachments {
     public static void removePartAttached(AttachmentTarget target, MutatableParts part) {
         target.removeAttached(PART_MUTATIONS.get(part));
     }
+
+    public static void setPartVisuals(AttachmentTarget target, MutatableParts part, int patternIndex, int color1, int color2){
+        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
+        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), patternIndex,
+                color1, color2, partInfo.growth(), partInfo.isReceding(),partInfo.isAnimating()));
+    }
+
+    public static void setPartGrowth(AttachmentTarget target, MutatableParts part, int growth){
+        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
+        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                partInfo.color1(), partInfo.color2(), growth, partInfo.isReceding(),partInfo.isAnimating()));
+    }
+
+    public static void setPartReceding(AttachmentTarget target, MutatableParts part, boolean isReceding){
+        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
+        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.isAnimating()));
+    }
+
+    public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating){
+        MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
+        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),isAnimating));
+    }
+
+
 }
