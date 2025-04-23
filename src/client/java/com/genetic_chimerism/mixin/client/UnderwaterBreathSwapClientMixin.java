@@ -23,8 +23,8 @@ public class UnderwaterBreathSwapClientMixin {
     private boolean swapWhereBreathing(PlayerEntity instance, TagKey<Fluid> tagKey, Operation<Boolean> original) {
         if (instance instanceof PlayerEntity) {
             List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(instance);
-            if (mutations.contains(MutationTrees.mutationToCodec(AquaticTree.gills3)) ||
-                    mutations.contains(MutationTrees.mutationToCodec(AquaticTree.gills4))) {
+            if (mutations != null && (mutations.contains(MutationTrees.mutationToCodec(AquaticTree.gills3)) ||
+                    mutations.contains(MutationTrees.mutationToCodec(AquaticTree.gills4)))){
                 return instance.getWorld().getBlockState(BlockPos.ofFloored(instance.getX(), instance.getEyeY(), instance.getZ())).isOf(Blocks.AIR);
             }
         }

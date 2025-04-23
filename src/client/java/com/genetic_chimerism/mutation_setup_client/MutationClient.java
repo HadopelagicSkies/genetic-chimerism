@@ -1,7 +1,10 @@
 package com.genetic_chimerism.mutation_setup_client;
 
+import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.mutation_setup.Mutation;
 import com.genetic_chimerism.mutation_setup.MutationTrees;
+import net.minecraft.client.model.ModelData;
+import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.animation.Animation;
@@ -26,9 +29,13 @@ public class MutationClient {
         return this.mutationTree;
     }
 
-    public TexturedModelData getTexturedModelData() {return null;}
-    public Identifier getTexture1(){return null;}
-    public Identifier getTexture2(){return null;}
+    public TexturedModelData getTexturedModelData() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+        return TexturedModelData.of(modelData, 32, 32);
+    }
+    public Identifier getTexture1(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
+    public Identifier getTexture2(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
 
     public Animation getPartAnimation() {return null;}
     public Animation getPartAnimationL() {return null;}

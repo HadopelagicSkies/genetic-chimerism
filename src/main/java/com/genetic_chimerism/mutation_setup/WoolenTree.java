@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WoolenTree {
     public static final MutationTrees woolen = MutationTrees.addTree(new ArrayList<Mutation>(), "woolen", Identifier.ofVanilla("textures/mob_effect/levitation.png"));
@@ -47,11 +48,11 @@ public class WoolenTree {
                     if (miscMutation.growth() >= woolCoat.getMaxGrowth()) {
                         int woolCount = player.getRandom().nextBetween(1, 3);
                         DyeColor closestDyeColor = getDyeColor(miscMutation);
-                        Item woolItem = Registries.ITEM.get(Identifier.ofVanilla(closestDyeColor.getName() + "_WOOL"));
+                        Item woolItem = Registries.ITEM.get(Identifier.ofVanilla(closestDyeColor.getName() + "_wool"));
                         ItemStack itemStack = new ItemStack(woolItem == null ? Items.WHITE_WOOL : woolItem, woolCount);
                         world.spawnEntity(new ItemEntity(world, player.getX(), player.getY(), player.getZ(), itemStack));
 
-                        MutationAttachments.setPartGrowth(player, MutatableParts.TAIL,0);
+                        MutationAttachments.setPartGrowth(player, MutatableParts.MISC,0);
                     }
                 }
             return ActionResult.PASS;
@@ -76,25 +77,32 @@ public class WoolenTree {
 
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (player.getStackInHand(hand).isOf(Items.AIR) && player.isSneaking()) {
-                if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(eatGrass))) {
+                List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
+                if (mutList.contains(MutationTrees.mutationToCodec(eatGrass))) {
                     BlockState block = player.getWorld().getBlockState(hitResult.getBlockPos());
                     boolean ateGrass = false;
-                    if (block.isOf(Blocks.GRASS_BLOCK)) {
-                        ateGrass = true;
-                        world.setBlockState(hitResult.getBlockPos(), Blocks.DIRT.getDefaultState(), Block.NOTIFY_LISTENERS);
-                    } else if (block.isOf(Blocks.SHORT_GRASS)) {
-                        ateGrass = true;
-                        world.breakBlock(player.getBlockPos(), false);
-                    } else if (block.isOf(Blocks.TALL_GRASS)) {
-                        ateGrass = true;
-                        world.breakBlock(player.getBlockPos(), false);
+                    if (block.isOf(Blocks.GRASS_BLOCK) || block.isOf(Blocks.SHORT_GRASS) || block.isOf(Blocks.TALL_GRASS)) {
+                        if(player.getHungerManager().isNotFull()||player.isCreative()) {
+                            ateGrass = true;
+                        }
                     }
                     if (ateGrass) {
+                        if (block.isOf(Blocks.GRASS_BLOCK)) {
+                            world.setBlockState(hitResult.getBlockPos(), Blocks.DIRT.getDefaultState(), Block.NOTIFY_LISTENERS);
+                        } else if (block.isOf(Blocks.SHORT_GRASS)||block.isOf(Blocks.TALL_GRASS)) {
+                            world.breakBlock(hitResult.getBlockPos(), false);
+                        }
                         new FoodComponent(2, 3.6F, true).onConsume(world,player,null, ConsumableComponent.builder().sound(SoundEvents.ENTITY_GENERIC_EAT).build());
                         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, MathHelper.nextBetween(player.getRandom(), 0.9F, 1.0F));
+
                         if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(woolCoat))) {
                             MutationBodyInfo miscPart = MutationAttachments.getPartAttached(player, MutatableParts.MISC);
-                            MutationAttachments.setPartGrowth(player, MutatableParts.MISC, miscPart.growth() + 100);
+                            if(miscPart.growth()<woolCoat.getMaxGrowth()) {
+                                MutationAttachments.setPartGrowth(player, MutatableParts.MISC, miscPart.growth() + 100);
+                                if(miscPart.growth()>woolCoat.getMaxGrowth()){
+                                    MutationAttachments.setPartGrowth(player, MutatableParts.MISC, woolCoat.getMaxGrowth());
+                                }
+                            }
                         }
                     }
                 }
@@ -212,6 +220,7 @@ public class WoolenTree {
     }
 
     public static class WoolCoatMutation extends Mutation {
+
         public WoolCoatMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
         }
@@ -220,7 +229,7 @@ public class WoolenTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(woolCoat, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(255, 255, 255), ColorHelper.getArgb(255, 255, 255), 0, false, false));
         }
 
         @Override
@@ -230,7 +239,7 @@ public class WoolenTree {
 
         @Override
         public int getMaxGrowth() {
-            return 4000;
+            return 400;
         }
     }
 
@@ -242,8 +251,8 @@ public class WoolenTree {
         @Override
         public void tick(PlayerEntity player) {
             if (player.getHealth() < player.getMaxHealth()){
-                if (player.getRandom().nextBetween(0,12000) < 1)
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100,1));
+                if (player.getRandom().nextBetween(0,600) < 1)
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 150,1));
             }
         }
     }

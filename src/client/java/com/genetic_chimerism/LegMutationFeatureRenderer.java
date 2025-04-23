@@ -51,6 +51,12 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
 
+            this.getContextModel().rightLeg.hidden = true;
+            this.getContextModel().rightPants.hidden = true;
+            this.getContextModel().leftLeg.hidden = true;
+            this.getContextModel().rightPants.hidden = true;
+
+
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;
             matrices.push();
@@ -63,7 +69,6 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             if (growthAnimationL != null) {
                 AnimationHelper.animate(entityModelL, growthAnimationL, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
-            this.getContextModel().leftLeg.hidden = true;
             VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
 
@@ -86,7 +91,6 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             if (growthAnimationR != null ) {
                 AnimationHelper.animate(entityModelR, growthAnimationR, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
-            this.getContextModel().rightLeg.hidden = true;
             VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
 

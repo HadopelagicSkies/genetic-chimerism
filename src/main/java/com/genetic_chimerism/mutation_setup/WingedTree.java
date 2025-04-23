@@ -4,11 +4,16 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import jdk.jshell.Snippet;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.stat.Stat;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
@@ -216,6 +221,8 @@ public class WingedTree {
     }
 
     public static class BackWings1Mutation extends Mutation {
+        int fallRefresh = 0;
+        int cooldown=0;
 
         public BackWings1Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -231,6 +238,33 @@ public class WingedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if(!player.isOnGround() && cooldown <= 0){
+                cooldown = 300;
+                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,100));
+            } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.wings"), true);
+
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if(!player.isOnGround()&& player.hasStatusEffect(StatusEffects.SLOW_FALLING) && fallRefresh>=90){
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,5,2));
+            }
+            else if(player.isOnGround()){
+                player.removeStatusEffect(StatusEffects.SLOW_FALLING);
+                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,false);
+            }
+            if (player.hasStatusEffect(StatusEffects.SLOW_FALLING)){
+                fallRefresh++;
+            }
+            if (cooldown >0){
+                cooldown--;
+            }
         }
 
         @Override
@@ -271,20 +305,22 @@ public class WingedTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
-            MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(harpyWings,0,
+            MutationAttachments.removePartAttached(player, MutatableParts.ARM);
+            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
+            MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(harpyWings,0,
                     ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.ARM,true);
         }
 
         @Override
         public int getMaxGrowth() {
             return 1000;
         }
+
     }
 
 }

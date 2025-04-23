@@ -52,7 +52,7 @@ public class GeneticChimerism implements ModInitializer {
 				MutationBodyInfo mutationInfo = MutationAttachments.getPartAttached(context.player(), payload.keyPressed());
 				if (context.player() instanceof ServerPlayerEntity && mutationInfo != null) {
 					Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
-					if (mutation != null) {
+					if (mutation != null && mutationInfo.growth() >= mutation.getMaxGrowth()) {
 						mutation.mutationAction(context.player());
 					}
 				}

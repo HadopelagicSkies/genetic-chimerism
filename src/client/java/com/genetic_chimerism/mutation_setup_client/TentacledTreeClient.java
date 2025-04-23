@@ -21,15 +21,15 @@ public class TentacledTreeClient {
 
     public static final MutationClient inkInvis = tentacled.addToTree(new MutationClient("inkInvis", "tentacled"));
     public static final MutationClient inkBlind = tentacled.addToTree(new MutationClient("inkBlind", "tentacled"));
-    public static final MutationClient siphonJet = tentacled.addToTree(new SiphonJetMutationClient("siphonJet", "tentacled"));
+    public static final MutationClient siphonJet = tentacled.addToTree(new SiphonJetMutation("siphonJet", "tentacled"));
 
     public static final MutationClient inkGlow = tentacled.addToTree(new MutationClient("inkGlow", "tentacled"));
     public static final MutationClient inkFirey = tentacled.addToTree(new MutationClient("inkFirey", "tentacled"));
     public static final MutationClient fireyJet = tentacled.addToTree(new MutationClient("fireyJet", "tentacled"));
 
 
-    public static class SiphonJetMutationClient extends MutationClient {
-        public SiphonJetMutationClient(String mutID, String treeID) {
+    public static class SiphonJetMutation extends MutationClient {
+        public SiphonJetMutation(String mutID, String treeID) {
             super(mutID, treeID);
         }
 

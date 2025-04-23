@@ -80,4 +80,5 @@ public class GeneticChimerismBlocks {
 
     public static final Block MUTAGEN_SYNTHESIZER = synthRegister(Block.Settings.create(), "mutagen_synthesizer");
     public static final Block INFUSION_STATION = infusionRegister(Block.Settings.create(), "infusion_station");
+    public static final Block HIVE_SCAFFOLD = register(Block.Settings.create(), "hive_scaffold");
 }

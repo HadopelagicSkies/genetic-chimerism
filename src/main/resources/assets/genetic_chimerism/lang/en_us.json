@@ -51,7 +51,7 @@
   "genetic_chimerism.arm_part": "Arms",
   "genetic_chimerism.leg_part": "Legs",
   "genetic_chimerism.tail_part": "Tail",
-  "genetic_chimerism.misc_part": "Misc",
+  "genetic_chimerism.misc_part": "Misc Mutation",
 
   "gui.genetic_chimerism.chroma_menu": "Chromatophore Recoloring",
   "gui.genetic_chimerism.chroma_menu.red": "Red: ",
@@ -88,5 +88,6 @@
   "mutations.mutation.desc.sharktail": "You grow a shark tail! You can swim even faster",
   "mutations.mutation.threshertail": "Thresher Shark Tail",
   "mutations.mutation.desc.threshertail": "Your tail tip becomes long like a whip! You can use it to knock enemies back.",
+
   "mutations.mutation.cooldown.tailslap": "Tail Slap is still on cooldown!"
 }

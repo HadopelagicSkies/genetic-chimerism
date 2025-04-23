@@ -43,8 +43,10 @@ public class MiscMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             Identifier texture2 = mutation.getTexture2();
             Animation animation = mutation.getPartAnimation();
             Animation actionAnimation = mutation.getActionAnimation();
+            Animation growthAnimation = mutation.getGrowthAnimation();
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
+            int growth = mutInfo.growth();
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
 
@@ -57,12 +59,17 @@ public class MiscMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             else if (actionAnimation != null && mutInfo.isAnimating()){
                 AnimationHelper.animate(entityModel, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
+            if (growthAnimation != null) {
+                AnimationHelper.animate(entityModel, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+            }
+
             VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
 
-            VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
-
-            entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
+            if(texture2 != null) {
+                VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+                entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, color2));
+            }
             matrices.pop();
             if (animation != null) {
                 if ((float) this.runningTime / 1000.0F > animation.lengthInSeconds() && animation.looping()) {

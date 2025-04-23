@@ -48,9 +48,13 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             ModelPart modelL = modelData.createModel();
             modelL.copyTransform(this.getContextModel().leftArm);
             int growth = mutInfo.growth();
-
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
+
+            this.getContextModel().rightArm.hidden = true;
+            this.getContextModel().rightSleeve.hidden = true;
+            this.getContextModel().leftArm.hidden = true;
+            this.getContextModel().leftSleeve.hidden = true;
 
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
             int animationSpeed = 3;
@@ -87,7 +91,6 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             if (growthAnimationR != null) {
                 AnimationHelper.animate(entityModelR, growthAnimationR, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
-            this.getContextModel().rightArm.hidden = true;
 
             VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));

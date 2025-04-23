@@ -298,9 +298,7 @@ public class InvertebrateTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
-                    MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-                    MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                            partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true);
                     this.cooldown = 300;
                     int range = 4;
                     Vec3d boxPos = player.getPos();
@@ -352,9 +350,7 @@ public class InvertebrateTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
-                    MutationBodyInfo partInfo = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-                    MutationAttachments.setPartAttached(player,MutatableParts.TAIL , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                            partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),true));
+                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true);
                     this.cooldown = 300;
                     int range = 4;
                     Vec3d boxPos = player.getPos();
@@ -385,7 +381,8 @@ public class InvertebrateTree {
 
     public static class BeeAbdomenMutation extends Mutation {
         private int cooldown = 0;
-        private int storedHoney =0;
+        private int storedHoney = 0;
+        private int spellIndex = 0;
 
         public BeeAbdomenMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -400,17 +397,61 @@ public class InvertebrateTree {
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
+            if (!player.getWorld().isClient &&player.isSneaking()){
+                boolean hasQueenMut = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(queenPheromones));
+                spellIndex = spellIndex == (hasQueenMut ? 4 : 3) ? 0 : spellIndex+1;
+                player.sendMessage(Text.translatable("mutations.mutation.beeAbdomen.beeSelected"),true);
+            }else if(!player.getWorld().isClient){
+                if (this.cooldown <= 0) {
+                    this.cooldown = 500;
+                    int honeyCost=0;
 
+                    if(spellIndex==0){
+                        honeyCost = 50;
+                        if (storedHoney >= honeyCost){
+
+                        }
+                    }
+                    else if(spellIndex==1){
+                        honeyCost = 50;
+                        if (storedHoney >= honeyCost){
+
+                        }
+                    }
+                    else if(spellIndex==2){
+                        honeyCost = 50;
+                        if (storedHoney >= honeyCost){
+
+                        }
+                    }
+                    else if(spellIndex==3){
+                        honeyCost = 50;
+                        if (storedHoney >= honeyCost){
+
+                        }
+                    }
+                    else if(spellIndex==4){
+                        honeyCost = 50;
+                        if (storedHoney >= honeyCost){
+
+                        }
+                    }
+                    storedHoney -= honeyCost;
+                }
+                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.beeMagic"),true);
+            }
         }
 
         @Override
         public void tick(PlayerEntity player) {
+            if (storedHoney < 2000 && player.getRandom().nextBetween(0,100) < 10){
+                storedHoney++;
+            }
 
         }
     }
