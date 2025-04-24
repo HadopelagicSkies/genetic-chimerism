@@ -38,16 +38,12 @@ public class MutationClient {
     public Identifier getTexture2(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
 
     public Animation getPartAnimation() {return null;}
-    public Animation getPartAnimationL() {return null;}
-    public Animation getPartAnimationR() {return null;}
 
     public Animation getGrowthAnimation() {return null;}
-    public Animation getGrowthAnimationL() {return null;}
-    public Animation getGrowthAnimationR() {return null;}
 
     public Animation getActionAnimation() {return null;}
-    public Animation getActionAnimationL() {return null;}
-    public Animation getActionAnimationR() {return null;}
+
+    public Animation getMirrorAnimation() {return null;}
 
     public void mutationAction(ClientPlayerEntity player) {}
 
@@ -56,5 +52,6 @@ public class MutationClient {
     }
 
     public static final MutationClient human = MutationTreesClient.human.addToTree(new MutationClient("antigen", "human"));
+
 
 }

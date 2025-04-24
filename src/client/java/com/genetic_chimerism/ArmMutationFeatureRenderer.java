@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import com.genetic_chimerism.mutation_setup_client.WingedTreeClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
@@ -39,58 +40,58 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
-            Animation animationL = mutation.getPartAnimationL();
-            Animation animationR = mutation.getPartAnimationR();
-            Animation growthAnimationL = mutation.getGrowthAnimation();
-            Animation growthAnimationR = mutation.getGrowthAnimation();
-            Animation actionAnimationL = mutation.getActionAnimation();
-            Animation actionAnimationR = mutation.getActionAnimation();
-            ModelPart modelL = modelData.createModel();
-            modelL.copyTransform(this.getContextModel().leftArm);
+            Animation animation = mutation.getPartAnimation();
+            Animation growthAnimation = mutation.getGrowthAnimation();
+            Animation actionAnimation = mutation.getActionAnimation();
+            Animation mirrorAnimation = mutation.getMirrorAnimation();
             int growth = mutInfo.growth();
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
+            int animationSpeed = 3;
 
             this.getContextModel().rightArm.hidden = true;
             this.getContextModel().rightSleeve.hidden = true;
             this.getContextModel().leftArm.hidden = true;
             this.getContextModel().leftSleeve.hidden = true;
 
+            ModelPart modelR = modelData.createModel();
+            modelR.copyTransform(this.getContextModel().rightArm);
+            MutationEntityModel entityModelR = new MutationEntityModel(modelR);
+
+            ModelPart modelL = modelData.createModel();
+            modelL.copyTransform(this.getContextModel().leftArm);
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
-            int animationSpeed = 3;
-            matrices.push();
-            if (animationL != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
-                AnimationHelper.animate(entityModelL, animationL, this.runningTime, 1, new Vector3f(0, 0, 0));
+
+            if (mutation == WingedTreeClient.harpyWings) {
+                if (state.isGliding) {
+                    animationSpeed = 5;
+                    AnimationHelper.animate(entityModelR, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
+                    AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
+
+                }
+
+            } else if (animation != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+                AnimationHelper.animate(entityModelR, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
             }
-            else if (actionAnimationL != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
-                AnimationHelper.animate(entityModelL, actionAnimationL, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
+            else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
+                AnimationHelper.animate(entityModelR, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
-            if (growthAnimationL != null) {
-                AnimationHelper.animate(entityModelL, growthAnimationL, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+            if (growthAnimation != null) {
+                AnimationHelper.animate(entityModelR, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+            }
+            if (mirrorAnimation != null) {
+                AnimationHelper.animate(entityModelL, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));
             }
 
+            matrices.push();
             VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
 
             VertexConsumer vertexConsumerL2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
             entityModelL.render(matrices, vertexConsumerL2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
-            matrices.pop();
-
-            ModelPart modelR = modelData.createModel();
-            modelR.scale(new Vector3f(-1f,0f,0f));
-            modelR.copyTransform(this.getContextModel().rightArm);
-
-            MutationEntityModel entityModelR = new MutationEntityModel(modelR);
-            matrices.push();
-            if (animationR != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
-                AnimationHelper.animate(entityModelR, animationR, this.runningTime, 1, new Vector3f(0, 0, 0));
-            }
-            else if (actionAnimationR != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
-                AnimationHelper.animate(entityModelR, actionAnimationR, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
-            }
-            if (growthAnimationR != null) {
-                AnimationHelper.animate(entityModelR, growthAnimationR, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
-            }
 
             VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
@@ -99,40 +100,31 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             entityModelR.render(matrices, vertexConsumerR2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
 
-            if (animationL != null) {
-                if ((float) this.runningTime / 1000.0F > animationL.lengthInSeconds() && animationL.looping()) {
+            if (animation != null) {
+                if ((float) this.runningTime / 1000.0F > animation.lengthInSeconds() && animation.looping()) {
                     this.runningTime = 0;
-                } else if ((float) this.runningTime / 1000.0F <= animationL.lengthInSeconds()) {
+                } else if ((float) this.runningTime / 1000.0F <= animation.lengthInSeconds()) {
                     this.runningTime += animationSpeed;
                 }
             }
-            else if (animationR != null) {
-                if ((float) this.runningTime / 1000.0F > animationR.lengthInSeconds() && animationR.looping()) {
-                    this.runningTime = 0;
-                } else if ((float) this.runningTime / 1000.0F <= animationR.lengthInSeconds()) {
-                    this.runningTime += animationSpeed;
-                }
-            }
-            if (actionAnimationL != null) {
-                if ((float) this.actionRunningTime / 1000.0F > actionAnimationL.lengthInSeconds() && actionAnimationL.looping()) {
+
+            if (actionAnimation != null) {
+                if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && actionAnimation.looping()) {
                     this.actionRunningTime = 0;
-                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationL.lengthInSeconds() && !actionAnimationL.looping()) {
+                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && !actionAnimation.looping()) {
                     this.actionRunningTime = 0;
                     ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.ARM,false));
-                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationL.lengthInSeconds()) {
+                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimation.lengthInSeconds()) {
                     this.actionRunningTime += animationSpeed;
                 }
             }
-            else if (actionAnimationR != null) {
-                if ((float) this.actionRunningTime / 1000.0F > actionAnimationR.lengthInSeconds() && actionAnimationR.looping()) {
-                    this.actionRunningTime = 0;
-                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimationR.lengthInSeconds() && !actionAnimationR.looping()) {
-                    this.actionRunningTime = 0;
-                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.ARM,false));
-                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimationR.lengthInSeconds()) {
-                    this.actionRunningTime += 2*animationSpeed;
-                }
-            }
+
+        }
+        else{
+            this.getContextModel().rightArm.hidden = false;
+            this.getContextModel().rightSleeve.hidden = false;
+            this.getContextModel().leftArm.hidden = false;
+            this.getContextModel().leftSleeve.hidden = false;
         }
     }
 }

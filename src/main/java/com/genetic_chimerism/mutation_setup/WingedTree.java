@@ -283,7 +283,7 @@ public class WingedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(125,164,137),0, false, false));
         }
 
         @Override
@@ -308,7 +308,7 @@ public class WingedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.ARM);
             MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
             MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(harpyWings,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false, false));
         }
 
         @Override
