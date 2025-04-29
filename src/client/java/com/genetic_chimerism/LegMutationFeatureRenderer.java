@@ -3,7 +3,6 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
-import com.genetic_chimerism.mutation_setup_client.WingedTreeClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
@@ -34,7 +33,7 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.ARM);
+        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.LEG);
         if(mutInfo != null) {
             MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
             TexturedModelData modelData = mutation.getTexturedModelData();
@@ -64,15 +63,15 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
 
             if (animation != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelR, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
                 AnimationHelper.animate(entityModelR, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
                 AnimationHelper.animate(entityModelR, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
             if (mirrorAnimation != null) {
                 AnimationHelper.animate(entityModelL, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));

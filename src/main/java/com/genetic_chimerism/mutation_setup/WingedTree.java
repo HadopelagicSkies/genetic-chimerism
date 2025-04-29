@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WingedTree {
     public static final MutationTrees winged = MutationTrees.addTree(new ArrayList<Mutation>(), "winged", Identifier.ofVanilla("textures/mob_effect/slow_falling.png"));
@@ -232,7 +233,7 @@ public class WingedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false, false));
         }
 
         @Override
@@ -253,7 +254,8 @@ public class WingedTree {
         @Override
         public void tick(PlayerEntity player) {
             if(!player.isOnGround()&& player.hasStatusEffect(StatusEffects.SLOW_FALLING) && fallRefresh>=90){
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,5,2));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,100,2));
+                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true);
             }
             else if(player.isOnGround()){
                 player.removeStatusEffect(StatusEffects.SLOW_FALLING);
@@ -281,9 +283,12 @@ public class WingedTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
+            int patternIndex = MutationAttachments.getPartAttached(player, MutatableParts.TORSO).patternIndex();
+            int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TORSO).color1();
+            int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TORSO).color2();
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
-            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,0,
-                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(125,164,137),0, false, false));
+            MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,patternIndex,
+                    color1,color2,0, false, false));
         }
 
         @Override
@@ -292,8 +297,21 @@ public class WingedTree {
         }
 
         @Override
+        public void tick(PlayerEntity player) {
+            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
+            if (partMut != null && partMut.isReceding() && partMut.growth() <= 2) {
+                MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
+                List<MutationInfo> mutList = new ArrayList<>(MutationAttachments.getMutationsAttached(player));
+                mutList.remove(MutationTrees.mutationToCodec(backWings2));
+                MutationAttachments.setMutationsAttached(player,mutList);
+                MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings1,partMut.patternIndex(),
+                        partMut.color1(),partMut.color2(),backWings1.getMaxGrowth()-3, true,false));
+            }
+        }
+
+        @Override
         public int getMaxGrowth() {
-            return 1000;
+            return 500;
         }
     }
 

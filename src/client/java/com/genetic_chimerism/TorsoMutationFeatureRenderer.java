@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import com.genetic_chimerism.mutation_setup_client.WingedTreeClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;
@@ -51,7 +52,17 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             MutationEntityModel entityModel = new MutationEntityModel(model);
             int animationSpeed = 3;
             matrices.push();
-            if (animation != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+
+            if (mutation == WingedTreeClient.backWings1 || mutation == WingedTreeClient.backWings2) {
+                if (state.isGliding && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+                    animationSpeed = 7;
+                    AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
+                }
+                else {
+                    animationSpeed = 0;
+                    this.runningTime = 0;
+                }
+            } else if (animation != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){

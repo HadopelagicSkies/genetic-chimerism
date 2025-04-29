@@ -72,9 +72,9 @@ public class PlayerEntityMixin {
 				} else {
 					MutationAttachments.setPartGrowth(player, part, partMut.growth() + 1);
 				}
-			} else if (partMut != null && !partMut.isReceding() && partMut.growth() == MutationTrees.mutationFromCodec(partMut).getMaxGrowth() || partMut.growth() == MutationTrees.mutationFromCodec(partMut).getMaxGrowth() + 1) {
+			} else if (partMut != null && !partMut.isReceding() && (partMut.growth() == MutationTrees.mutationFromCodec(partMut).getMaxGrowth() || partMut.growth() == MutationTrees.mutationFromCodec(partMut).getMaxGrowth() + 1)){
 				player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.fully_grown", part.getTranslatableName()), true);
-				MutationAttachments.setPartGrowth(player, part, partMut.growth() + 1);
+				MutationAttachments.setPartGrowth(player, part, partMut.growth() + 2);
 			} else if (partMut != null && partMut.isReceding() && partMut.growth() > 0) {
 				if (mutList.contains(MutationTrees.mutationToCodec(AmphibiousTree.growthSpeed))) {
 					MutationAttachments.setPartGrowth(player, part, partMut.growth() - 2);

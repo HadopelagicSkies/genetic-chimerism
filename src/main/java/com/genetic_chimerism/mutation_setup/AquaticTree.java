@@ -301,7 +301,6 @@ public class AquaticTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
         }
 
@@ -340,8 +339,11 @@ public class AquaticTree {
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
             if (partMut != null && partMut.isReceding() && partMut.growth() <= 2) {
                 MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
+                List<MutationInfo> mutList =  MutationAttachments.getMutationsAttached(player);
+                mutList.remove(MutationTrees.mutationToCodec(thresherTail));
+                MutationAttachments.setMutationsAttached(player,mutList);
                 MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharkTail,partMut.patternIndex(),
-                        partMut.color1(),partMut.color2(),2000, true,false));
+                        partMut.color1(),partMut.color2(),sharkTail.getMaxGrowth()-3, true,false));
             }
         }
 

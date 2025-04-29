@@ -63,24 +63,25 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             MutationEntityModel entityModelL = new MutationEntityModel(modelL);
 
             if (mutation == WingedTreeClient.harpyWings) {
-                if (state.isGliding) {
-                    animationSpeed = 5;
+                if (state.isGliding && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+                    animationSpeed = 7;
                     AnimationHelper.animate(entityModelR, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
-                    AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
-
+                    AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
+                } else {
+                    animationSpeed = 0;
+                    this.runningTime = 0;
                 }
-
             } else if (animation != null && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModelR, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(animation), this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
                 AnimationHelper.animate(entityModelR, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
                 AnimationHelper.animate(entityModelR, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationMirrorHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
             }
             if (mirrorAnimation != null) {
                 AnimationHelper.animate(entityModelL, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));

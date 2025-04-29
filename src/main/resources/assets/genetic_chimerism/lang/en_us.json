@@ -43,8 +43,8 @@
   "block.genetic_chimerism.infusion_station.already_infused": "You have already been infused with the %1$s mutation.",
   "block.genetic_chimerism.infusion_station.not_grown": "You are still growing into your mutations.",
   "block.genetic_chimerism.infusion_station.not_receded": "Your previous mutations are still receding.",
-  "block.genetic_chimerism.infusion_station.fully_grown": "Your %1$s is fully grown!",
-  "block.genetic_chimerism.infusion_station.fully_receded": "Your %1$s has fully receded.",
+  "block.genetic_chimerism.infusion_station.fully_grown": "Your %1$s Mutation is fully grown!",
+  "block.genetic_chimerism.infusion_station.fully_receded": "Your %1$s Mutation has fully receded.",
 
   "genetic_chimerism.head_part": "Head",
   "genetic_chimerism.torso_part": "Torso",
