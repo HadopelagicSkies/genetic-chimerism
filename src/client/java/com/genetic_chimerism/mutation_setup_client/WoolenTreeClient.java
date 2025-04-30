@@ -45,7 +45,7 @@ public class WoolenTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(0F, 0F, 0F), Transformation.Interpolations.LINEAR),

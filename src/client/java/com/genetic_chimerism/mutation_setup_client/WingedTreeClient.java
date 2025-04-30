@@ -2,13 +2,11 @@ package com.genetic_chimerism.mutation_setup_client;
 
 import com.genetic_chimerism.AnimationTransformHelper;
 import com.genetic_chimerism.GeneticChimerism;
-import com.genetic_chimerism.mutation_setup.WingedTree;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.animation.Keyframe;
 import net.minecraft.client.render.entity.animation.Transformation;
-import net.minecraft.client.render.entity.model.ModelTransformer;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -19,8 +17,8 @@ public class WingedTreeClient {
     public static void initialize() {
     }
 
-    public static final MutationClient backWings1 = winged.addToTree(new BackWings1Mutation("backWings1", "winged"));
     public static final MutationClient backWings2 = winged.addToTree(new BackWings2Mutation("backWings2", "winged"));
+    public static final MutationClient backWings1 = winged.addToTree(new BackWings1Mutation("backWings1", "winged"));
     public static final MutationClient harpyWings = winged.addToTree(new HarpyWingsMutation("harpyWings", "winged"));
 
     public static class HarpyWingsMutation extends MutationClient {
@@ -66,7 +64,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -97,7 +95,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
+        public Animation createPartAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -127,7 +125,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getActionAnimation() {
+        public Animation createActionAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 90.0F, 120.0F), Transformation.Interpolations.CUBIC),
@@ -162,7 +160,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getMirrorAnimation() {
+        public Animation createMirrorAnimation() {
             return Animation.Builder.create(0.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(-1.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
@@ -208,13 +206,13 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
-            return AnimationTransformHelper.scaleAnimation(backWings2.getPartAnimation(), scale);
+        public Animation createPartAnimation() {
+            return AnimationTransformHelper.scaleAnimation(backWings2.getAnimation("part"), scale);
         }
 
         @Override
-        public Animation getGrowthAnimation() {
-            Animation growth = Animation.Builder.create(1.0F)
+        public Animation createGrowthAnimation() {
+            return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.625F, AnimationHelper.createScalingVector(scale, scale, scale), Transformation.Interpolations.LINEAR),
@@ -286,12 +284,11 @@ public class WingedTreeClient {
                             new Keyframe(1.0F, AnimationHelper.createScalingVector(scale, scale, scale), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
-            return AnimationTransformHelper.scaleAnimation(growth, scale);
         }
 
         @Override
-        public Animation getActionAnimation() {
-            return AnimationTransformHelper.scaleAnimation(backWings2.getActionAnimation(), scale);
+        public Animation createActionAnimation() {
+            return AnimationTransformHelper.scaleAnimation(backWings2.getAnimation("action"), scale);
         }
     }
 
@@ -373,7 +370,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
+        public Animation createPartAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -481,7 +478,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(BackWings1Mutation.scale, BackWings1Mutation.scale, BackWings1Mutation.scale), Transformation.Interpolations.LINEAR),
@@ -557,7 +554,7 @@ public class WingedTreeClient {
         }
 
         @Override
-        public Animation getActionAnimation() {
+        public Animation createActionAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, -5.0F, 0.0F), Transformation.Interpolations.LINEAR),

@@ -58,7 +58,7 @@ public class TentacledTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -80,7 +80,7 @@ public class TentacledTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
+        public Animation createPartAnimation() {
             return Animation.Builder.create(1.0F).looping()
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR),
@@ -106,7 +106,7 @@ public class TentacledTreeClient {
         }
 
         @Override
-        public Animation getActionAnimation() {
+        public Animation createActionAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.CUBIC),

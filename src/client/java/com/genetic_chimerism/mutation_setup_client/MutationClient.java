@@ -10,13 +10,21 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MutationClient {
     private final String mutID;
     private final String mutationTree;
+    private final Map<String,Animation> animations = new HashMap<>();
 
     public MutationClient(String mutID, String treeID) {
         this.mutID = mutID;
         this.mutationTree = treeID;
+        this.animations.put("part",this.createPartAnimation());
+        this.animations.put("growth",this.createGrowthAnimation());
+        this.animations.put("action",this.createActionAnimation());
+        this.animations.put("mirror",this.createMirrorAnimation());
     }
 
     public static void initialize() {
@@ -29,6 +37,10 @@ public class MutationClient {
         return this.mutationTree;
     }
 
+    public Animation getAnimation(String key) {
+        return animations.get(key);
+    }
+
     public TexturedModelData getTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
@@ -37,13 +49,13 @@ public class MutationClient {
     public Identifier getTexture1(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
     public Identifier getTexture2(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
 
-    public Animation getPartAnimation() {return null;}
+    public Animation createPartAnimation() {return null;}
 
-    public Animation getGrowthAnimation() {return null;}
+    public Animation createGrowthAnimation() {return null;}
 
-    public Animation getActionAnimation() {return null;}
+    public Animation createActionAnimation() {return null;}
 
-    public Animation getMirrorAnimation() {return null;}
+    public Animation createMirrorAnimation() {return null;}
 
     public void mutationAction(ClientPlayerEntity player) {}
 

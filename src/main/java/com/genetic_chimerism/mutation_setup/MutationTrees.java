@@ -76,19 +76,19 @@ public class MutationTrees {
     }
     public static void initialize() {
         Mutation.initialize();
-        HornedTree.initialize();
-        WingedTree.initialize();
-        ShelledTree.initialize();
         AmphibiousTree.initialize();
-        ScaledTree.initialize();
-        HoovedTree.initialize();
         AquaticTree.initialize();
+        HoovedTree.initialize();
+        HornedTree.initialize();
         InvertebrateTree.initialize();
+        ScaledTree.initialize();
+        ShelledTree.initialize();
         SmallMammalTree.initialize();
         SpinedTree.initialize();
-        TuskedTree.initialize();
-        WoolenTree.initialize();
         TentacledTree.initialize();
+        TuskedTree.initialize();
+        WingedTree.initialize();
+        WoolenTree.initialize();
         SpecialTree.initialize();
     }
 

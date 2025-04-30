@@ -40,9 +40,9 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
-            Animation animation = mutation.getPartAnimation();
-            Animation growthAnimation = mutation.getGrowthAnimation();
-            Animation actionAnimation = mutation.getActionAnimation();
+            Animation animation = mutation.getAnimation("part");
+            Animation growthAnimation = mutation.getAnimation("growth");
+            Animation actionAnimation = mutation.getAnimation("action");
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
             int growth = mutInfo.growth();
@@ -69,7 +69,7 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
                 AnimationHelper.animate(entityModel, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
-                AnimationHelper.animate(entityModel, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModel, growthAnimation, (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
             }
             VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));

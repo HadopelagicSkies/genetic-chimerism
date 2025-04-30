@@ -40,10 +40,10 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
-            Animation animation = mutation.getPartAnimation();
-            Animation growthAnimation = mutation.getGrowthAnimation();
-            Animation actionAnimation = mutation.getActionAnimation();
-            Animation mirrorAnimation = mutation.getMirrorAnimation();
+            Animation animation = mutation.getAnimation("part");
+            Animation growthAnimation = mutation.getAnimation("growth");
+            Animation actionAnimation = mutation.getAnimation("action");
+            Animation mirrorAnimation = mutation.getAnimation("mirror");
             int growth = mutInfo.growth();
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
@@ -80,8 +80,8 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(actionAnimation), this.actionRunningTime, 1, new Vector3f(0, 0, 0));
             }
             if (growthAnimation != null) {
-                AnimationHelper.animate(entityModelR, growthAnimation, growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
-                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(growthAnimation), growth/mutation.getNotClient().getMaxGrowth() * 1000L, 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelR, growthAnimation, (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                AnimationHelper.animate(entityModelL, AnimationTransformHelper.mirrorAnimationX(growthAnimation), (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
             }
             if (mirrorAnimation != null) {
                 AnimationHelper.animate(entityModelL, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));

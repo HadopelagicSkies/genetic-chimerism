@@ -40,9 +40,9 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
-            Animation animation = mutation.getPartAnimation();
-            Animation growthAnimation = mutation.getGrowthAnimation();
-            Animation actionAnimation = mutation.getActionAnimation();
+            Animation animation = mutation.getAnimation("part");
+            Animation growthAnimation = mutation.getAnimation("growth");
+            Animation actionAnimation = mutation.getAnimation("action");
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
             int growth = mutInfo.growth();

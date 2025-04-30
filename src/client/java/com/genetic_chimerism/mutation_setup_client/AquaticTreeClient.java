@@ -64,7 +64,7 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
+        public Animation createPartAnimation() {
             return Animation.Builder.create(1.0F).looping()
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -105,7 +105,7 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -186,7 +186,7 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Animation getPartAnimation() {
+        public Animation createPartAnimation() {
             return Animation.Builder.create(1.0F).looping()
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR),
@@ -227,7 +227,7 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Animation getGrowthAnimation() {
+        public Animation createGrowthAnimation() {
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
@@ -273,7 +273,7 @@ public class AquaticTreeClient {
         }
 
         @Override
-        public Animation getActionAnimation() {
+        public Animation createActionAnimation() {
             return Animation.Builder.create(0.5F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
