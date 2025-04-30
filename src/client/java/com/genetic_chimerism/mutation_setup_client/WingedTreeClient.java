@@ -185,7 +185,7 @@ public class WingedTreeClient {
     }
 
     public static class BackWings1Mutation extends MutationClient {
-        public static float scale = 0.5f;
+        public static float scale = 0.75f;
         public BackWings1Mutation(String mutID, String treeID) {
             super(mutID, treeID);
         }

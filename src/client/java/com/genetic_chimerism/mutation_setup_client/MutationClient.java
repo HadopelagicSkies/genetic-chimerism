@@ -42,9 +42,7 @@ public class MutationClient {
     }
 
     public TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
-        return TexturedModelData.of(modelData, 32, 32);
+        return TexturedModelData.of(new ModelData(), 32, 32);
     }
     public Identifier getTexture1(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
     public Identifier getTexture2(){return Identifier.of(GeneticChimerism.MOD_ID, "textures/body_part/blank.png");}
