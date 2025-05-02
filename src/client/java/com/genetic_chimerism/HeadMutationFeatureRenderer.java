@@ -1,6 +1,7 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
+import com.genetic_chimerism.mutation_setup_client.AmphibiousTreeClient;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -60,9 +61,9 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             if (growthAnimation != null) {
                 AnimationHelper.animate(entityModel, growthAnimation, (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
             }
+
             VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
             entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
-
             VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
             entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
             matrices.pop();
@@ -73,6 +74,7 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
                     this.runningTime += animationSpeed;
                 }
             }
+
             if (actionAnimation != null) {
                 if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && actionAnimation.looping()) {
                     this.actionRunningTime = 0;

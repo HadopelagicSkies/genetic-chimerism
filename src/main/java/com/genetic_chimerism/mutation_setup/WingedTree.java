@@ -222,8 +222,9 @@ public class WingedTree {
     }
 
     public static class BackWings1Mutation extends Mutation {
-        int fallRefresh = 0;
+        int fallRefresh =0;
         int cooldown=0;
+        boolean falling = false;
 
         public BackWings1Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -243,12 +244,14 @@ public class WingedTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if(!player.isOnGround() && cooldown <= 0){
-                cooldown = 300;
-                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true);
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,100));
-            } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.wings"), true);
-
+            if (MutationAttachments.getPartAttached(player,MutatableParts.TORSO).growth() >= this.getMaxGrowth()){
+                if (!player.isOnGround() && cooldown <= 0) {
+                    cooldown = 300;
+                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 100));
+                    falling = true;
+                } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.wings"), true);
+            }
         }
 
         @Override
@@ -257,7 +260,8 @@ public class WingedTree {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,100,2));
                 MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true);
             }
-            else if(player.isOnGround()){
+            else if(player.isOnGround() && falling){
+                falling = false;
                 player.removeStatusEffect(StatusEffects.SLOW_FALLING);
                 MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,false);
             }

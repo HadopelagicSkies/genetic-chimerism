@@ -1,6 +1,7 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
+import com.genetic_chimerism.mutation_setup_client.AmphibiousTreeClient;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -25,6 +26,7 @@ import org.joml.Vector3f;
 public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
     private long runningTime = 0;
     private long actionRunningTime = 0;
+    private long frogRunningTime = 0;
 
     public TailMutationFeatureRenderer(FeatureRendererContext<PlayerEntityRenderState, PlayerEntityModel> context) {
         super(context);
@@ -57,7 +59,7 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             }
             MutationEntityModel entityModel = new MutationEntityModel(model);
             matrices.push();
-            if (animation != null && !mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
+            if (animation != null && (!mutInfo.isAnimating() || mutation == AmphibiousTreeClient.tadpoleTail) && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                 AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
             }
             else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
@@ -87,6 +89,26 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
                     ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.TAIL,false));
                 } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimation.lengthInSeconds()) {
                     this.actionRunningTime += 2*animationSpeed;
+                }
+            }
+
+            if(mutInfo.isAnimating() && mutation == AmphibiousTreeClient.tadpoleTail){
+                TexturedModelData frogModelData = AmphibiousTreeClient.TadpoleTailMutation.getTongueModelData();
+                ModelPart frogModel = frogModelData.createModel();
+                frogModel.copyTransform(this.getContextModel().head);
+                MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel);
+                Animation frogAnimation = AmphibiousTreeClient.tadpoleTail.getAnimation("tongue");
+
+                matrices.push();
+                AnimationHelper.animate(frogEntityModel, frogAnimation, this.frogRunningTime, 1, new Vector3f(0, 0, 0));
+                VertexConsumer vertexConsumerFrog = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+                frogEntityModel.render(matrices, vertexConsumerFrog, light, OverlayTexture.DEFAULT_UV, -1);
+                matrices.pop();
+                if ((float) this.frogRunningTime / 1000.0F > frogAnimation.lengthInSeconds()) {
+                    this.frogRunningTime = 0;
+                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.TAIL,false));
+                } else if ((float) this.frogRunningTime / 1000.0F <= frogAnimation.lengthInSeconds()) {
+                    this.frogRunningTime += 6;
                 }
             }
         }

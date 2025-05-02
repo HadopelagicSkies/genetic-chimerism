@@ -17,7 +17,7 @@ public class MutationTreesClient {
 
     public static void initialize() {
         MutationClient.initialize();
-//        AmphibiousTreeClient.initialize();
+        AmphibiousTreeClient.initialize();
         AquaticTreeClient.initialize();
 //        HoovedTreeClient.initialize();
         HornedTreeClient.initialize();
@@ -39,6 +39,8 @@ public class MutationTreesClient {
         mutationTreesListClient.add(mutationTree);
         return mutationTree;
     }
+
+
 
     public MutationClient addToTree(MutationClient mutation){
         this.mutations.add(mutation);

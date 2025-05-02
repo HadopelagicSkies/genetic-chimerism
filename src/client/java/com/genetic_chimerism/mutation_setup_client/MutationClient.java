@@ -16,7 +16,7 @@ import java.util.Map;
 public class MutationClient {
     private final String mutID;
     private final String mutationTree;
-    private final Map<String,Animation> animations = new HashMap<>();
+    final Map<String,Animation> animations = new HashMap<>();
 
     public MutationClient(String mutID, String treeID) {
         this.mutID = mutID;

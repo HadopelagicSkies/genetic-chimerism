@@ -3,6 +3,7 @@ package com.genetic_chimerism;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import com.genetic_chimerism.mutation_setup_client.ShelledTreeClient;
 import com.genetic_chimerism.mutation_setup_client.WingedTreeClient;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
@@ -53,6 +54,13 @@ public class TorsoMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRe
             int animationSpeed = 3;
             matrices.push();
 
+
+
+//            if (mutation == ShelledTreeClient.armadilloShell2 && mutInfo.isAnimating()){
+//                if(){ // check if moving somehow?
+//                    AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
+//                }
+//            }
             if (mutation == WingedTreeClient.backWings1 || mutation == WingedTreeClient.backWings2) {
                 if (state.isGliding && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
                     animationSpeed = 7;

@@ -5,6 +5,7 @@ import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -189,7 +190,7 @@ public class AmphibiousTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(tadpoleTail,0,
-                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
+                    ColorHelper.getArgb(47,85,57),ColorHelper.getArgb(70,133,87),0, false, false));
         }
 
         @Override
@@ -204,17 +205,19 @@ public class AmphibiousTree {
                 if (!player.getWorld().isClient) {
                     if (this.cooldown <= 0) {
                         MutationAttachments.setPartAnimating(player,MutatableParts.TAIL, true);
-                        this.cooldown = 300;
-                        int range = 4;
-                        Vec3d boxPos = player.getPos();
+                        this.cooldown = 100;
+                        int range = 8;
+                        Vec3d boxPos = player.getPos().add(0,1,0);
                         for (int i = 0; i < range * 2; i++) {
                             List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
                             for (Entity entity : colliders) {
-                                    entity.addVelocity(player.getPos().subtract(entity.getPos()).multiply(1.5));
+                                if(entity instanceof LivingEntity)
+                                    entity.addVelocity(player.getPos().subtract(entity.getPos()).normalize().multiply(0.25).add(0,0.05,0));
+                                else if(entity instanceof ItemEntity)
+                                    entity.addVelocity(player.getPos().subtract(entity.getPos()).normalize().multiply(0.25).add(0,0.05,0));
                             }
                             if (!colliders.isEmpty()) {
                                 player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_FROG_TONGUE, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                                break;
                             }
                             boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
                             BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
@@ -223,11 +226,15 @@ public class AmphibiousTree {
                             }
                         }
                     }
-                    else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
+                    else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tongue"),true);
                 }
             }
         }
 
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
+        }
         @Override
         public int getMaxGrowth() {
             return 200;

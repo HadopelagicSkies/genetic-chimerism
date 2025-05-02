@@ -7,6 +7,8 @@ import com.google.common.collect.Multimap;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -147,6 +149,9 @@ public class ShelledTree {
     }
 
     public static class TurtleShell2Mutation extends Mutation {
+        boolean inShell = false;
+        int cooldown = 0;
+        int statusRefresh = 0;
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "turtleshell2_modifier"), 3, EntityAttributeModifier.Operation.ADD_VALUE);
 
@@ -170,12 +175,43 @@ public class ShelledTree {
         }
 
         @Override
+        public void mutationAction(PlayerEntity player) {
+            if (!this.inShell && this.cooldown <= 0) {
+                this.cooldown = 300;
+                this.inShell = true;
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6), player);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 8), player);
+            } else if(this.inShell && this.cooldown <= 280){
+                this.inShell = false;
+                player.removeStatusEffect(StatusEffects.SLOWNESS);
+                player.removeStatusEffect(StatusEffects.RESISTANCE);
+            }
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
+            if(this.inShell && statusRefresh>=90) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 8));
+            }
+            if(this.inShell){
+                statusRefresh++;
+            }
+        }
+
+        @Override
         public int getMaxGrowth() {
             return 500;
         }
     }
 
     public static class ArmadilloShell1Mutation extends Mutation {
+        boolean inShell = false;
+        int cooldown = 0;
+        int statusRefresh = 0;
+
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "armadilloshell1_modifier"), 1, EntityAttributeModifier.Operation.ADD_VALUE);
 
@@ -199,12 +235,42 @@ public class ShelledTree {
         }
 
         @Override
+        public void mutationAction(PlayerEntity player) {
+            if (!this.inShell && this.cooldown <= 0) {
+                this.cooldown = 300;
+                this.inShell = true;
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6), player);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4), player);
+            } else if(this.inShell && this.cooldown <= 280){
+                this.inShell = false;
+                player.removeStatusEffect(StatusEffects.SLOWNESS);
+                player.removeStatusEffect(StatusEffects.RESISTANCE);
+            }
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
+            if(this.inShell && statusRefresh>=90) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6));
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4));
+            }
+            if(this.inShell){
+                statusRefresh++;
+            }
+        }
+
+        @Override
         public int getMaxGrowth() {
             return 1500;
         }
     }
 
     public static class ArmadilloShell2Mutation extends Mutation {
+        boolean inShell = false;
+        int cooldown = 0;
+        int statusRefresh = 0;
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "armadilloshell2_modifier"), 2, EntityAttributeModifier.Operation.ADD_VALUE);
 
@@ -225,6 +291,31 @@ public class ShelledTree {
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if (!this.inShell && this.cooldown <= 0) {
+                this.cooldown = 300;
+                this.inShell = true;
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4), player);
+            } else if(this.inShell && this.cooldown <= 280){
+                this.inShell = false;
+                player.removeStatusEffect(StatusEffects.SLOWNESS);
+                player.removeStatusEffect(StatusEffects.RESISTANCE);
+            }
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
+            if(this.inShell && statusRefresh>=90) {
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4));
+            }
+            if(this.inShell){
+                statusRefresh++;
+            }
         }
 
         @Override
