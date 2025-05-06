@@ -3,9 +3,11 @@
   "package": "com.genetic_chimerism.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ActiveTargetGoalMixin",
     "BedBlockMixin",
     "BeeEntityMixin",
     "ConsumableComponentMixin",
+    "EntityMixin",
     "FoodComponentMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",

@@ -4,6 +4,7 @@ import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.AmphibiousTreeClient;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
+import com.genetic_chimerism.packet_payloads.SetAnimPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.TexturedModelData;

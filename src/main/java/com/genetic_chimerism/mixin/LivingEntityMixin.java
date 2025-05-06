@@ -6,6 +6,7 @@ import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BedBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -99,4 +100,15 @@ public abstract class LivingEntityMixin {
 		}
         return j;
     }
+
+	@WrapOperation(method = {"isClimbing"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
+	private boolean spiderClimbing(BlockState instance, TagKey tagKey, Operation<Boolean> original) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity instanceof PlayerEntity) {
+			List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(entity);
+			if (mutations != null && (mutations.contains(MutationTrees.mutationToCodec(InvertebrateTree.wallClimb))))
+				return true;
+		}
+		return original.call(instance, tagKey);
+	}
 }

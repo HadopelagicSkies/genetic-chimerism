@@ -1,6 +1,7 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.entity.DiplocaulusEntity;
+import com.genetic_chimerism.entity.DroppedTailEntity;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -14,8 +15,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
@@ -25,11 +24,18 @@ public class GeneticChimerismEntities {
     public static void initialize(){
         FabricDefaultAttributeRegistry.register(register(DIPLOCAULUS,"diplocaulus"),DiplocaulusEntity.createDiplocaulusAttributes());
         addSpawning(DIPLOCAULUS, BiomeKeys.MANGROVE_SWAMP,10,1,3);
+
+        FabricDefaultAttributeRegistry.register(register(DROPPED_TAIL,"dropped_tail"),DroppedTailEntity.createDroppedTailAttributes());
+
     }
 
     public static final EntityType<DiplocaulusEntity> DIPLOCAULUS = EntityType.Builder.create(DiplocaulusEntity::new, SpawnGroup.AXOLOTLS)
             .dimensions(2.0F,0.75F)
             .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(GeneticChimerism.MOD_ID, "diplocaulus")));
+
+    public static final EntityType<DroppedTailEntity> DROPPED_TAIL = EntityType.Builder.create(DroppedTailEntity::new, SpawnGroup.MISC)
+            .dimensions(0.5F,0.5F)
+            .build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(GeneticChimerism.MOD_ID, "dropped_tail")));
 
     public static EntityType<? extends MobEntity> register(EntityType<? extends MobEntity> entityType, String name) {
         Identifier id = Identifier.of(GeneticChimerism.MOD_ID, name);

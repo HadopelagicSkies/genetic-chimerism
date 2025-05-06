@@ -2,6 +2,7 @@ package com.genetic_chimerism;
 
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
+import com.genetic_chimerism.packet_payloads.PartRecolorPayload;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -28,7 +28,7 @@ public class ConsumableComponentMixin {
         }
     }
 
-//    @WrapOperation(method = {"finishConsumption"}, at = @At(value = "INVOKE", target = ""))
+//    @WrapOperation(method = {"finishConsumption"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/component/type/Consumable;onConsume(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/component/type/ConsumableComponent;)V"))
 //    private void longPotion(){
 //
 //    }

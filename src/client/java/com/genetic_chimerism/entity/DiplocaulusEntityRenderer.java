@@ -4,7 +4,6 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.GeneticChimerismClient;
 import net.minecraft.client.render.entity.AgeableMobEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.state.AxolotlEntityRenderState;
 import net.minecraft.util.Identifier;
 

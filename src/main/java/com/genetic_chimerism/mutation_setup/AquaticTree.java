@@ -2,10 +2,8 @@ package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
-import com.genetic_chimerism.SetAnimPayload;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -15,7 +13,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -282,7 +279,7 @@ public class AquaticTree {
 
     public static class ThresherTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "threshertail_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "threshertail_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
         private int cooldown = 0;
 
         public ThresherTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
@@ -355,7 +352,7 @@ public class AquaticTree {
 
     public static class FishTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "fishtail_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "fishtail_modifier"), 0.2, EntityAttributeModifier.Operation.ADD_VALUE);
 
         public FishTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -385,6 +382,7 @@ public class AquaticTree {
     public static class MermaidTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "mermaidtail_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
+        private int cooldown =0;
 
         public MermaidTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts part1, MutatableParts part2) {
             super(mutID, treeID, prereq, part1,part2);
@@ -400,6 +398,30 @@ public class AquaticTree {
                     ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(mermaidTail,0,
                     ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if(!player.getWorld().isClient){
+                cooldown = 1000;
+                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 16, 16, 16));
+                for(Entity entity : colliders){
+                    if (entity instanceof PlayerEntity) {
+                        ((PlayerEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE,3600));
+                        ((PlayerEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.CONDUIT_POWER,3600));
+                    }
+                }
+
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE,3600));
+                player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.BLOCK_CONDUIT_ACTIVATE, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+
+            }
+            else player.sendMessage(Text.translatable("mutations.mutation.cooldown.buff"),true);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override

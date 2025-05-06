@@ -2,8 +2,10 @@ package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
+import com.genetic_chimerism.entity.DroppedTailEntity;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.mojang.datafixers.kinds.IdF;
 import com.mojang.datafixers.types.templates.Tag;
 import net.minecraft.data.tag.vanilla.VanillaBiomeTagProvider;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -22,6 +24,8 @@ import net.minecraft.world.biome.BiomeKeys;
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import static com.genetic_chimerism.GeneticChimerismEntities.DROPPED_TAIL;
 
 public class ScaledTree {
     public static final MutationTrees scaled = MutationTrees.addTree(new ArrayList<Mutation>(), "scaled", Identifier.ofVanilla("textures/item/turtle_scute.png"));
@@ -209,13 +213,21 @@ public class ScaledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lizardTail1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(229,222,191),ColorHelper.getArgb(103,96,65),0, false, false));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if(MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(lizardTail2)) && MutationTrees.mutationFromCodec(MutationAttachments.getPartAttached(player,MutatableParts.TAIL)) == lizardTail1 && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= getMaxGrowth()){
+                MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail2","scaled",oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0,false,false));
+            }
         }
 
         @Override
@@ -226,6 +238,7 @@ public class ScaledTree {
 
     public static class LizardTail2Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
+        private int cooldown;
         // public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "lizardtail2_modifier"), 0.4, EntityAttributeModifier.Operation.ADD_VALUE);
 
         public LizardTail2Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
@@ -235,10 +248,32 @@ public class ScaledTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
+            MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+            int newPatternIndex = oldMut !=null ? oldMut.patternIndex() : 0;
+            int newColor1 = oldMut !=null ? oldMut.color1() : ColorHelper.getArgb(229,222,191);
+            int newColor2 = oldMut !=null ? oldMut.color2() : ColorHelper.getArgb(103,96,65);
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lizardTail2,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lizardTail2,newPatternIndex,
+                    newColor1, newColor2  ,0, false, false));
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if(!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= getMaxGrowth() && MutationTrees.mutationFromCodec(MutationAttachments.getPartAttached(player,MutatableParts.TAIL)) == lizardTail2) {
+                cooldown = 3600;
+                DroppedTailEntity droppableTail = new DroppedTailEntity(DROPPED_TAIL, player.getWorld());
+                droppableTail.setPos(player.getX(),player.getY(),player.getZ());
+                droppableTail.setVisuals(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).patternIndex(),MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color1(),MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color2());
+                player.getWorld().spawnEntity(droppableTail);
+                MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail1","scaled",oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0,false,false));
+            }
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override
@@ -249,7 +284,7 @@ public class ScaledTree {
 
         @Override
         public int getMaxGrowth() {
-            return 2000;
+            return 400;
         }
     }
 

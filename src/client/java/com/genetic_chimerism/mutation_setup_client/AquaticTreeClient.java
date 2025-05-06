@@ -23,7 +23,6 @@ public class AquaticTreeClient {
     public static void initialize() {
     }
 
-
     public static final MutationClient sharkTail = aquatic.addToTree(new SharkTailMutation("sharktail", "aquatic"));
     public static final MutationClient thresherTail = aquatic.addToTree(new ThresherTailMutation("threshertail", "aquatic"));
 

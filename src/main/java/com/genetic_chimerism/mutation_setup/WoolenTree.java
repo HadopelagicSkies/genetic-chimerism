@@ -78,7 +78,7 @@ public class WoolenTree {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (player.getStackInHand(hand).isOf(Items.AIR) && player.isSneaking()) {
                 List<MutationInfo> mutList = MutationAttachments.getMutationsAttached(player);
-                if (mutList.contains(MutationTrees.mutationToCodec(eatGrass))) {
+                if (mutList!=null && mutList.contains(MutationTrees.mutationToCodec(eatGrass))) {
                     BlockState block = player.getWorld().getBlockState(hitResult.getBlockPos());
                     boolean ateGrass = false;
                     if (block.isOf(Blocks.GRASS_BLOCK) || block.isOf(Blocks.SHORT_GRASS) || block.isOf(Blocks.TALL_GRASS)) {

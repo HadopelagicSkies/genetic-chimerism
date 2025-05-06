@@ -29,7 +29,6 @@ public class InfusionStationEntity extends BlockEntity implements ImplementInven
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, InfusionStationEntity blockEntity) {
-
     }
 
 

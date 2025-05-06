@@ -67,8 +67,9 @@ public class MutationAttachments {
 
     public static void setPartReceding(AttachmentTarget target, MutatableParts part, boolean isReceding){
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
-        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.isAnimating()));
+        if (partInfo != null)
+            MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                    partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.isAnimating()));
     }
 
     public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating){

@@ -12,7 +12,7 @@ public class AnimationTransformHelper {
     public static Animation mirrorAnimationX(Animation originalAnimation){
         Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds());
         Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
-
+        boolean looping = originalAnimation.looping();
         for(String keyName :boneTransformMap.keySet()){
             for(Transformation transform: boneTransformMap.get(keyName)){
                 Keyframe[] oldKeyframes = transform.keyframes();
@@ -33,6 +33,8 @@ public class AnimationTransformHelper {
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
+                if(looping)
+                    newAnimation.looping();
             }
         }
         return newAnimation.build();
@@ -41,7 +43,7 @@ public class AnimationTransformHelper {
     public static Animation mirrorAnimationY(Animation originalAnimation){
         Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds());
         Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
-
+        boolean looping = originalAnimation.looping();
         for(String keyName :boneTransformMap.keySet()){
             for(Transformation transform: boneTransformMap.get(keyName)){
                 Keyframe[] oldKeyframes = transform.keyframes();
@@ -62,6 +64,8 @@ public class AnimationTransformHelper {
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
+                if(looping)
+                    newAnimation.looping();
             }
         }
         return newAnimation.build();
@@ -70,7 +74,7 @@ public class AnimationTransformHelper {
     public static Animation mirrorAnimationZ(Animation originalAnimation){
         Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds());
         Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
-
+        boolean looping = originalAnimation.looping();
         for(String keyName :boneTransformMap.keySet()){
             for(Transformation transform: boneTransformMap.get(keyName)){
                 Keyframe[] oldKeyframes = transform.keyframes();
@@ -91,6 +95,8 @@ public class AnimationTransformHelper {
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
+                if(looping)
+                    newAnimation.looping();
             }
         }
         return newAnimation.build();
@@ -99,7 +105,7 @@ public class AnimationTransformHelper {
     public static Animation scaleAnimation(Animation originalAnimation, float scale){
         Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds());
         Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
-
+        boolean looping = originalAnimation.looping();
         for(String keyName :boneTransformMap.keySet()){
             for(Transformation transform: boneTransformMap.get(keyName)){
                 Keyframe[] oldKeyframes = transform.keyframes();
@@ -120,6 +126,8 @@ public class AnimationTransformHelper {
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
+                if(looping)
+                    newAnimation.looping();
             }
         }
         return newAnimation.build();

@@ -166,13 +166,13 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
             List<MutationInfo> settingMutations = new ArrayList<>(playerMutations);
 
             Mutation mutation = MutationTrees.mutationFromCodec(selectedMutation);
-            if (mutation != null && mutation.getPrereq() != null){
+            if (mutation != null && mutation.getPrereq() != null && !player.isCreative()){
                 if (!playerMutations.contains(MutationTrees.mutationToCodec(mutation.getPrereq()))) {
                     player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.no_prereqs"), true);
                     return;
                 }
             }
-            if (mutation != null && mutation.getPrereq() != null){
+            if (mutation != null && mutation.getPrereq() != null && !player.isCreative()){
                 if (!mutation.getParts().isEmpty() && !MutationTrees.hasValidPrereqParts(mutation,player,true)) {
                     player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.invalid_body_parts"), true);
                     return;
@@ -209,14 +209,31 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
                 player.sendMessage(Text.translatable("block.genetic_chimerism.infusion_station.infuse_success", mutationName), true);
                 settingMutations.add(selectedMutation);
                 Mutation parsedMutation = MutationTrees.mutationFromCodec(selectedMutation);
-                if (parsedMutation != null) parsedMutation.onApplied(player);
+                if (parsedMutation != null) {
+                    if (player.isCreative()) {
+                        settingMutations = creativeAddAllPrereqs(settingMutations, player ,parsedMutation);
+                    }
+                    parsedMutation.onApplied(player);
+                }
             }
             MutationAttachments.setMutationsAttached(player, settingMutations);
             GeneticChimerism.LOGGER.info("player mutations: " + settingMutations);
         }
     }
 
-    // This method will drop all items onto the ground when the block is broken
+    private static List<MutationInfo> creativeAddAllPrereqs(List<MutationInfo> settingMutations, PlayerEntity player, Mutation parsedMutation) {
+        if(parsedMutation.getPrereq() == null){
+            settingMutations.add(MutationTrees.mutationToCodec(parsedMutation));
+            parsedMutation.onApplied(player);
+            return settingMutations;
+        }
+        else {
+            settingMutations.add(MutationTrees.mutationToCodec(parsedMutation));
+            parsedMutation.onApplied(player);
+            return creativeAddAllPrereqs(settingMutations, player, parsedMutation.getPrereq());
+        }
+    }
+
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
