@@ -10,19 +10,35 @@ import net.minecraft.world.World;
 
 public class DroppedTailEntity extends MobEntity {
     public int patternIndex;
-    public int color1 = ColorHelper.getArgb(229,222,191);
-    public int color2 = ColorHelper.getArgb(103,96,65);
+    public int color1;
+    public int color2;
     public int age=0;
     
     public DroppedTailEntity(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
         this.setCustomNameVisible(false);
+        color1 = ColorHelper.getArgb(229,222,191);
+        color2 = ColorHelper.getArgb(103,96,65);
+
     }
 
     public void setVisuals(int patternIndex, int color1, int color2){
         this.patternIndex = patternIndex;
         this.color1 = color1;
         this.color2 = color2;
+
+    }
+
+    public int getPatternIndex() {
+        return patternIndex;
+    }
+
+    public int getColor1() {
+        return color1;
+    }
+
+    public int getColor2() {
+        return color2;
     }
 
     public static DefaultAttributeContainer createDroppedTailAttributes() {

@@ -104,16 +104,7 @@ public class ScaledTreeClient {
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(LizardTail1Mutation.scale, LizardTail1Mutation.scale, LizardTail1Mutation.scale), Transformation.Interpolations.LINEAR),
                             new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
-                    .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.5F, 0.5F, 0.5F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
-                    ))
-                    .addBoneAnimation("bone3", new Transformation(Transformation.Targets.SCALE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.75F, 0.75F, 0.75F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
-                    ))
                     .build();
-
         }
 
         @Override
