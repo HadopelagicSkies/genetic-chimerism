@@ -2,6 +2,8 @@ package com.genetic_chimerism.entity;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.entity.AnimationState;
+import org.joml.Vector3f;
 
 public class DroppedTailEntityModel extends EntityModel<DroppedTailEntityRenderState> {
     private final ModelPart bone;
@@ -27,8 +29,7 @@ public class DroppedTailEntityModel extends EntityModel<DroppedTailEntityRenderS
 
     @Override
     public void setAngles(DroppedTailEntityRenderState state) {
-        bone.pitch=0;
-        bone2.pitch=0;
-        bone3.pitch=0;
+        bone.rotate(new Vector3f(0,state.yawRot,0));
+        this.animate(state.animationState,DroppedTailEntityRenderer.wiggle, state.age);
     }
 }

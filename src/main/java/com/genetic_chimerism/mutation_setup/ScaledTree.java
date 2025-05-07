@@ -260,13 +260,14 @@ public class ScaledTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            DroppedTailEntity droppableTail = new DroppedTailEntity(DROPPED_TAIL, player.getWorld());
+
             if(!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= getMaxGrowth() && MutationTrees.mutationFromCodec(MutationAttachments.getPartAttached(player,MutatableParts.TAIL)) == lizardTail2) {
                 cooldown = 3600;
+                DroppedTailEntity droppableTail = new DroppedTailEntity(DROPPED_TAIL, player.getWorld());
                 droppableTail.setPos(player.getX(),player.getY(),player.getZ());
-                droppableTail.setVisuals(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).patternIndex(),
-                        MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color1(),
-                        MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color2());
+                droppableTail.setPatternIndex(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).patternIndex());
+                droppableTail.setColor1(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color1());
+                droppableTail.setColor2(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color2());
                 player.getWorld().spawnEntity(droppableTail);
                 MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
                 MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail1","scaled",oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0,false,false));

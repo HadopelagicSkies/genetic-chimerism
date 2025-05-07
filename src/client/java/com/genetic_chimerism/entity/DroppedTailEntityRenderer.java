@@ -44,7 +44,9 @@ public class DroppedTailEntityRenderer extends LivingEntityRenderer<DroppedTailE
     public void render(DroppedTailEntityRenderState livingEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         DroppedTailEntityModel tailModel = this.model;
         tailModel.resetTransforms();
-        AnimationHelper.animate(tailModel,wiggle,livingEntityRenderState.runningTime,1,new Vector3f(0,0,0));
+        tailModel.setAngles(livingEntityRenderState);
+
+        //AnimationHelper.animate(tailModel,wiggle,livingEntityRenderState.runningTime,1,new Vector3f(0,0,0));
 
         matrixStack.push();
         matrixStack.scale(1.5f,1.5f,1.5f);
@@ -56,13 +58,6 @@ public class DroppedTailEntityRenderer extends LivingEntityRenderer<DroppedTailE
         VertexConsumer vertexConsumer3 = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutout(this.getTexture3()));
         tailModel.render(matrixStack, vertexConsumer3, i, OverlayTexture.DEFAULT_UV);
         matrixStack.pop();
-
-        if ((float) livingEntityRenderState.runningTime / 1000.0F > wiggle.lengthInSeconds()) {
-            livingEntityRenderState.runningTime = 0;
-        }
-        else{
-            livingEntityRenderState.runningTime += 10;
-        }
     }
 
     @Override
@@ -71,6 +66,8 @@ public class DroppedTailEntityRenderer extends LivingEntityRenderer<DroppedTailE
         livingEntityRenderState.patternIndex = livingEntity.getPatternIndex();
         livingEntityRenderState.color1 = livingEntity.getColor1();
         livingEntityRenderState.color2 = livingEntity.getColor2();
+        livingEntityRenderState.yawRot = livingEntity.yawRot;
+        livingEntityRenderState.animationState = livingEntity.wiggling;
     }
 
     public static final Animation wiggle = Animation.Builder.create(1.0F).looping()
