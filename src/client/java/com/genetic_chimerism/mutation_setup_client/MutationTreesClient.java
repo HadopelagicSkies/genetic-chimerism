@@ -20,7 +20,7 @@ public class MutationTreesClient {
         MutationClient.initialize();
         AmphibiousTreeClient.initialize();
         AquaticTreeClient.initialize();
-//        HoovedTreeClient.initialize();
+        HoovedTreeClient.initialize();
         HornedTreeClient.initialize();
 //        InvertebrateTreeClient.initialize();
         ScaledTreeClient.initialize();

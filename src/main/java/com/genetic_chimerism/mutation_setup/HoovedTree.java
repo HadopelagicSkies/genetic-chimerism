@@ -358,6 +358,11 @@ public class HoovedTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
         }
+
+        @Override
+        public int getMaxGrowth() {
+            return 1000;
+        }
     }
 
 }
