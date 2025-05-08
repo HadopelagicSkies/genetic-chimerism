@@ -43,75 +43,38 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
-            Animation animation = mutation.getAnimation("part");
-            Animation growthAnimation = mutation.getAnimation("growth");
-            Animation actionAnimation = mutation.getAnimation("action");
             ModelPart model = modelData.createModel();
             model.copyTransform(this.getContextModel().body);
-            int growth = mutInfo.growth();
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
 
-            int animationSpeed = 3;
             if (state.isSwimming || state.isGliding){
                 model.setTransform(ModelTransform.of(0,0,5F,
                         -30F * ((float)Math.PI / 180F), 0 * ((float)Math.PI / 180F), 0 * ((float)Math.PI / 180F)));
-                animationSpeed += 6;
             }
-            MutationEntityModel entityModel = new MutationEntityModel(model);
-            matrices.push();
-            if (animation != null && (!mutInfo.isAnimating() || mutation == AmphibiousTreeClient.tadpoleTail) && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2) {
-                AnimationHelper.animate(entityModel, animation, this.runningTime, 1, new Vector3f(0, 0, 0));
-            }
-            else if (actionAnimation != null && mutInfo.isAnimating() && (double) growth /mutation.getNotClient().getMaxGrowth() > 0.2){
-                AnimationHelper.animate(entityModel, actionAnimation, this.actionRunningTime, 1, new Vector3f(0, 0, 0));
-            }
-            if (growthAnimation != null) {
-                AnimationHelper.animate(entityModel, growthAnimation, (long)((float) growth /mutation.getNotClient().getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
-            }
-            VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
-            entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
+            MutationEntityModel entityModel = new MutationEntityModel(model,MutatableParts.TAIL,false);
+            entityModel.setAngles(state);
 
-            VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
-            entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
-            matrices.pop();
-            if (animation != null) {
-                if ((float) this.runningTime / 1000.0F > animation.lengthInSeconds() && animation.looping()) {
-                    this.runningTime = 0;
-                } else if ((float) this.runningTime / 1000.0F <= animation.lengthInSeconds()) {
-                    this.runningTime += animationSpeed;
-                }
-            }
-            if (actionAnimation != null) {
-                if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && actionAnimation.looping()) {
-                    this.actionRunningTime = 0;
-                } else if ((float) this.actionRunningTime / 1000.0F > actionAnimation.lengthInSeconds() && !actionAnimation.looping()) {
-                    this.actionRunningTime = 0;
-                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.TAIL,false));
-                } else if (mutInfo.isAnimating() && (float) this.actionRunningTime / 1000.0F <= actionAnimation.lengthInSeconds()) {
-                    this.actionRunningTime += 2*animationSpeed;
-                }
-            }
-
-            if(mutInfo.isAnimating() && mutation == AmphibiousTreeClient.tadpoleTail){
+            if(mutInfo.actionAnim().isRunning() && mutation == AmphibiousTreeClient.tadpoleTail){
                 TexturedModelData frogModelData = AmphibiousTreeClient.TadpoleTailMutation.getTongueModelData();
                 ModelPart frogModel = frogModelData.createModel();
                 frogModel.copyTransform(this.getContextModel().head);
-                MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel);
-                Animation frogAnimation = AmphibiousTreeClient.tadpoleTail.getAnimation("tongue");
+                MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel,MutatableParts.HEAD,false);
+                frogEntityModel.setAngles(state);
 
                 matrices.push();
-                AnimationHelper.animate(frogEntityModel, frogAnimation, this.frogRunningTime, 1, new Vector3f(0, 0, 0));
                 VertexConsumer vertexConsumerFrog = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
                 frogEntityModel.render(matrices, vertexConsumerFrog, light, OverlayTexture.DEFAULT_UV, -1);
                 matrices.pop();
-                if ((float) this.frogRunningTime / 1000.0F > frogAnimation.lengthInSeconds()) {
-                    this.frogRunningTime = 0;
-                    ClientPlayNetworking.send(new SetAnimPayload(MutatableParts.TAIL,false));
-                } else if ((float) this.frogRunningTime / 1000.0F <= frogAnimation.lengthInSeconds()) {
-                    this.frogRunningTime += 6;
-                }
             }
+
+            matrices.push();
+            VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
+            entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
+            VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+            entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
+            matrices.pop();
+
         }
     }
 }

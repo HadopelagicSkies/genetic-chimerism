@@ -24,12 +24,14 @@ public class MutationAttachments {
     public static final AttachmentType<List<MutationInfo>> PLAYER_MUTATION_LIST = AttachmentRegistry.create(Identifier.of(MOD_ID, "player_mutation_list"), listBuilder ->
             listBuilder.initializer(ArrayList::new)
                     .persistent(Codec.list(MutationInfo.MUTATION_CODEC))
+                    .copyOnDeath()
                     .syncWith(MutationInfo.MUTATION_PACKET_CODEC.collect(PacketCodecs.toList()), AttachmentSyncPredicate.targetOnly()));
 
     public static final Map<MutatableParts, AttachmentType<MutationBodyInfo>> PART_MUTATIONS = Util.mapEnum(MutatableParts.class,
         part -> AttachmentRegistry.create(Identifier.of(MOD_ID, part.asString() + "_mutation"), infoBuilder ->
         infoBuilder.initializer(() -> null)
             .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+            .copyOnDeath()
             .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
 
 
@@ -56,26 +58,28 @@ public class MutationAttachments {
     public static void setPartVisuals(AttachmentTarget target, MutatableParts part, int patternIndex, int color1, int color2){
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
         MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), patternIndex,
-                color1, color2, partInfo.growth(), partInfo.isReceding(),partInfo.isAnimating()));
+                color1, color2, partInfo.growth(), partInfo.isReceding(),partInfo.partAnim(),partInfo.actionAnim()));
     }
 
     public static void setPartGrowth(AttachmentTarget target, MutatableParts part, int growth){
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
         MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                partInfo.color1(), partInfo.color2(), growth, partInfo.isReceding(),partInfo.isAnimating()));
+                partInfo.color1(), partInfo.color2(), growth, partInfo.isReceding(),partInfo.partAnim(),partInfo.actionAnim()));
     }
 
     public static void setPartReceding(AttachmentTarget target, MutatableParts part, boolean isReceding){
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
         if (partInfo != null)
             MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                    partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.isAnimating()));
+                    partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.partAnim(),partInfo.actionAnim()));
     }
 
-    public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating){
+    public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating, int startTick){
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
         MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),isAnimating));
+                partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),
+                MutationBodyInfo.animationStateFromInts(1,startTick),
+                MutationBodyInfo.animationStateFromInts(isAnimating?1:0,startTick)));
     }
 
 

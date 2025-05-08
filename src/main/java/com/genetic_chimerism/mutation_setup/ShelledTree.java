@@ -133,7 +133,8 @@ public class ShelledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(turtleShell1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -165,7 +166,8 @@ public class ShelledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(turtleShell1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -179,7 +181,7 @@ public class ShelledTree {
             if (!this.inShell && this.cooldown <= 0) {
                 this.cooldown = 300;
                 this.inShell = true;
-                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true, player.age);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6), player);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 8), player);
             } else if(this.inShell && this.cooldown <= 280){
@@ -225,7 +227,8 @@ public class ShelledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(turtleShell1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -239,7 +242,7 @@ public class ShelledTree {
             if (!this.inShell && this.cooldown <= 0) {
                 this.cooldown = 300;
                 this.inShell = true;
-                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true, player.age);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 100, 6), player);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4), player);
             } else if(this.inShell && this.cooldown <= 280){
@@ -284,7 +287,8 @@ public class ShelledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(turtleShell1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -298,7 +302,7 @@ public class ShelledTree {
             if (!this.inShell && this.cooldown <= 0) {
                 this.cooldown = 300;
                 this.inShell = true;
-                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true, player.age);
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 100, 4), player);
             } else if(this.inShell && this.cooldown <= 280){
                 this.inShell = false;

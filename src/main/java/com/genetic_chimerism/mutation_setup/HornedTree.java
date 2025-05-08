@@ -229,7 +229,8 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(ramHorns1,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -295,7 +296,8 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(ramHorns2,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -363,7 +365,8 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(hurtHorns1,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -431,7 +434,8 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(hurtHorns2,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -497,7 +501,8 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(ramLegs,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false, false));
+                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override

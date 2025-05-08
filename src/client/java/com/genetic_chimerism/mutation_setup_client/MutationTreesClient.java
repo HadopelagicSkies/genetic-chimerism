@@ -1,6 +1,7 @@
 package com.genetic_chimerism.mutation_setup_client;
 
 import com.genetic_chimerism.mutation_setup.*;
+import net.minecraft.entity.AnimationState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +56,8 @@ public class MutationTreesClient {
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
     }
 
-    public static MutationBodyInfo mutationToCodec(MutationClient mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding, boolean isAnimating){
-        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2, growth, isReceding, isAnimating);
+    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding, AnimationState partAnim, AnimationState actionAnim){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2,growth,isReceding,partAnim,actionAnim);
     }
 
     public static MutationClient mutationFromCodec(MutationInfo mutationCodec){

@@ -71,6 +71,11 @@ public class WingedTreeClient {
                             new Keyframe(0.75F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
+                    .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(2.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(0.75F, AnimationHelper.createScalingVector(1.0F, 0.0F, 1.0F), Transformation.Interpolations.LINEAR),
+                            new Keyframe(1.0F, AnimationHelper.createScalingVector(1.0F, 0.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                    ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
                             new Keyframe(0.75F, AnimationHelper.createScalingVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),

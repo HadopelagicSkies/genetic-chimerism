@@ -24,7 +24,6 @@ public class AmphibiousTreeClient {
 
         public TadpoleTailMutation(String mutID, String treeID) {
             super(mutID, treeID);
-            this.animations.put("tongue", this.createTongueAnimation());
         }
 
         @Override
@@ -95,7 +94,7 @@ public class AmphibiousTreeClient {
                     .build();
         }
 
-        public Animation createTongueAnimation() {
+        public Animation createActionAnimation() {
             float range = 16 * 8;
             return Animation.Builder.create(1.0F)
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,

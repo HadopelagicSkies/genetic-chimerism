@@ -73,7 +73,7 @@ public class InvertebrateTree {
     public static final Mutation sneakSpeed2 = invertebrate.addToTree(new SneakSpeed1Mutation("sneakSpeed2", "invertebrate", sneakSpeed1));
 
     public static final Mutation wallClimb = invertebrate.addToTree(new Mutation("wallClimb", "invertebrate", moveEff1));
-    public static final Mutation spiderAbdomen = invertebrate.addToTree(new MothAntennaeMutation("spiderAbdomen", "invertebrate", wallClimb,MutatableParts.TAIL));
+    public static final Mutation spiderAbdomen = invertebrate.addToTree(new SpiderAbdomenMutation("spiderAbdomen", "invertebrate", wallClimb,MutatableParts.TAIL));
     public static final Mutation mothAntennae = invertebrate.addToTree(new MothAntennaeMutation("mothAntennae", "invertebrate", wallClimb,MutatableParts.HEAD));
     public static final Mutation arachneBody = invertebrate.addToTree(new ArachneBodyMutation("arachneBody", "invertebrate", spiderAbdomen,MutatableParts.TAIL, MutatableParts.LEG));
 
@@ -200,7 +200,8 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(spiderAbdomen, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -225,7 +226,8 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(mothAntennae, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -255,10 +257,12 @@ public class InvertebrateTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(arachneBody, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(arachneBody, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -285,7 +289,8 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger1, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -298,7 +303,7 @@ public class InvertebrateTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
-                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true);
+                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true, player.age);
                     this.cooldown = 300;
                     int range = 4;
                     Vec3d boxPos = player.getPos();
@@ -338,7 +343,8 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger2, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -350,7 +356,7 @@ public class InvertebrateTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
-                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true);
+                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true, player.age);
                     this.cooldown = 300;
                     int range = 4;
                     Vec3d boxPos = player.getPos();
@@ -392,7 +398,8 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(beeAbdomen, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override

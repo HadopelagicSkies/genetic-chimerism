@@ -29,7 +29,7 @@ public class AnimationTransformHelper {
                     }else if(transform.target() == Transformation.Targets.TRANSLATE) {
                         newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(-1*oldX,oldY,oldZ), oldKF.interpolation());
                     }else if(transform.target() == Transformation.Targets.SCALE) {
-                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(-1*oldX,oldY,oldZ), oldKF.interpolation());
+                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,oldY,oldZ), oldKF.interpolation());
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
@@ -60,7 +60,7 @@ public class AnimationTransformHelper {
                     }else if(transform.target() == Transformation.Targets.TRANSLATE) {
                         newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,-1*oldY,oldZ), oldKF.interpolation());
                     }else if(transform.target() == Transformation.Targets.SCALE) {
-                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,-1*oldY,oldZ), oldKF.interpolation());
+                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,oldY,oldZ), oldKF.interpolation());
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
@@ -91,7 +91,7 @@ public class AnimationTransformHelper {
                     }else if(transform.target() == Transformation.Targets.TRANSLATE) {
                         newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,oldY,-1*oldZ), oldKF.interpolation());
                     }else if(transform.target() == Transformation.Targets.SCALE) {
-                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,oldY,-1*oldZ), oldKF.interpolation());
+                        newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(oldX,oldY,oldZ), oldKF.interpolation());
                     }
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));

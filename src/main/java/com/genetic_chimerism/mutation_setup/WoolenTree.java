@@ -229,7 +229,8 @@ public class WoolenTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(woolCoat, 0,
-                    ColorHelper.getArgb(255, 255, 255), ColorHelper.getArgb(255, 255, 255), 0, false, false));
+                    ColorHelper.getArgb(255, 255, 255), ColorHelper.getArgb(255, 255, 255), 0,false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override

@@ -261,7 +261,8 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharkTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false,false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -292,7 +293,8 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(thresherTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -305,7 +307,7 @@ public class AquaticTree {
         public void mutationAction(PlayerEntity player) {
             if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
                 if (this.cooldown <= 0) {
-                    MutationAttachments.setPartAnimating(player, MutatableParts.TAIL,true);
+                    MutationAttachments.setPartAnimating(player, MutatableParts.TAIL,true, player.age);
                     this.cooldown = 300;
                     int range = 4;
                     Vec3d boxPos = player.getPos();
@@ -340,7 +342,8 @@ public class AquaticTree {
                 mutList.remove(MutationTrees.mutationToCodec(thresherTail));
                 MutationAttachments.setMutationsAttached(player,mutList);
                 MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(sharkTail,partMut.patternIndex(),
-                        partMut.color1(),partMut.color2(),sharkTail.getMaxGrowth()-3, true,false));
+                        partMut.color1(),partMut.color2(),sharkTail.getMaxGrowth()-3, true,
+                        MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             }
         }
 
@@ -364,7 +367,8 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(fishTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -395,9 +399,11 @@ public class AquaticTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override

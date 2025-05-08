@@ -4,6 +4,7 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -158,7 +159,8 @@ public class AmphibiousTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(axolotlGills,0,
-                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false, false));
+                    ColorHelper.getArgb(0,0,0),ColorHelper.getArgb(0,0,0),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -190,7 +192,8 @@ public class AmphibiousTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(tadpoleTail,0,
-                    ColorHelper.getArgb(47,85,57),ColorHelper.getArgb(70,133,87),0, false, false));
+                    ColorHelper.getArgb(47,85,57),ColorHelper.getArgb(70,133,87),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -204,7 +207,7 @@ public class AmphibiousTree {
             if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
                 if (!player.getWorld().isClient) {
                     if (this.cooldown <= 0) {
-                        MutationAttachments.setPartAnimating(player,MutatableParts.TAIL, true);
+                        MutationAttachments.setPartAnimating(player,MutatableParts.TAIL, true, player.age);
                         this.cooldown = 100;
                         int range = 8;
                         Vec3d boxPos = player.getPos().add(0,1,0);

@@ -61,6 +61,10 @@ public class MutationClient {
         return MutationTrees.mutationFromCodec(MutationTreesClient.mutationToCodec(this));
     }
 
+    public int getMaxGrowth(){
+        return this.getNotClient().getMaxGrowth();
+    }
+
     public static final MutationClient human = MutationTreesClient.human.addToTree(new MutationClient("antigen", "human"));
 
 

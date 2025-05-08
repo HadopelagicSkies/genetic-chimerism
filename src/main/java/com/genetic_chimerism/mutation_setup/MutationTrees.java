@@ -5,6 +5,7 @@ import com.genetic_chimerism.GeneticChimerismComponents;
 import com.genetic_chimerism.GeneticChimerismItems;
 import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.synthblock.SynthRecipe;
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
@@ -124,8 +125,8 @@ public class MutationTrees {
         return new MutationInfo(mutation.getMutID(), mutation.getTreeID());
     }
 
-    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding,boolean isAnimating){
-        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2,growth,isReceding,isAnimating);
+    public static MutationBodyInfo mutationToCodec(Mutation mutation, int patternIndex, int color1, int color2, int growth, boolean isReceding, AnimationState partAnim, AnimationState actionAnim){
+        return new MutationBodyInfo(mutation.getMutID(), mutation.getTreeID(),patternIndex,color1,color2,growth,isReceding,partAnim,actionAnim);
     }
 
     public static Mutation mutationFromCodec(MutationInfo mutationCodec){

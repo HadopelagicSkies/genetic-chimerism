@@ -238,7 +238,8 @@ public class TentacledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.ARM);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(tentacleArm1, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -268,7 +269,8 @@ public class TentacledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.ARM);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(tentacleArm1, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -294,7 +296,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(inkInvis, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -333,7 +336,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(inkBlind, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -376,7 +380,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(inkGlow, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -420,7 +425,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.MISC);
             MutationAttachments.setPartAttached(player, MutatableParts.MISC, MutationTrees.mutationToCodec(inkFirey, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -465,7 +471,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(siphonJet, 0,
-                    ColorHelper.getArgb(34, 59, 77), ColorHelper.getArgb(56, 82, 101), 0, false, false));
+                    ColorHelper.getArgb(34, 59, 77), ColorHelper.getArgb(56, 82, 101),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -478,7 +485,7 @@ public class TentacledTree {
             if (!player.getWorld().isClient) {
                 if (this.cooldown <= 0) {
                     this.cooldown = 100;
-                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true, player.age);
                     Vec3d lookVec = player.getRotationVector(player.getPitch(),player.headYaw).multiply(3);
                     player.addVelocity(lookVec.x,lookVec.y+0.1,lookVec.z);
                     player.velocityModified=true;
@@ -531,7 +538,8 @@ public class TentacledTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(fireyJet, 0,
-                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137), 0, false, false));
+                    ColorHelper.getArgb(99, 141, 153), ColorHelper.getArgb(125, 164, 137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override

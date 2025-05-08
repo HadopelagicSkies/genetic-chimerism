@@ -76,7 +76,7 @@ public class GeneticChimerism implements ModInitializer {
 			if (mutationInfo != null) {
 				Mutation mutation = MutationTrees.mutationFromCodec(mutationInfo);
 				if (mutation != null) {
-					MutationAttachments.setPartAnimating(context.player(), payload.part(),payload.isAnimating());
+					MutationAttachments.setPartAnimating(context.player(), payload.part(),payload.isAnimating(),context.player().age);
 				}
 			}
 		});

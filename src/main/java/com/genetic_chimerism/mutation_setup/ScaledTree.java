@@ -151,7 +151,8 @@ public class ScaledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(snakeTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -181,9 +182,11 @@ public class ScaledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lamiaTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(lamiaTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false, false));
+                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -213,7 +216,8 @@ public class ScaledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lizardTail1,0,
-                    ColorHelper.getArgb(229,222,191),ColorHelper.getArgb(103,96,65),0, false, false));
+                    ColorHelper.getArgb(229,222,191),ColorHelper.getArgb(103,96,65),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -226,7 +230,9 @@ public class ScaledTree {
         public void tick(PlayerEntity player) {
             if(MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(lizardTail2)) && MutationTrees.mutationFromCodec(MutationAttachments.getPartAttached(player,MutatableParts.TAIL)) == lizardTail1 && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= getMaxGrowth()){
                 MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail2","scaled",oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0,false,false));
+                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail2","scaled",
+                        oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0, false,
+                        MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             }
         }
 
@@ -255,7 +261,8 @@ public class ScaledTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(lizardTail2,newPatternIndex,
-                    newColor1, newColor2  ,0, false, false));
+                    newColor1, newColor2  ,0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -270,7 +277,9 @@ public class ScaledTree {
                 droppableTail.setColor2(MutationAttachments.getPartAttached(player,MutatableParts.TAIL).color2());
                 player.getWorld().spawnEntity(droppableTail);
                 MutationBodyInfo oldMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail1","scaled",oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0,false,false));
+                MutationAttachments.setPartAttached(player, MutatableParts.TAIL, new MutationBodyInfo("lizardTail1","scaled",
+                        oldMut.patternIndex(),oldMut.color1(),oldMut.color2(),0, false,
+                        MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             }
         }
 

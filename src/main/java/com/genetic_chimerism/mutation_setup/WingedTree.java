@@ -234,7 +234,8 @@ public class WingedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings1,0,
-                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false, false));
+                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -247,7 +248,7 @@ public class WingedTree {
             if (MutationAttachments.getPartAttached(player,MutatableParts.TORSO).growth() >= this.getMaxGrowth()){
                 if (!player.isOnGround() && cooldown <= 0) {
                     cooldown = 300;
-                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true);
+                    MutationAttachments.setPartAnimating(player, MutatableParts.TORSO, true, player.age);
                     player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 100));
                     falling = true;
                 } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.wings"), true);
@@ -258,12 +259,12 @@ public class WingedTree {
         public void tick(PlayerEntity player) {
             if(!player.isOnGround()&& player.hasStatusEffect(StatusEffects.SLOW_FALLING) && fallRefresh>=90){
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING,100,2));
-                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true);
+                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,true, player.age);
             }
             else if(player.isOnGround() && falling){
                 falling = false;
                 player.removeStatusEffect(StatusEffects.SLOW_FALLING);
-                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,false);
+                MutationAttachments.setPartAnimating(player,MutatableParts.TORSO,false, player.age);
             }
             if (player.hasStatusEffect(StatusEffects.SLOW_FALLING)){
                 fallRefresh++;
@@ -292,7 +293,8 @@ public class WingedTree {
             int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TORSO).color2();
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,patternIndex,
-                    color1,color2,0, false, false));
+                    color1,color2,0, false,
+                    MutationBodyInfo.animationStateFromInts(0, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -309,7 +311,19 @@ public class WingedTree {
                 mutList.remove(MutationTrees.mutationToCodec(backWings2));
                 MutationAttachments.setMutationsAttached(player,mutList);
                 MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings1,partMut.patternIndex(),
-                        partMut.color1(),partMut.color2(),backWings1.getMaxGrowth()-3, true,false));
+                        partMut.color1(),partMut.color2(),backWings1.getMaxGrowth()-3, true,
+                        MutationBodyInfo.animationStateFromInts(0, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+            }
+
+            if(player.isGliding() && !partMut.partAnim().isRunning()){
+                MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,partMut.patternIndex(),
+                        partMut.color1(),partMut.color2(),partMut.growth(), false,
+                        MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+            }
+            else if (!player.isGliding() && partMut.partAnim().isRunning()){
+                MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(backWings2,partMut.patternIndex(),
+                        partMut.color1(),partMut.color2(),partMut.growth(), false,
+                        MutationBodyInfo.animationStateFromInts(0, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
             }
         }
 
@@ -330,7 +344,8 @@ public class WingedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.ARM);
             MutationAttachments.setPartReceding(player, MutatableParts.TORSO,true);
             MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(harpyWings,0,
-                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false, false));
+                    ColorHelper.getArgb(255,255,255),ColorHelper.getArgb(211,203,193),0, false,
+                    MutationBodyInfo.animationStateFromInts(0, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
@@ -343,6 +358,19 @@ public class WingedTree {
             return 1000;
         }
 
+        @Override
+        public void tick(PlayerEntity player) {
+            MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.ARM);
+                if (player.isGliding() && !partMut.partAnim().isRunning()) {
+                    MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(harpyWings, partMut.patternIndex(),
+                            partMut.color1(), partMut.color2(), partMut.growth(), false,
+                            MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
+                } else if (!player.isGliding() && partMut.partAnim().isRunning()) {
+                    MutationAttachments.setPartAttached(player, MutatableParts.ARM, MutationTrees.mutationToCodec(harpyWings, partMut.patternIndex(),
+                            partMut.color1(), partMut.color2(), partMut.growth(), false,
+                            MutationBodyInfo.animationStateFromInts(0, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
+                }
+        }
     }
 
 }
