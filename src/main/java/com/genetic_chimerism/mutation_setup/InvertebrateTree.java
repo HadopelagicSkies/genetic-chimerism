@@ -70,12 +70,12 @@ public class InvertebrateTree {
     public static final Mutation moveEff3 = invertebrate.addToTree(new MoveEff3Mutation("moveEff3", "invertebrate", moveEff2));
 
     public static final Mutation sneakSpeed1 = invertebrate.addToTree(new SneakSpeed1Mutation("sneakSpeed1", "invertebrate", moveEff2));
-    public static final Mutation sneakSpeed2 = invertebrate.addToTree(new SneakSpeed1Mutation("sneakSpeed2", "invertebrate", sneakSpeed1));
+    public static final Mutation sneakSpeed2 = invertebrate.addToTree(new SneakSpeed2Mutation("sneakSpeed2", "invertebrate", sneakSpeed1));
 
     public static final Mutation wallClimb = invertebrate.addToTree(new Mutation("wallClimb", "invertebrate", moveEff1));
     public static final Mutation spiderAbdomen = invertebrate.addToTree(new SpiderAbdomenMutation("spiderAbdomen", "invertebrate", wallClimb,MutatableParts.TAIL));
-    public static final Mutation mothAntennae = invertebrate.addToTree(new MothAntennaeMutation("mothAntennae", "invertebrate", wallClimb,MutatableParts.HEAD));
     public static final Mutation arachneBody = invertebrate.addToTree(new ArachneBodyMutation("arachneBody", "invertebrate", spiderAbdomen,MutatableParts.TAIL, MutatableParts.LEG));
+    public static final Mutation mothAntennae = invertebrate.addToTree(new MothAntennaeMutation("mothAntennae", "invertebrate", wallClimb,MutatableParts.HEAD));
 
     public static final Mutation poisonChance1 = invertebrate.addToTree(new Mutation("poisonChance1", "invertebrate", null));
     public static final Mutation poisonChance2 = invertebrate.addToTree(new Mutation("poisonChance2", "invertebrate", poisonChance1));
@@ -341,9 +341,12 @@ public class InvertebrateTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
+            int patternIndex = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).patternIndex();
+            int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color1();
+            int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color2();
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger2, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger1,patternIndex,
+                    color1,color2,0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 

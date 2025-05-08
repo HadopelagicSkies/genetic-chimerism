@@ -290,10 +290,13 @@ public class AquaticTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
-            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(thresherTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(135,169,179),0, false,
+            int patternIndex = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).patternIndex();
+            int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color1();
+            int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color2();
+            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(thresherTail,patternIndex,
+                    color1,color2,0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
@@ -395,14 +398,19 @@ public class AquaticTree {
 
         @Override
         public void onApplied(PlayerEntity player) {
+
+
+            player.getAttributes().addTemporaryModifiers(modifierMultimap);
+            int patternIndex = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).patternIndex();
+            int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color1();
+            int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color2();
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
-            player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(mermaidTail,patternIndex,
+                    color1,color2,0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
-            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(mermaidTail,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(mermaidTail,patternIndex,
+                    color1,color2,0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 

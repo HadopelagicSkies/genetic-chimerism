@@ -59,7 +59,7 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
                 TexturedModelData frogModelData = AmphibiousTreeClient.TadpoleTailMutation.getTongueModelData();
                 ModelPart frogModel = frogModelData.createModel();
                 frogModel.copyTransform(this.getContextModel().head);
-                MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel,MutatableParts.HEAD,false);
+                MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel,MutatableParts.HEAD,true);
                 frogEntityModel.setAngles(state);
 
                 matrices.push();

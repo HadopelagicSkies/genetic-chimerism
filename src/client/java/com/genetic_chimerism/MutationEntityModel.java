@@ -34,7 +34,7 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
 
             boolean fastTailSpeed = (state.isSwimming || state.isGliding) && part == MutatableParts.TAIL;
 
-            if (animation != null && !mutInfo.actionAnim().isRunning() && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2) {
+            if (animation != null && (!mutInfo.actionAnim().isRunning() || mutation == AmphibiousTreeClient.tadpoleTail) && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2) {
                 if(!needsMirroring)
                     this.animate(mutInfo.partAnim(),animation,state.age, fastTailSpeed ? 1:0.5f);
                 else this.animate(mutInfo.partAnim(),AnimationTransformHelper.mirrorAnimationX(animation),state.age, fastTailSpeed ? 1:0.5f);
@@ -49,11 +49,8 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
                     ClientPlayNetworking.send(new SetAnimPayload(part,false));
                 }
             }
-            else if (actionAnimation != null && (mutInfo.actionAnim().isRunning() && part == MutatableParts.HEAD && mutation == AmphibiousTreeClient.tadpoleTail) && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2){
-                if(!needsMirroring)
-                    this.animate(mutInfo.actionAnim(),actionAnimation,state.age,2);
-                else this.animate(mutInfo.actionAnim(),AnimationTransformHelper.mirrorAnimationX(actionAnimation),state.age,2);
-
+            else if (actionAnimation != null && (mutInfo.actionAnim().isRunning() && needsMirroring && mutation == AmphibiousTreeClient.tadpoleTail) && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2){
+                //yes i know it doesnt actually need mirroring, im just using it for extra info to differentiate the two runs with tadpoleTail
                 if(mutInfo.actionAnim().getTimeInMilliseconds(state.age) >= actionAnimation.lengthInSeconds()/1000) {
                     mutInfo.actionAnim().stop();
                     ClientPlayNetworking.send(new SetAnimPayload(part,false));
