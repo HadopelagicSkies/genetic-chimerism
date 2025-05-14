@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,12 @@ public class MutationAttachments {
             .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
             .copyOnDeath()
             .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
+
+    public static final AttachmentType<Direction> WALK_FACE_DIRECTION = AttachmentRegistry.create(Identifier.of(MOD_ID, "walk_face_direction"), infoBuilder ->
+            infoBuilder.initializer(() -> Direction.UP)
+                    .persistent(Direction.CODEC)
+                    .copyOnDeath()
+                    .syncWith(Direction.PACKET_CODEC,AttachmentSyncPredicate.targetOnly()));
 
 
     public static List<MutationInfo> getMutationsAttached(AttachmentTarget target) {
@@ -82,5 +89,12 @@ public class MutationAttachments {
                 MutationBodyInfo.animationStateFromInts(isAnimating?1:0,startTick)));
     }
 
+    public static Direction getWalkFaceDirection(AttachmentTarget target) {
+        return target.getAttached(WALK_FACE_DIRECTION);
+    }
+
+    public static void setWalkFaceDirection(AttachmentTarget target, Direction info) {
+        target.setAttached(WALK_FACE_DIRECTION, info);
+    }
 
 }

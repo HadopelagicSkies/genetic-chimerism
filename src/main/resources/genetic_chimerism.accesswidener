@@ -5,3 +5,5 @@ accessible method net/minecraft/client/render/entity/LivingEntityRenderer addFea
 accessible method net/minecraft/entity/ai/brain/sensor/SensorType register (Ljava/lang/String;Ljava/util/function/Supplier;)Lnet/minecraft/entity/ai/brain/sensor/SensorType;
 
 accessible field net/minecraft/entity/AnimationState startTick I
+accessible field net/minecraft/entity/LivingEntity climbingPos Ljava/util/Optional;
+accessible field net/minecraft/server/network/ServerPlayerEntity movement Lnet/minecraft/util/math/Vec3d;

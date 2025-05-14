@@ -2,9 +2,11 @@ package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
+import com.genetic_chimerism.WalkFaceDirectionHelper;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -270,6 +272,37 @@ public class InvertebrateTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
             MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            Direction facingDirection = WalkFaceDirectionHelper.rotatedHorizontalFacing(player);
+            BlockPos blockInFront = player.getBlockPos().offset(facingDirection);
+            Direction currentDirection = MutationAttachments.getWalkFaceDirection(player);
+            if(currentDirection == null) {
+                currentDirection = Direction.UP;
+                MutationAttachments.setWalkFaceDirection(player,currentDirection);
+            }
+
+            Vec3d centerOfBlock = new Vec3d(player.getBlockPos().toCenterPos().toVector3f());
+            Vec3d posInBlock = new Vec3d(player.getX() - centerOfBlock.x,player.getY() - centerOfBlock.y,player.getZ() - centerOfBlock.z);
+            if(player.isSneaking() && player.collidesWithStateAtPos(player.getBlockPos(),player.getWorld().getBlockState(blockInFront))/*
+                    && !player.getWorld().getBlockState(blockInFront).isSolidBlock(player.getWorld(),blockInFront)
+                    && player.getWorld().getBlockState(player.getBlockPos().offset(facingDirection.getOpposite())).isAir()
+                    && player.getWorld().getBlockState(player.getBlockPos().offset(facingDirection.getOpposite()).offset(currentDirection.getOpposite())).isAir()*/){
+                MutationAttachments.setWalkFaceDirection(player,player.getHorizontalFacing());
+                GeneticChimerism.LOGGER.info("setting: " + player.getHorizontalFacing());
+                player.setYaw(player.getYaw()+90);
+            } else if (player.isSneaking() && posInBlock.multiply(facingDirection.getDoubleVector().multiply(facingDirection.getDoubleVector())) == facingDirection.getDoubleVector()/*
+                    && player.getWorld().getBlockState(blockInFront).isAir()
+                    && player.getWorld().getBlockState(blockInFront.offset(currentDirection)).isAir()
+                    && player.getWorld().getBlockState(blockInFront.offset(facingDirection)).isAir()
+                    && player.getWorld().getBlockState(blockInFront.offset(currentDirection.getOpposite())).isAir()
+                    && player.getWorld().getBlockState(blockInFront.offset(currentDirection.getOpposite()).offset(facingDirection)).isAir()*/){
+                MutationAttachments.setWalkFaceDirection(player,player.getHorizontalFacing().getOpposite());
+                GeneticChimerism.LOGGER.info("setting" + player.getHorizontalFacing().getOpposite());
+                player.setYaw(player.getYaw()-90);
+            }
         }
 
         @Override

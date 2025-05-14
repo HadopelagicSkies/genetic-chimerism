@@ -37,12 +37,12 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
             if (animation != null && (!mutInfo.actionAnim().isRunning() || mutation == AmphibiousTreeClient.tadpoleTail) && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2) {
                 if(!needsMirroring)
                     this.animate(mutInfo.partAnim(),animation,state.age, fastTailSpeed ? 1:0.5f);
-                else this.animate(mutInfo.partAnim(),AnimationTransformHelper.mirrorAnimationX(animation),state.age, fastTailSpeed ? 1:0.5f);
+                else this.animate(mutInfo.partAnim(), CustomAnimationHelper.mirrorAnimationX(animation),state.age, fastTailSpeed ? 1:0.5f);
             }
             else if (actionAnimation != null && (mutInfo.actionAnim().isRunning() && mutation != AmphibiousTreeClient.tadpoleTail) && (double) mutInfo.growth() /mutation.getMaxGrowth() > 0.2){
                 if(!needsMirroring)
                     this.animate(mutInfo.actionAnim(),actionAnimation,state.age,2);
-                else this.animate(mutInfo.actionAnim(),AnimationTransformHelper.mirrorAnimationX(actionAnimation),state.age,2);
+                else this.animate(mutInfo.actionAnim(), CustomAnimationHelper.mirrorAnimationX(actionAnimation),state.age,2);
 
                 if(mutInfo.actionAnim().getTimeInMilliseconds(state.age) >= actionAnimation.lengthInSeconds()/1000) {
                     mutInfo.actionAnim().stop();
@@ -61,7 +61,7 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
             if (growthAnimation != null) {
                 if(!needsMirroring)
                     AnimationHelper.animate(this, growthAnimation, (long)((float) mutInfo.growth() /mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
-                else AnimationHelper.animate(this, AnimationTransformHelper.mirrorAnimationX(growthAnimation), (long)((float) mutInfo.growth() /mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                else AnimationHelper.animate(this, CustomAnimationHelper.mirrorAnimationX(growthAnimation), (long)((float) mutInfo.growth() /mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
             }
 
         }

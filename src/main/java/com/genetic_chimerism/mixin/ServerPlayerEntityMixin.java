@@ -1,6 +1,7 @@
 package com.genetic_chimerism.mixin;
 
 import com.genetic_chimerism.MutatableParts;
+import com.genetic_chimerism.WalkFaceDirectionHelper;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -21,6 +22,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Unit;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -70,6 +73,13 @@ public abstract class ServerPlayerEntityMixin {
 				if (mutation != null) mutation.tick(player);
 			}
 		}
+	}
+
+	@Inject(method = "setMovement", at = @At(value = "TAIL"))
+	private void rotateMovement(Vec3d movement, CallbackInfo ci){
+		ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
+		Direction walkFaceDirection = MutationAttachments.getWalkFaceDirection(player);
+		player.movement = WalkFaceDirectionHelper.rotateVectorForFace(movement,walkFaceDirection);
 	}
 
 	@Inject(method = {"damage"},at = {@At("HEAD")})

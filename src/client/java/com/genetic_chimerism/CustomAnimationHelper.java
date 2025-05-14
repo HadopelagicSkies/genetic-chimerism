@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 import java.util.List;
 import java.util.Map;
 
-public class AnimationTransformHelper {
+public class CustomAnimationHelper {
     public static Animation mirrorAnimationX(Animation originalAnimation){
         Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds());
         Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
@@ -124,6 +124,32 @@ public class AnimationTransformHelper {
                     }else if(transform.target() == Transformation.Targets.SCALE) {
                         newKeyframes[i] = new Keyframe(oldKF.timestamp(), new Vector3f(scale*oldX,scale*oldY,scale*oldZ), oldKF.interpolation());
                     }
+                }
+                newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
+                if(looping)
+                    newAnimation.looping();
+            }
+        }
+        return newAnimation.build();
+    }
+
+    public static Animation scaleAnimationLength(Animation originalAnimation, float scaleFactor){
+        Animation.Builder newAnimation = Animation.Builder.create(originalAnimation.lengthInSeconds() * scaleFactor);
+        Map<String, List<Transformation>> boneTransformMap = originalAnimation.boneAnimations();
+        boolean looping = originalAnimation.looping();
+        for(String keyName :boneTransformMap.keySet()){
+            for(Transformation transform: boneTransformMap.get(keyName)){
+                Keyframe[] oldKeyframes = transform.keyframes();
+                Keyframe[] newKeyframes = new Keyframe[oldKeyframes.length];
+                for (int i = 0; i < oldKeyframes.length; i++) {
+                    Keyframe oldKF = oldKeyframes[i];
+
+                    float oldX = oldKF.target().x;
+                    float oldY = oldKF.target().y;
+                    float oldZ = oldKF.target().z;
+
+                    newKeyframes[i] = new Keyframe(oldKF.timestamp() * scaleFactor, new Vector3f(oldX,oldY,oldZ), oldKF.interpolation());
+
                 }
                 newAnimation.addBoneAnimation(keyName, new Transformation(transform.target(),newKeyframes));
                 if(looping)

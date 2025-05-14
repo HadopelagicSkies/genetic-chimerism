@@ -1,6 +1,6 @@
 package com.genetic_chimerism.mutation_setup_client;
 
-import com.genetic_chimerism.AnimationTransformHelper;
+import com.genetic_chimerism.CustomAnimationHelper;
 import com.genetic_chimerism.GeneticChimerism;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.animation.Animation;
@@ -61,7 +61,7 @@ public class ScaledTreeClient {
 
         @Override
         public Animation createPartAnimation() {
-            return AnimationTransformHelper.scaleAnimation(lizardTail2.getAnimation("part"),scale);
+            return CustomAnimationHelper.scaleAnimation(lizardTail2.getAnimation("part"),scale);
         }
     }
 

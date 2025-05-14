@@ -4,8 +4,10 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "ArmorFeatureRendererMixin",
+    "CameraMixin",
     "DrawContextAccessor",
     "HeldItemFeatureRendererMixin",
+    "MouseMixin",
     "PlayerEntityRendererMixin",
     "PlayerRenderStateMixin",
     "UnderwaterBreathSwapClientMixin"

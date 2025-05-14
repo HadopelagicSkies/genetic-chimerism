@@ -1,6 +1,6 @@
 package com.genetic_chimerism.mutation_setup_client;
 
-import com.genetic_chimerism.AnimationTransformHelper;
+import com.genetic_chimerism.CustomAnimationHelper;
 import com.genetic_chimerism.GeneticChimerism;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.animation.Animation;
@@ -101,30 +101,30 @@ public class WingedTreeClient {
 
         @Override
         public Animation createPartAnimation() {
-            return Animation.Builder.create(1.0F)
+            return Animation.Builder.create(0.5F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, 90.0F, 120.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 90.0F, 120.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(1.5F, -0.25F, 1.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(1.5F, -0.25F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(35.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(35.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.0F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(80.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(80.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.0F, -1.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.0F, -1.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
@@ -212,7 +212,7 @@ public class WingedTreeClient {
 
         @Override
         public Animation createPartAnimation() {
-            return AnimationTransformHelper.scaleAnimation(backWings2.getAnimation("part"), scale);
+            return CustomAnimationHelper.scaleAnimation(backWings2.getAnimation("part"), scale);
         }
 
         @Override
@@ -293,7 +293,7 @@ public class WingedTreeClient {
 
         @Override
         public Animation createActionAnimation() {
-            return AnimationTransformHelper.scaleAnimation(backWings2.getAnimation("action"), scale);
+            return CustomAnimationHelper.scaleAnimation(backWings2.getAnimation("action"), scale);
         }
     }
 
@@ -376,51 +376,51 @@ public class WingedTreeClient {
 
         @Override
         public Animation createPartAnimation() {
-            return Animation.Builder.create(1.0F)
+            return Animation.Builder.create(0.5F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, -5.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, -5.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(-3.0F, -30.0F, -3.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(-3.0F, -30.0F, -3.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.25F, 0.0F, 0.75F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.25F, 0.0F, 0.75F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone3", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.4F, -0.35F, 0.35F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.4F, -0.35F, 0.35F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone4", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(42.0F, -24.0F, 33.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(42.0F, -24.0F, 33.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone4", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.25F, 0.75F, 0.3F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.25F, 0.75F, 0.3F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone5", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(-11.0F, 1.0F, -7.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(-11.0F, 1.0F, -7.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone5", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone6", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(33.0F, -5.0F, 20.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(33.0F, -5.0F, 20.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone6", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.3F, -0.2F, 0.7F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.3F, -0.2F, 0.7F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone7", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
@@ -430,48 +430,48 @@ public class WingedTreeClient {
                     ))
                     .addBoneAnimation("bone8", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(0.0F, 5.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone8", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone9", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(-3.0F, 30.0F, 3.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(-3.0F, 30.0F, 3.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone9", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(-0.25F, 0.0F, 0.75F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(-0.25F, 0.0F, 0.75F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone10", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone10", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.4F, -0.35F, 0.35F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.4F, -0.35F, 0.35F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone11", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(42.0F, 24.0F, -33.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(42.0F, 24.0F, -33.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone11", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.25F, 0.75F, 0.3F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.25F, 0.75F, 0.3F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone12", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(-11.0F, -1.0F, 7.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(-11.0F, -1.0F, 7.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone12", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone13", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createRotationalVector(33.0F, 5.0F, -20.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createRotationalVector(33.0F, 5.0F, -20.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone13", new Transformation(Transformation.Targets.TRANSLATE,
                             new Keyframe(0.0F, AnimationHelper.createTranslationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR),
-                            new Keyframe(1.0F, AnimationHelper.createTranslationalVector(0.3F, -0.2F, 0.7F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.5F, AnimationHelper.createTranslationalVector(0.3F, -0.2F, 0.7F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("bone14", new Transformation(Transformation.Targets.ROTATE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(0.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
