@@ -280,7 +280,7 @@ public class HoovedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(hooves, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107),0, false,
+                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106),0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
@@ -305,6 +305,11 @@ public class HoovedTree {
             player.getAttributes().removeModifiers(modifierMultimap);
             MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
         }
+
+        @Override
+        public int getMaxGrowth() {
+            return 1000;
+        }
     }
 
 //    public static class CentaurMutation extends Mutation {
@@ -321,10 +326,10 @@ public class HoovedTree {
 //            MutationAttachments.removePartAttached(player, MutatableParts.LEG);
 //            player.getAttributes().addTemporaryModifiers(modifierMultimap);
 //            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(centaur, 0,
-//                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+//                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106), 0, false, false));
 //            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
 //            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(centaur, 0,
-//                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false, false));
+//                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106), 0, false, false));
 //        }
 //
 //        @Override

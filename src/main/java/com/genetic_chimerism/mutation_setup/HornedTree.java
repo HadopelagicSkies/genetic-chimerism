@@ -255,7 +255,7 @@ public class HornedTree {
                 for(Entity entity : colliders){
                     if (entity instanceof LivingEntity){
                         entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(1.5));
-                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),4F);
+                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null,player),4F);
                     }
                 }
                 if(!colliders.isEmpty()){
@@ -323,7 +323,7 @@ public class HornedTree {
                 for(Entity entity : colliders){
                     if (entity instanceof LivingEntity){
                         entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(2.5));
-                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),6F);
+                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null,player),6F);
                     }
                 }
 
@@ -392,7 +392,7 @@ public class HornedTree {
                 for(Entity entity : colliders){
                     if (entity instanceof LivingEntity){
                         entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
-                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),10F);
+                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null,player),10F);
                     }
                 }
 
@@ -461,7 +461,7 @@ public class HornedTree {
                 for(Entity entity : colliders){
                     if (entity instanceof LivingEntity){
                         entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
-                        entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.TRIDENT, player),14F);
+                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null,player),14F);
                     }
                 }
 
@@ -501,7 +501,7 @@ public class HornedTree {
             MutationAttachments.removePartAttached(player, MutatableParts.LEG);
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(ramLegs,0,
-                    ColorHelper.getArgb(115,110,99),ColorHelper.getArgb(136,127,107),0, false,
+                    ColorHelper.getArgb(93,93,93),ColorHelper.getArgb(122,122,122),0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 

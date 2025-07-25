@@ -38,7 +38,6 @@ public class MutationAttachments {
     public static final AttachmentType<Direction> WALK_FACE_DIRECTION = AttachmentRegistry.create(Identifier.of(MOD_ID, "walk_face_direction"), infoBuilder ->
             infoBuilder.initializer(() -> Direction.UP)
                     .persistent(Direction.CODEC)
-                    .copyOnDeath()
                     .syncWith(Direction.PACKET_CODEC,AttachmentSyncPredicate.targetOnly()));
 
 

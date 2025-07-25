@@ -99,7 +99,6 @@ public class InfusionStation extends HorizontalFacingBlock implements BlockEntit
         if (!world.isClient) {
             InfusionStationEntity blockEntity = (InfusionStationEntity) world.getBlockEntity(pos);
             ItemStack blockContents = blockEntity.getItems().get(0);
-            // Actually doing things to give mutation here
 
             if(!player.isSneaking() && player.getMainHandStack().isEmpty() && blockEntity.getItems().get(0).isOf(GeneticChimerismItems.MUTAGEN_VIAL)) {
                 GeneticChimerism.LOGGER.info("Laying Down....");

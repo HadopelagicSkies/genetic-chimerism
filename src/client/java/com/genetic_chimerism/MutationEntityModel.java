@@ -56,14 +56,23 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
                     ClientPlayNetworking.send(new SetAnimPayload(part,false));
                 }
             }
-
-
             if (growthAnimation != null) {
-                if(!needsMirroring)
-                    AnimationHelper.animate(this, growthAnimation, (long)((float) mutInfo.growth() /mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
-                else AnimationHelper.animate(this, CustomAnimationHelper.mirrorAnimationX(growthAnimation), (long)((float) mutInfo.growth() /mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                if (part != MutatableParts.LEG) {
+                    if (!needsMirroring)
+                        AnimationHelper.animate(this, growthAnimation, (long) ((float) mutInfo.growth() / mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                    else
+                        AnimationHelper.animate(this, CustomAnimationHelper.mirrorAnimationX(growthAnimation), (long) ((float) mutInfo.growth() / mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                }
+                else {
+                    if (!needsMirroring && (double) mutInfo.growth() / mutation.getMaxGrowth() <= 0.5)
+                        AnimationHelper.animate(this, growthAnimation, (long) ((float) mutInfo.growth() / mutation.getMaxGrowth() * 1000F) * 2, 1, new Vector3f(0, 0, 0));
+                    else if (needsMirroring && (double) mutInfo.growth() / mutation.getMaxGrowth() > 0.5)
+                        AnimationHelper.animate(this, CustomAnimationHelper.mirrorAnimationX(growthAnimation), (long) ((float) mutInfo.growth() / mutation.getMaxGrowth() * 1000F), 1, new Vector3f(0, 0, 0));
+                    else if (needsMirroring){
+                        AnimationHelper.animate(this, CustomAnimationHelper.mirrorAnimationX(growthAnimation), 0, 1, new Vector3f(0, 0, 0));
+                    }
+                }
             }
-
         }
     }
 }

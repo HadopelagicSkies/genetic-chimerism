@@ -19,7 +19,6 @@ public class SynthRecipe implements Recipe<CraftingRecipeInput> {
 
 
     public SynthRecipe(ItemStack result, List<ItemStack> inputs) {
-        //this.id = id;
         this.output = result;
         this.inputs = inputs;
     }
@@ -27,8 +26,6 @@ public class SynthRecipe implements Recipe<CraftingRecipeInput> {
     public List<ItemStack> getInputs(){return this.inputs;}
 
     public ItemStack getOutput() {return this.output;}
-
-    //public Identifier getId() {return this.id; }
 
     @Override
     public boolean matches(CraftingRecipeInput input, World world) {

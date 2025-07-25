@@ -13,6 +13,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Function;
+
 
 public class GeneticChimerismItems {
 
@@ -24,9 +26,6 @@ public class GeneticChimerismItems {
 
     public static void initialize() {
         Registry.register(Registries.ITEM_GROUP, GENETIC_CHIMERISM_GROUP_KEY, GENETIC_CHIMERISM_GROUP);
-
-        // Get the event for modifying entries in the ingredients group.
-        // And register an event handler that adds our items to the ingredients group.
         ItemGroupEvents.modifyEntriesEvent(GENETIC_CHIMERISM_GROUP_KEY)
                 .register((itemGroup) -> {
                     itemGroup.add(GeneticChimerismItems.CRUDE_TISSUE_SAMPLE);
@@ -45,65 +44,41 @@ public class GeneticChimerismItems {
                 });
     }
 
-    private static Item register(Item.Settings itemSettings, String name) {
-        // Create the identifier for the item.
+    private static <T extends Item> T register(Function<Item.Settings, T> constructor, Item.Settings itemSettings, String name) {
         Identifier id = Identifier.of(GeneticChimerism.MOD_ID, name);
 
-        // Register the item key.
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
         Item.Settings settings = itemSettings.registryKey(key);
 
-        // Return the registered item!
-        return Registry.register(Registries.ITEM, key, new Item(settings));
+        return Registry.register(Registries.ITEM, key, constructor.apply(settings));
+    }
+
+    private static Item register(Item.Settings itemSettings, String name) {
+        return register(Item::new,itemSettings,name);
     }
 
     private static Item scalpelRegister(ToolMaterial mat, float atkDamage, float atkSpeed, Item.Settings itemSettings, String name) {
-        // Create the identifier for the item.
+
         Identifier id = Identifier.of(GeneticChimerism.MOD_ID, name);
 
-        // Register the item key.
         RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
         Item.Settings settings = itemSettings.registryKey(key);
 
-        // Return the registered item!
         return Registry.register(Registries.ITEM, key, new ScalpelItem(mat,atkDamage,atkSpeed,settings));
     }
-    private static Item tissueRegister(Item.Settings itemSettings, String name) {
-        // Create the identifier for the item.
-        Identifier id = Identifier.of(GeneticChimerism.MOD_ID, name);
 
-        // Register the item key.
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
-        Item.Settings settings = itemSettings.registryKey(key);
-
-        // Return the registered item!
-        return Registry.register(Registries.ITEM, key, new TissueItem(settings.component(GeneticChimerismComponents.TISSUE_TYPE,"")));
-    }
-
-    private static Item vialRegister(Item.Settings itemSettings, String name) {
-        // Create the identifier for the item.
-        Identifier id = Identifier.of(GeneticChimerism.MOD_ID, name);
-
-        // Register the item key.
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, id);
-        Item.Settings settings = itemSettings.registryKey(key);
-
-        // Return the registered item!
-        return Registry.register(Registries.ITEM, key, new MutagenVialItem(settings.component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("",""))));
-    }
-
-    public static final Item CRUDE_TISSUE_SAMPLE = tissueRegister(
-            new Item.Settings(),
+    public static final Item CRUDE_TISSUE_SAMPLE = register(TissueItem::new,
+            new Item.Settings().component(GeneticChimerismComponents.TISSUE_TYPE,""),
             "crude_tissue_sample"
     );
 
-    public static final Item FRESH_TISSUE_SAMPLE = tissueRegister(
-            new Item.Settings(),
+    public static final Item FRESH_TISSUE_SAMPLE = register(TissueItem::new,
+            new Item.Settings().component(GeneticChimerismComponents.TISSUE_TYPE,""),
             "fresh_tissue_sample"
     );
 
-    public static final Item ENSOULED_TISSUE_SAMPLE = tissueRegister(
-            new Item.Settings(),
+    public static final Item ENSOULED_TISSUE_SAMPLE = register(TissueItem::new,
+            new Item.Settings().component(GeneticChimerismComponents.TISSUE_TYPE,""),
             "ensouled_tissue_sample"
     );
 
@@ -136,8 +111,8 @@ public class GeneticChimerismItems {
             "soul_scalpel_head"
     );
 
-    public static final Item MUTAGEN_VIAL = vialRegister(
-            new Item.Settings().maxCount(1),
+    public static final Item MUTAGEN_VIAL = register(MutagenVialItem::new,
+            new Item.Settings().maxCount(1).component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("","")),
             "mutagen_vial"
     );
 

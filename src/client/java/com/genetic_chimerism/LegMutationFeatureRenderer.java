@@ -37,14 +37,20 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             TexturedModelData modelData = mutation.getTexturedModelData();
             Identifier texture1 = mutation.getTexture1();
             Identifier texture2 = mutation.getTexture2();
+            Animation mirrorAnimation = mutation.getAnimation("mirror");
             int color1 = mutInfo.color1();
             int color2 = mutInfo.color2();
 
 
             this.getContextModel().rightLeg.hidden = true;
             this.getContextModel().rightPants.hidden = true;
-            this.getContextModel().leftLeg.hidden = true;
-            this.getContextModel().leftPants.hidden = true;
+            if((double) mutInfo.growth() / mutation.getMaxGrowth() <= 0.5){
+                this.getContextModel().leftLeg.hidden = false;
+                this.getContextModel().leftPants.hidden = false;
+            }else{
+                this.getContextModel().leftLeg.hidden = true;
+                this.getContextModel().leftPants.hidden = true;
+            }
 
             ModelPart modelR = modelData.createModel();
             modelR.copyTransform(this.getContextModel().rightLeg);
@@ -55,6 +61,10 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             modelL.copyTransform(this.getContextModel().leftLeg);
             MutationEntityModel entityModelL = new MutationEntityModel(modelL,MutatableParts.LEG,true);
             entityModelL.setAngles(state);
+
+            if (mirrorAnimation != null) {
+                AnimationHelper.animate(entityModelL, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));
+            }
 
             matrices.push();
             VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));

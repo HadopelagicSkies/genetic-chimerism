@@ -26,7 +26,7 @@ public class MutationTreesClient {
         ScaledTreeClient.initialize();
 //        ShelledTreeClient.initialize();
 //        SmallMammalTreeClient.initialize();
-//        SpinedTreeClient.initialize();
+        SpinedTreeClient.initialize();
         TentacledTreeClient.initialize();
 //        TuskedTreeClient.initialize();
         WoolenTreeClient.initialize();

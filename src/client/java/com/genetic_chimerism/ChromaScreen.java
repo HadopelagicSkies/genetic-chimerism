@@ -35,8 +35,7 @@ import java.util.Map;
 public class ChromaScreen extends Screen {
     private static final int COLOR_SCROLLER_WIDTH = 100;
     private static final int COLOR_SCROLLER_HEIGHT = 20;
-
-    //private final PlayerEntity copyPlayer;
+    
     private static final Identifier BACKGROUND_TEXTURE = Identifier.of(GeneticChimerism.MOD_ID, "textures/gui/chroma_screen.png");
     private final int titleX;
     private final int titleY;
@@ -64,7 +63,7 @@ public class ChromaScreen extends Screen {
 
 
     protected ChromaScreen(PlayerEntity player) {
-        super(Text.translatable("gui.genetic_chimerism.chroma_menu"));
+        super(Text.translatable("gui.genetic_chimerism.chroma_screen"));
         this.player = player;
         this.titleX = 10;
         this.titleY = 10;
@@ -207,7 +206,7 @@ public class ChromaScreen extends Screen {
 
                 }
             }));
-            this.addDrawableChild(CyclingButtonWidget.builder(MutatableParts::getTranslatableName).values(MutatableParts.values()).build(i + 9, j + this.backgroundHeight - 52,100,20, Text.translatable("gui.genetic_chimerism.chroma_menu.part"), (button,part) -> {
+            this.addDrawableChild(CyclingButtonWidget.builder(MutatableParts::getTranslatableName).values(MutatableParts.values()).build(i + 9, j + this.backgroundHeight - 52,100,20, Text.translatable("gui.genetic_chimerism.chroma_screen.part"), (button,part) -> {
                 selectedPart = part;
                 setInitialColors();
                 for(ColorSlider slider:this.sliders){
@@ -215,13 +214,13 @@ public class ChromaScreen extends Screen {
                 }
             }));
 
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+40 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.red"),1)));
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+62 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.green"),1)));
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+84 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.blue"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+40 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.red"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+62 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.green"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+84 ,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.blue"),1)));
 
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+126,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.red"),1)));
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+148,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.green"),1)));
-            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+170,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_menu.blue"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+126,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.red"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+148,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.green"),1)));
+            sliders.add(this.addDrawableChild(new ColorSlider(i+9,j+170,COLOR_SCROLLER_WIDTH,COLOR_SCROLLER_HEIGHT,Text.translatable("gui.genetic_chimerism.chroma_screen.blue"),1)));
 
             setInitialColors();
             for(ColorSlider slider:this.sliders){
@@ -322,7 +321,7 @@ public class ChromaScreen extends Screen {
         final int index;
 
         public ChromaConfirmButton(final int x, final int y, final int index, final ButtonWidget.PressAction onPress) {
-            super(x, y, 100, 20,Text.translatable("gui.genetic_chimerism.chroma_menu.confirm"), onPress, DEFAULT_NARRATION_SUPPLIER);
+            super(x, y, 100, 20,Text.translatable("gui.genetic_chimerism.chroma_screen.confirm"), onPress, DEFAULT_NARRATION_SUPPLIER);
             this.index = index;
             this.visible = true;
         }

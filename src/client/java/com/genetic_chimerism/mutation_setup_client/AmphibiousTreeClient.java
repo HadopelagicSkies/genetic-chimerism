@@ -1,7 +1,6 @@
 package com.genetic_chimerism.mutation_setup_client;
 
 import com.genetic_chimerism.GeneticChimerism;
-import com.genetic_chimerism.mutation_setup.AmphibiousTree;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;

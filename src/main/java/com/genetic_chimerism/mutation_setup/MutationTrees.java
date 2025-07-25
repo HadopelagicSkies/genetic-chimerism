@@ -93,7 +93,7 @@ public class MutationTrees {
         SpecialTree.initialize();
     }
 
-    public Mutation addToTree(Mutation mutation){
+    public <T extends Mutation> T addToTree(T mutation){
         this.mutations.add(mutation);
         return mutation;
     }

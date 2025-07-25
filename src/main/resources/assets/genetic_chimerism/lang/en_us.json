@@ -53,12 +53,12 @@
   "genetic_chimerism.tail_part": "Tail",
   "genetic_chimerism.misc_part": "Misc Mutation",
 
-  "gui.genetic_chimerism.chroma_menu": "Chromatophore Recoloring",
-  "gui.genetic_chimerism.chroma_menu.red": "Red: ",
-  "gui.genetic_chimerism.chroma_menu.green": "Green: ",
-  "gui.genetic_chimerism.chroma_menu.blue": "Blue: ",
-  "gui.genetic_chimerism.chroma_menu.confirm": "Confirm",
-  "gui.genetic_chimerism.chroma_menu.part": "Part",
+  "gui.genetic_chimerism.chroma_screen": "Chromatophore Recoloring",
+  "gui.genetic_chimerism.chroma_screen.red": "Red: ",
+  "gui.genetic_chimerism.chroma_screen.green": "Green: ",
+  "gui.genetic_chimerism.chroma_screen.blue": "Blue: ",
+  "gui.genetic_chimerism.chroma_screen.confirm": "Confirm",
+  "gui.genetic_chimerism.chroma_screen.part": "Part",
 
   "mutations.tree.human": "Human",
   "mutations.mutation.antigen": "Human Antigen",

@@ -11,8 +11,6 @@ import net.minecraft.util.Identifier;
 public class GeneticChimerismComponents {
     protected static void initialize() {
         GeneticChimerism.LOGGER.info("Registering {} components", GeneticChimerism.MOD_ID);
-        // Technically this method can stay empty, but some developers like to notify
-        // the console, that certain parts of the mod have been successfully initialized
     }
 
     public static final ComponentType<String> TISSUE_TYPE = Registry.register(

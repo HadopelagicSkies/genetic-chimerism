@@ -32,7 +32,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	private static KeyBinding legActionKeybindings;
 	private static KeyBinding tailActionKeybindings;
 	private static KeyBinding miscActionKeybindings;
-	private static KeyBinding chromaMenuKeybindings;
+	private static KeyBinding chromaScreenKeybindings;
 	public static final EntityModelLayer DIPLOCAULUS_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus");
 	public static final EntityModelLayer DIPLOCAULUS_BABY_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus_baby");
 	public static final EntityModelLayer DROPPED_TAIL_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"dropped_tail"), "dropped_tail");
@@ -48,10 +48,8 @@ public class GeneticChimerismClient implements ClientModInitializer {
 		EntityRendererRegistry.register(GeneticChimerismEntities.DROPPED_TAIL,(context) -> new DroppedTailEntityRenderer(context) {});
 		EntityModelLayerRegistry.registerModelLayer(DROPPED_TAIL_MODEL_LAYER, DroppedTailEntityModel::getTexturedModelData);
 
-
 		MutationTreesClient.initialize();
 		initKeybindings();
-
 	}
 
 	public void initKeybindings(){
@@ -85,7 +83,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				GLFW.GLFW_KEY_N,
 				"category.genetic_chimerism.keybindings"));
 
-		chromaMenuKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.chroma_menu",
+		chromaScreenKeybindings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.genetic_chimerism.chroma_screen",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_O,
 				"category.genetic_chimerism.keybindings"));
@@ -99,7 +97,7 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				processActionKeybind(client.player, tailActionKeybindings, MutatableParts.TAIL);
 				processActionKeybind(client.player, miscActionKeybindings, MutatableParts.MISC);
 
-				while (chromaMenuKeybindings.wasPressed()) {
+				while (chromaScreenKeybindings.wasPressed()) {
 					if (MutationAttachments.getMutationsAttached(client.player).contains(new MutationInfo("chroma", "tentacled")))
 						client.setScreen(new ChromaScreen(client.player));
 				}
@@ -118,6 +116,5 @@ public class GeneticChimerismClient implements ClientModInitializer {
 				}
 			}
 		}
-
 	}
 }

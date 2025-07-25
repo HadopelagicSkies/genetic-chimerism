@@ -14,7 +14,7 @@ public class SynthRecipeSerializer implements RecipeSerializer<SynthRecipe> {
     private final PacketCodec<RegistryByteBuf, SynthRecipe> packetCodec;
 
     public SynthRecipeSerializer() {
-        codec = RecordCodecBuilder.mapCodec((instance) -> {
+        this.codec = RecordCodecBuilder.mapCodec((instance) -> {
             var parameters = instance.group(
                     ItemStack.VALIDATED_CODEC.fieldOf("output").forGetter(SynthRecipe::getOutput),
                     Codec.list(ItemStack.CODEC).fieldOf("inputs").forGetter(SynthRecipe::getInputs));
