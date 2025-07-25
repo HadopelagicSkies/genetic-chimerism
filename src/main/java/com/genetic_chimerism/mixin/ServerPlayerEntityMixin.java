@@ -107,32 +107,32 @@ public abstract class ServerPlayerEntityMixin {
 					}
 				}
 				if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg1))) {
-					thornsDamage += 5;
+					thornsDamage += 2;
 					if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg2))) {
-						thornsDamage += 5;
+						thornsDamage += 2;
 						if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.thornsDmg3))) {
-							thornsDamage += 5;
+							thornsDamage += 2;
 						}
 						if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.guardianSpikes1))) {
 							int currentGrowth = MutationAttachments.getPartAttached(playerEntity, MutatableParts.TORSO).growth();
 							int maxGrowth = MutationTrees.mutationFromCodec(MutationAttachments.getPartAttached(playerEntity, MutatableParts.TORSO)).getMaxGrowth();
 
 							if (currentGrowth >= maxGrowth) {
-								thornsDamage += 16;
-							} else if (currentGrowth >= maxGrowth * 0.75) {
-								thornsDamage += 12;
-							} else if (currentGrowth >= maxGrowth * 0.5) {
 								thornsDamage += 8;
-							} else if (currentGrowth >= maxGrowth * 0.25) {
+							} else if (currentGrowth >= maxGrowth * 0.75) {
+								thornsDamage += 6;
+							} else if (currentGrowth >= maxGrowth * 0.5) {
 								thornsDamage += 4;
+							} else if (currentGrowth >= maxGrowth * 0.25) {
+								thornsDamage += 2;
 							}
 
 							if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.guardianSpikes2))) {
-								thornsDamage += 10;
+								thornsDamage += 4;
 							}
 							if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.hardeningSpikes))) {
 								if (playerEntity.hasStatusEffect(StatusEffects.CONDUIT_POWER)) {
-									thornsDamage += 10;
+									thornsDamage += 4;
 									thornsChance += 25;
 								}
 							}
