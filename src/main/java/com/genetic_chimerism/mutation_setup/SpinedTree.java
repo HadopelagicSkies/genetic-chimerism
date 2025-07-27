@@ -141,7 +141,7 @@ public class SpinedTree {
 
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(guardianSpikes1,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    ColorHelper.getArgb(255,130,47),ColorHelper.getArgb(78,121,102),0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 

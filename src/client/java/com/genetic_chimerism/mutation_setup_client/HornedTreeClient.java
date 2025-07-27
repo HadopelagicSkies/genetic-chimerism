@@ -96,7 +96,7 @@ public class HornedTreeClient {
         public TexturedModelData getTexturedModelData() {
             ModelData modelData = new ModelData();
             ModelPartData modelPartData = modelData.getRoot();
-            ModelPartData bone = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(-2.0F, 12.0F, 0.0F));
+            ModelPartData bone = modelPartData.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(-0.25F, 0.0F, 0.0F));
 
             ModelPartData cube_r1 = bone.addChild("cube_r1", ModelPartBuilder.create().uv(0, 0).cuboid(-2.0F, -0.5F, -2.05F, 4.0F, 6.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
 
@@ -122,11 +122,10 @@ public class HornedTreeClient {
         public Animation createMirrorAnimation() {
             return Animation.Builder.create(0.0F)
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(4.0F, 0.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(1.5F, 1.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
     }
-
 }
 

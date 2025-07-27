@@ -141,13 +141,17 @@ public abstract class ServerPlayerEntityMixin {
 				}
 				if (playerEntity.getRandom().nextBetween(0, 100) <= thornsChance) {
 					damageSource.getAttacker().damage((ServerWorld) damageSource.getAttacker().getWorld(), world.getDamageSources().trident(playerEntity, playerEntity), thornsDamage);
+
 					if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.guardianSpikes1))) {
+						MutationAttachments.setPartAnimating(playerEntity,MutatableParts.TORSO,true,playerEntity.age);
 						((SpinedTree.GuardianSpikes1Mutation) SpinedTree.guardianSpikes1).breakSpikes(playerEntity);
 						world.playSound(null, playerEntity.getBlockPos(), SoundEvents.ENTITY_GOAT_HORN_BREAK, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(playerEntity.getWorld().random, 0.8F, 1.2F));
 					} else if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.guardianSpikes2))) {
+						MutationAttachments.setPartAnimating(playerEntity,MutatableParts.TORSO,true,playerEntity.age);
 						((SpinedTree.GuardianSpikes1Mutation) SpinedTree.guardianSpikes2).breakSpikes(playerEntity);
 						world.playSound(null, playerEntity.getBlockPos(), SoundEvents.ENTITY_GOAT_HORN_BREAK, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(playerEntity.getWorld().random, 0.8F, 1.2F));
 					} else if (mutations.contains(MutationTrees.mutationToCodec(SpinedTree.shootQuills))) {
+						MutationAttachments.setPartAnimating(playerEntity,MutatableParts.TORSO,true,playerEntity.age);
 						SpinedTree.shootQuills.mutationAction(playerEntity);
 						world.playSound(null, playerEntity.getBlockPos(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(playerEntity.getWorld().random, 0.8F, 1.2F));
 					}
