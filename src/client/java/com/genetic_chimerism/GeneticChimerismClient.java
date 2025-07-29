@@ -4,6 +4,8 @@ import com.genetic_chimerism.entity.DiplocaulusEntityModel;
 import com.genetic_chimerism.entity.DiplocaulusEntityRenderer;
 import com.genetic_chimerism.entity.DroppedTailEntityModel;
 import com.genetic_chimerism.entity.DroppedTailEntityRenderer;
+import com.genetic_chimerism.entity.projectile.QuillProjectileEntityModel;
+import com.genetic_chimerism.entity.projectile.QuillProjectileEntityRenderer;
 import com.genetic_chimerism.mutation_setup.*;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
@@ -36,17 +38,24 @@ public class GeneticChimerismClient implements ClientModInitializer {
 	public static final EntityModelLayer DIPLOCAULUS_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus");
 	public static final EntityModelLayer DIPLOCAULUS_BABY_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"diplocaulus"), "diplocaulus_baby");
 	public static final EntityModelLayer DROPPED_TAIL_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"dropped_tail"), "dropped_tail");
+	public static final EntityModelLayer QUILLS_PROJECTILE_MODEL_LAYER = new EntityModelLayer(Identifier.of(GeneticChimerism.MOD_ID,"quills_projectile"), "quills_projectile");
 
 	@Override
 	public void onInitializeClient() {
 		HandledScreens.register(GeneticChimerism.SYNTH_SCREEN_HANDLER, SynthScreen::new);
+
 		BlockRenderLayerMap.INSTANCE.putBlock(GeneticChimerismBlocks.MUTAGEN_SYNTHESIZER,RenderLayer.getTranslucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(GeneticChimerismBlocks.INFUSION_STATION,RenderLayer.getTranslucent());
+
 		EntityRendererRegistry.register(GeneticChimerismEntities.DIPLOCAULUS,(context) -> new DiplocaulusEntityRenderer(context) {});
 		EntityModelLayerRegistry.registerModelLayer(DIPLOCAULUS_MODEL_LAYER, DiplocaulusEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(DIPLOCAULUS_BABY_MODEL_LAYER, DiplocaulusEntityModel::getBabyTexturedModelData);
+
 		EntityRendererRegistry.register(GeneticChimerismEntities.DROPPED_TAIL,(context) -> new DroppedTailEntityRenderer(context) {});
 		EntityModelLayerRegistry.registerModelLayer(DROPPED_TAIL_MODEL_LAYER, DroppedTailEntityModel::getTexturedModelData);
+
+		EntityRendererRegistry.register(GeneticChimerismEntities.QUILL_PROJECTILE,(context) -> new QuillProjectileEntityRenderer(context) {});
+		EntityModelLayerRegistry.registerModelLayer(QUILLS_PROJECTILE_MODEL_LAYER, QuillProjectileEntityModel::getTexturedModelData);
 
 		MutationTreesClient.initialize();
 		initKeybindings();

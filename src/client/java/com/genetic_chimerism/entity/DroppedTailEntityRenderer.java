@@ -15,7 +15,6 @@ import net.minecraft.client.render.entity.animation.Transformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
-import org.joml.Vector3f;
 
 public class DroppedTailEntityRenderer extends LivingEntityRenderer<DroppedTailEntity, DroppedTailEntityRenderState, DroppedTailEntityModel> {
     public DroppedTailEntityRenderer(EntityRendererFactory.Context context) {

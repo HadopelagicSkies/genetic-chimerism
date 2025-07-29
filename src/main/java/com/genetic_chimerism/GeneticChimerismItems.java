@@ -41,6 +41,8 @@ public class GeneticChimerismItems {
 
                     itemGroup.add(GeneticChimerismItems.MUTAGEN_VIAL);
 
+                    itemGroup.add(GeneticChimerismItems.PORCUPINE_QUILL);
+
                 });
     }
 
@@ -114,6 +116,11 @@ public class GeneticChimerismItems {
     public static final Item MUTAGEN_VIAL = register(MutagenVialItem::new,
             new Item.Settings().maxCount(1).component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("","")),
             "mutagen_vial"
+    );
+
+    public static final Item PORCUPINE_QUILL = register(
+            new Item.Settings().maxCount(1).component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("","")),
+            "porcupine_quill"
     );
 
 

@@ -1,7 +1,9 @@
 package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.GeneticChimerism;
+import com.genetic_chimerism.GeneticChimerismItems;
 import com.genetic_chimerism.MutatableParts;
+import com.genetic_chimerism.entity.projectile.QuillProjectileEntity;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
@@ -11,12 +13,19 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 
@@ -100,7 +109,33 @@ public class SpinedTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            super.mutationAction(player);
+            MutationBodyInfo mutation = MutationAttachments.getPartAttached(player, MutatableParts.TORSO);
+
+            if(mutation.growth() > this.getMaxGrowth() * 0.25) {
+                player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                //breakQuills(player);
+                int color1 = mutation.color1();
+                int color2 = mutation.color2();
+
+                for (int i = 0; i < 50; i++) {
+                    int yaw = player.getRandom().nextBetween(1, 360);
+                    int pitch = player.getRandom().nextBetween(-45, 15);
+                    Vec3d rotation = player.getRotationVector(pitch, yaw);
+                    double xPos = player.getX() + (rotation.x * 0.25);
+                    double yPos = player.getY() + 1;
+                    double zPos = player.getZ() + (rotation.y * 0.25);
+                    double xVel = rotation.x * 0.25;
+                    double yVel = rotation.y * 0.25;
+                    double zVel = rotation.z * 0.25;
+
+                    QuillProjectileEntity quill = QuillProjectileEntity.createQuill(player);
+                    quill.setPosition(xPos, yPos, zPos);
+                    quill.setColor1(color1);
+                    quill.setColor2(color2);
+                    quill.setDamage(6.0);
+                    PersistentProjectileEntity.spawnWithVelocity(quill, (ServerWorld) player.getWorld(), ItemStack.EMPTY, xVel, yVel, zVel, 1, 0);
+                }
+            }
         }
 
         public static void breakQuills(PlayerEntity player){

@@ -1,10 +1,17 @@
 package com.genetic_chimerism.entity.projectile;
 
+import com.genetic_chimerism.GeneticChimerism;
+import com.genetic_chimerism.GeneticChimerismEntities;
+import com.genetic_chimerism.GeneticChimerismItems;
 import com.genetic_chimerism.entity.DroppedTailEntity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -16,7 +23,6 @@ import net.minecraft.world.World;
 public class QuillProjectileEntity extends PersistentProjectileEntity {
     private static final TrackedData<Integer> COLOR1 = DataTracker.registerData(QuillProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> COLOR2 = DataTracker.registerData(QuillProjectileEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    private double damage = 4.0;
     public QuillProjectileEntity(EntityType<QuillProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -43,6 +49,10 @@ public class QuillProjectileEntity extends PersistentProjectileEntity {
         return this.dataTracker.get(COLOR2);
     }
 
+    public static QuillProjectileEntity createQuill(PlayerEntity player){
+        return new QuillProjectileEntity(GeneticChimerismEntities.QUILL_PROJECTILE,player.getWorld());
+    }
+
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
@@ -50,6 +60,7 @@ public class QuillProjectileEntity extends PersistentProjectileEntity {
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return null;
+        return new ItemStack(GeneticChimerismItems.PORCUPINE_QUILL);
     }
+
 }
