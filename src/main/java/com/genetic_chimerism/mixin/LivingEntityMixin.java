@@ -101,28 +101,28 @@ public abstract class LivingEntityMixin {
         return j;
     }
 
-	@WrapOperation(method = {"isClimbing"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
-	private boolean spiderClimbing(BlockState instance, TagKey tagKey, Operation<Boolean> original) {
-		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity instanceof PlayerEntity) {
-			BlockPos blockPos = entity.getBlockPos();
-			BlockState blockState = entity.getBlockStateAtPos();
-			List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(entity);
-			if ((!blockState.isOf(Blocks.AIR) || !entity.getWorld().getBlockState(blockPos.offset(WalkFaceDirectionHelper.rotatedHorizontalFacing((PlayerEntity) entity))).isOf(Blocks.AIR) ) && mutations != null && (mutations.contains(MutationTrees.mutationToCodec(InvertebrateTree.wallClimb)))) {
-				entity.climbingPos = Optional.of(blockPos);
-				return true;
-			}
-		}
-		return original.call(instance, tagKey);
-	}
+//	@WrapOperation(method = {"isClimbing"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
+//	private boolean spiderClimbing(BlockState instance, TagKey tagKey, Operation<Boolean> original) {
+//		LivingEntity entity = (LivingEntity) (Object) this;
+//		if (entity instanceof PlayerEntity) {
+//			BlockPos blockPos = entity.getBlockPos();
+//			BlockState blockState = entity.getBlockStateAtPos();
+//			List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(entity);
+//			if ((!blockState.isOf(Blocks.AIR) || !entity.getWorld().getBlockState(blockPos.offset(WalkFaceDirectionHelper.rotatedHorizontalFacing((PlayerEntity) entity))).isOf(Blocks.AIR) ) && mutations != null && (mutations.contains(MutationTrees.mutationToCodec(InvertebrateTree.wallClimb)))) {
+//				entity.climbingPos = Optional.of(blockPos);
+//				return true;
+//			}
+//		}
+//		return original.call(instance, tagKey);
+//	}
 
-	@Inject(method = "jump", at = @At("TAIL"))
-	private void resetDirectionOnJump(CallbackInfo ci){
-		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity instanceof PlayerEntity) {
-			MutationAttachments.setWalkFaceDirection(entity, Direction.UP);
-		}
-	}
+//	@Inject(method = "jump", at = @At("TAIL"))
+//	private void resetDirectionOnJump(CallbackInfo ci){
+//		LivingEntity entity = (LivingEntity) (Object) this;
+//		if (entity instanceof PlayerEntity) {
+//			MutationAttachments.setWalkFaceDirection(entity, Direction.UP);
+//		}
+//	}
 
 //	@Inject(method = {"tickMovement"}, at = @At(value = "TAIL"))
 //	private void resetDirectionOnAirborne(CallbackInfo ci) {

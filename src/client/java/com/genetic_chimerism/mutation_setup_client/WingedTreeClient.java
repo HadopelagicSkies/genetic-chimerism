@@ -171,7 +171,7 @@ public class WingedTreeClient {
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(-1.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
                     ))
                     .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(1F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
+                            new Keyframe(0.0F, AnimationHelper.createTranslationalVector(1.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)
                     ))
                     .addBoneAnimation("bone2", new Transformation(Transformation.Targets.SCALE,
                             new Keyframe(0.0F, AnimationHelper.createRotationalVector(-1.0F, 0.0F, 0.0F), Transformation.Interpolations.CUBIC)

@@ -35,24 +35,19 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
         MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.ARM);
         if(mutInfo != null) {
             MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
-            TexturedModelData modelData = mutation.getTexturedModelData();
-            Identifier texture1 = mutation.getTexture1();
-            Identifier texture2 = mutation.getTexture2();
             Animation mirrorAnimation = mutation.getAnimation("mirror");
-            int color1 = mutInfo.color1();
-            int color2 = mutInfo.color2();
 
             this.getContextModel().rightArm.hidden = true;
             this.getContextModel().rightSleeve.hidden = true;
             this.getContextModel().leftArm.hidden = true;
             this.getContextModel().leftSleeve.hidden = true;
 
-            ModelPart modelR = modelData.createModel();
+            ModelPart modelR = mutation.getModelData().createModel();
             modelR.copyTransform(this.getContextModel().rightArm);
             MutationEntityModel entityModelR = new MutationEntityModel(modelR,MutatableParts.ARM,false);
             entityModelR.setAngles(state);
 
-            ModelPart modelL = modelData.createModel();
+            ModelPart modelL = mutation.getModelData().createModel();
             modelL.copyTransform(this.getContextModel().leftArm);
             MutationEntityModel entityModelL = new MutationEntityModel(modelL,MutatableParts.ARM,true);
             entityModelL.setAngles(state);
@@ -62,14 +57,14 @@ public class ArmMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
             }
 
             matrices.push();
-            VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
-            entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
-            VertexConsumer vertexConsumerL2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
-            entityModelL.render(matrices, vertexConsumerL2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
-            VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
-            entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
-            VertexConsumer vertexConsumerR2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
-            entityModelR.render(matrices, vertexConsumerR2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color2));
+            VertexConsumer vertexConsumerL1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+            entityModelL.render(matrices, vertexConsumerL1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color1()));
+            VertexConsumer vertexConsumerL2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
+            entityModelL.render(matrices, vertexConsumerL2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color2()));
+            VertexConsumer vertexConsumerR1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+            entityModelR.render(matrices, vertexConsumerR1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color1()));
+            VertexConsumer vertexConsumerR2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
+            entityModelR.render(matrices, vertexConsumerR2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color2()));
             matrices.pop();
 
         }

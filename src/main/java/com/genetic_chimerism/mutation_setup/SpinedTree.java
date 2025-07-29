@@ -73,7 +73,7 @@ public class SpinedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(smallSpines,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    ColorHelper.getArgb(110,90,63),ColorHelper.getArgb(217,193,165),0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
@@ -84,7 +84,7 @@ public class SpinedTree {
 
         @Override
         public int getMaxGrowth() {
-            return 1000;
+            return 500;
         }
     }
 

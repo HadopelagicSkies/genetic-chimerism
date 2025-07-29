@@ -4,7 +4,6 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.mutation_setup.Mutation;
 import com.genetic_chimerism.mutation_setup.MutationTrees;
 import net.minecraft.client.model.ModelData;
-import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.entity.animation.Animation;
@@ -17,10 +16,12 @@ public class MutationClient {
     private final String mutID;
     private final String mutationTree;
     final Map<String,Animation> animations = new HashMap<>();
+    private final TexturedModelData modelData;
 
     public MutationClient(String mutID, String treeID) {
         this.mutID = mutID;
         this.mutationTree = treeID;
+        this.modelData = this.getTexturedModelData();
         this.animations.put("part",this.createPartAnimation());
         this.animations.put("growth",this.createGrowthAnimation());
         this.animations.put("action",this.createActionAnimation());
@@ -39,6 +40,10 @@ public class MutationClient {
 
     public Animation getAnimation(String key) {
         return animations.get(key);
+    }
+
+    public TexturedModelData getModelData() {
+        return modelData;
     }
 
     public TexturedModelData getTexturedModelData() {

@@ -291,9 +291,15 @@ public class AquaticTree {
         @Override
         public void onApplied(PlayerEntity player) {
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
-            int patternIndex = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).patternIndex();
-            int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color1();
-            int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color2();
+            MutationBodyInfo oldTail = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
+            int patternIndex=0;
+            int color1 =ColorHelper.getArgb(99,141,153);
+            int color2 =ColorHelper.getArgb(135,169,179);
+            if(oldTail != null) {
+                patternIndex = oldTail.patternIndex();
+                color1 = oldTail.color1();
+                color2 = oldTail.color2();
+            }
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(thresherTail,patternIndex,
                     color1,color2,0, false,
