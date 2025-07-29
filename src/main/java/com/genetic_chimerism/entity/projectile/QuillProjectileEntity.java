@@ -30,8 +30,8 @@ public class QuillProjectileEntity extends PersistentProjectileEntity {
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(COLOR1, ColorHelper.getArgb(229,222,191));
-        builder.add(COLOR2,ColorHelper.getArgb(103,96,65));
+        builder.add(COLOR1,ColorHelper.getArgb(110,90,63));
+        builder.add(COLOR2,ColorHelper.getArgb(217,193,165));
     }
 
     public void setColor1(int color1){

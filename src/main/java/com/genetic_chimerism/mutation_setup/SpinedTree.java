@@ -98,7 +98,7 @@ public class SpinedTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TORSO);
             MutationAttachments.setPartAttached(player, MutatableParts.TORSO, MutationTrees.mutationToCodec(shootQuills,0,
-                    ColorHelper.getArgb(99,141,153),ColorHelper.getArgb(125,164,137),0, false,
+                    ColorHelper.getArgb(110,90,63),ColorHelper.getArgb(217,193,165),0, false,
                     MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
@@ -113,27 +113,27 @@ public class SpinedTree {
 
             if(mutation.growth() > this.getMaxGrowth() * 0.25) {
                 player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                //breakQuills(player);
+                breakQuills(player);
                 int color1 = mutation.color1();
                 int color2 = mutation.color2();
 
-                for (int i = 0; i < 50; i++) {
+                for (int i = 0; i < 30; i++) {
                     int yaw = player.getRandom().nextBetween(1, 360);
                     int pitch = player.getRandom().nextBetween(-45, 15);
                     Vec3d rotation = player.getRotationVector(pitch, yaw);
                     double xPos = player.getX() + (rotation.x * 0.25);
                     double yPos = player.getY() + 1;
                     double zPos = player.getZ() + (rotation.y * 0.25);
-                    double xVel = rotation.x * 0.25;
-                    double yVel = rotation.y * 0.25;
-                    double zVel = rotation.z * 0.25;
+                    double xVel = rotation.x;
+                    double yVel = rotation.y;
+                    double zVel = rotation.z;
 
                     QuillProjectileEntity quill = QuillProjectileEntity.createQuill(player);
                     quill.setPosition(xPos, yPos, zPos);
                     quill.setColor1(color1);
                     quill.setColor2(color2);
                     quill.setDamage(6.0);
-                    PersistentProjectileEntity.spawnWithVelocity(quill, (ServerWorld) player.getWorld(), ItemStack.EMPTY, xVel, yVel, zVel, 1, 0);
+                    PersistentProjectileEntity.spawnWithVelocity(quill, (ServerWorld) player.getWorld(), ItemStack.EMPTY, xVel, yVel, zVel, 0.5F, 0);
                 }
             }
         }

@@ -66,13 +66,13 @@ public class EntityMixin {
         return original.call(instance, x, y, z);
     }
 
-    @WrapOperation(method = "updateVelocity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;movementInputToVelocity(Lnet/minecraft/util/math/Vec3d;FF)Lnet/minecraft/util/math/Vec3d;"))
-    private Vec3d rotateInputs(Vec3d movementInput, float speed, float yaw, Operation<Vec3d> original){
-        Entity entity = (Entity) (Object) this;
-        if (entity instanceof PlayerEntity) {
-            Direction walkFaceDirection = MutationAttachments.getWalkFaceDirection(entity);
-            return WalkFaceDirectionHelper.rotateVectorForFace(original.call(movementInput, speed, yaw),walkFaceDirection);
-        }
-        return original.call(movementInput, speed, yaw);
-    }
+//    @WrapOperation(method = "updateVelocity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;movementInputToVelocity(Lnet/minecraft/util/math/Vec3d;FF)Lnet/minecraft/util/math/Vec3d;"))
+//    private Vec3d rotateInputs(Vec3d movementInput, float speed, float yaw, Operation<Vec3d> original){
+//        Entity entity = (Entity) (Object) this;
+//        if (entity instanceof PlayerEntity) {
+//            Direction walkFaceDirection = MutationAttachments.getWalkFaceDirection(entity);
+//            return WalkFaceDirectionHelper.rotateVectorForFace(original.call(movementInput, speed, yaw),walkFaceDirection);
+//        }
+//        return original.call(movementInput, speed, yaw);
+//    }
 }
