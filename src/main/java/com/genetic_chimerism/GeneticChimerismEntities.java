@@ -9,9 +9,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.SpawnEggItem;

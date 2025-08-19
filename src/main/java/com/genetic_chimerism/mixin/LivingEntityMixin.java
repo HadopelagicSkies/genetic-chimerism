@@ -1,13 +1,11 @@
 package com.genetic_chimerism.mixin;
 
 import com.genetic_chimerism.MutatableParts;
-import com.genetic_chimerism.WalkFaceDirectionHelper;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -16,17 +14,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -100,38 +95,5 @@ public abstract class LivingEntityMixin {
 		}
         return j;
     }
-
-//	@WrapOperation(method = {"isClimbing"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/registry/tag/TagKey;)Z"))
-//	private boolean spiderClimbing(BlockState instance, TagKey tagKey, Operation<Boolean> original) {
-//		LivingEntity entity = (LivingEntity) (Object) this;
-//		if (entity instanceof PlayerEntity) {
-//			BlockPos blockPos = entity.getBlockPos();
-//			BlockState blockState = entity.getBlockStateAtPos();
-//			List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(entity);
-//			if ((!blockState.isOf(Blocks.AIR) || !entity.getWorld().getBlockState(blockPos.offset(WalkFaceDirectionHelper.rotatedHorizontalFacing((PlayerEntity) entity))).isOf(Blocks.AIR) ) && mutations != null && (mutations.contains(MutationTrees.mutationToCodec(InvertebrateTree.wallClimb)))) {
-//				entity.climbingPos = Optional.of(blockPos);
-//				return true;
-//			}
-//		}
-//		return original.call(instance, tagKey);
-//	}
-
-//	@Inject(method = "jump", at = @At("TAIL"))
-//	private void resetDirectionOnJump(CallbackInfo ci){
-//		LivingEntity entity = (LivingEntity) (Object) this;
-//		if (entity instanceof PlayerEntity) {
-//			MutationAttachments.setWalkFaceDirection(entity, Direction.UP);
-//		}
-//	}
-
-//	@Inject(method = {"tickMovement"}, at = @At(value = "TAIL"))
-//	private void resetDirectionOnAirborne(CallbackInfo ci) {
-//		LivingEntity entity = (LivingEntity) (Object) this;
-//		if (entity instanceof PlayerEntity && !entity.isOnGround()) {
-//			MutationAttachments.setWalkFaceDirection(entity, Direction.UP);
-//		}
-//	}
-
-
 
 }

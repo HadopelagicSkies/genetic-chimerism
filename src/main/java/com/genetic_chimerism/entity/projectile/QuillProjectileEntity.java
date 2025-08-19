@@ -44,7 +44,6 @@ public class QuillProjectileEntity extends PersistentProjectileEntity {
     public int getColor1() {
         return this.dataTracker.get(COLOR1);
     }
-
     public int getColor2() {
         return this.dataTracker.get(COLOR2);
     }

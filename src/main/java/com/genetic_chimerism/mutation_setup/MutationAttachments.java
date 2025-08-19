@@ -35,12 +35,6 @@ public class MutationAttachments {
             .copyOnDeath()
             .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
 
-    public static final AttachmentType<Direction> WALK_FACE_DIRECTION = AttachmentRegistry.create(Identifier.of(MOD_ID, "walk_face_direction"), infoBuilder ->
-            infoBuilder.initializer(() -> Direction.UP)
-                    .persistent(Direction.CODEC)
-                    .syncWith(Direction.PACKET_CODEC,AttachmentSyncPredicate.targetOnly()));
-
-
     public static List<MutationInfo> getMutationsAttached(AttachmentTarget target) {
         return target.getAttached(PLAYER_MUTATION_LIST);
     }
@@ -86,14 +80,6 @@ public class MutationAttachments {
                 partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),
                 MutationBodyInfo.animationStateFromInts(1,startTick),
                 MutationBodyInfo.animationStateFromInts(isAnimating?1:0,startTick)));
-    }
-
-    public static Direction getWalkFaceDirection(AttachmentTarget target) {
-        return target.getAttached(WALK_FACE_DIRECTION);
-    }
-
-    public static void setWalkFaceDirection(AttachmentTarget target, Direction info) {
-        target.setAttached(WALK_FACE_DIRECTION, info);
     }
 
 }
