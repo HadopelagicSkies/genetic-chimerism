@@ -16,7 +16,6 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
@@ -67,6 +66,7 @@ public class PlayerEntityRendererMixin {
             playerEntityModel.rightSleeve.visible = sleeveVisible;
             playerEntityModel.leftArm.roll = -0.1F;
             playerEntityModel.rightArm.roll = 0.1F;
+            AnimationHelper.animate(armModel,MutationEntityModel.firstPersonArmOffset,0,1,new Vector3f(0, 0, 0));
             armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color1());
             armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture2())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color2());
         } else original.call(instance, matrices, vertexConsumers, light, skinTexture, arm, sleeveVisible);
@@ -90,6 +90,7 @@ public class PlayerEntityRendererMixin {
             playerEntityModel.rightSleeve.visible = sleeveVisible;
             playerEntityModel.leftArm.roll = -0.1F;
             playerEntityModel.rightArm.roll = 0.1F;
+            AnimationHelper.animate(armModel,CustomAnimationHelper.mirrorAnimationX(MutationEntityModel.firstPersonArmOffset),0,1,new Vector3f(0, 0, 0));
             armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color1());
             armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture2())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color2());
         }else original.call(instance,matrices,vertexConsumers,light,skinTexture,arm,sleeveVisible);

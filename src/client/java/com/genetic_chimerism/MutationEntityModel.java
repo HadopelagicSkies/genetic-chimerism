@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
+import net.minecraft.client.render.entity.animation.Keyframe;
+import net.minecraft.client.render.entity.animation.Transformation;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import org.joml.Vector3f;
@@ -16,6 +18,15 @@ import org.joml.Vector3f;
 public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
     private final MutatableParts part;
     private final boolean needsMirroring;
+
+    private static final float firstPersonArmScale =1.5F;
+    public static final Animation firstPersonArmOffset = Animation.Builder.create(0.0F)
+            .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
+                    new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-5.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR)))
+            .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
+                    new Keyframe(0.0F, AnimationHelper.createScalingVector(firstPersonArmScale, firstPersonArmScale, firstPersonArmScale), Transformation.Interpolations.LINEAR)))
+            .build();
+
     public MutationEntityModel(ModelPart root, MutatableParts part, boolean needsMirroring) {
         super(root);
         this.part=part;
