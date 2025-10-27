@@ -16,7 +16,7 @@ import org.joml.Vector3f;
 public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
     private final MutatableParts part;
     private final boolean needsMirroring;
-    protected MutationEntityModel(ModelPart root, MutatableParts part, boolean needsMirroring) {
+    public MutationEntityModel(ModelPart root, MutatableParts part, boolean needsMirroring) {
         super(root);
         this.part=part;
         this.needsMirroring=needsMirroring;

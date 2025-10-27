@@ -216,7 +216,6 @@ public class InvertebrateTree {
     }
 
     public static class MothAntennaeMutation extends Mutation {
-        private int cooldown = 0;
 
         public MothAntennaeMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);

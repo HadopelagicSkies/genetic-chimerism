@@ -26,21 +26,23 @@ public class HeadMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-        PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.HEAD);
-        if(mutInfo != null) {
-            MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
-            ModelPart model = mutation.getModelData().createModel();
-            model.copyTransform(this.getContextModel().head);
-            MutationEntityModel entityModel = new MutationEntityModel(model,MutatableParts.HEAD,false);
-            entityModel.setAngles(state);
+        if (this.getContextModel().body.visible) {
+            PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
+            MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.HEAD);
+            if (mutInfo != null) {
+                MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
+                ModelPart model = mutation.getModelData().createModel();
+                model.copyTransform(this.getContextModel().head);
+                MutationEntityModel entityModel = new MutationEntityModel(model, MutatableParts.HEAD, false);
+                entityModel.setAngles(state);
 
-            matrices.push();
-            VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
-            entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color1()));
-            VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
-            entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,mutInfo.color2()));
-            matrices.pop();
+                matrices.push();
+                VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+                entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
+                VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
+                entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
+                matrices.pop();
+            }
         }
     }
 }

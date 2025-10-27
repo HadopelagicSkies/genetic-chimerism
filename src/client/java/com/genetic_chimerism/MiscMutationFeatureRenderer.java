@@ -26,30 +26,32 @@ public class MiscMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PlayerEntityRenderState state, float limbAngle, float limbDistance) {
-        PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
-        MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.MISC);
-        if(mutInfo != null) {
-            MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
-            TexturedModelData modelData = mutation.getModelData();
-            if(modelData == null) return;
-            Identifier texture1 = mutation.getTexture1();
-            Identifier texture2 = mutation.getTexture2();
+        if (this.getContextModel().body.visible) {
+            PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) state;
+            MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.MISC);
+            if (mutInfo != null) {
+                MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
+                TexturedModelData modelData = mutation.getModelData();
+                if (modelData == null) return;
+                Identifier texture1 = mutation.getTexture1();
+                Identifier texture2 = mutation.getTexture2();
 
-            ModelPart model = modelData.createModel();
-            model.copyTransform(this.getContextModel().body);
-            int color1 = mutInfo.color1();
-            int color2 = mutInfo.color2();
-            MutationEntityModel entityModel = new MutationEntityModel(model,MutatableParts.MISC,false);
-            entityModel.setAngles(state);
+                ModelPart model = modelData.createModel();
+                model.copyTransform(this.getContextModel().body);
+                int color1 = mutInfo.color1();
+                int color2 = mutInfo.color2();
+                MutationEntityModel entityModel = new MutationEntityModel(model, MutatableParts.MISC, false);
+                entityModel.setAngles(state);
 
-            matrices.push();
-            VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
-            entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255,color1));
-            if(texture2 != null) {
-                VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
-                entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, color2));
+                matrices.push();
+                VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture1));
+                entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, color1));
+                if (texture2 != null) {
+                    VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(texture2));
+                    entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, color2));
+                }
+                matrices.pop();
             }
-            matrices.pop();
         }
     }
 }
