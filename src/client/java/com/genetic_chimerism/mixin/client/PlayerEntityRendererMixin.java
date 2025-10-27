@@ -67,7 +67,8 @@ public class PlayerEntityRendererMixin {
             playerEntityModel.rightSleeve.visible = sleeveVisible;
             playerEntityModel.leftArm.roll = -0.1F;
             playerEntityModel.rightArm.roll = 0.1F;
-            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV);
+            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color1());
+            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture2())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color2());
         } else original.call(instance, matrices, vertexConsumers, light, skinTexture, arm, sleeveVisible);
     }
 
@@ -78,14 +79,10 @@ public class PlayerEntityRendererMixin {
         MutationBodyInfo armMutationInfo = MutationAttachments.getPartAttached(player, MutatableParts.ARM);
         if (armMutationInfo != null) {
             MutationClient armMutation = MutationTreesClient.mutationFromCodec(armMutationInfo);
-            Animation mirrorAnimation = armMutation.getAnimation("mirror");
 
             ModelPart modelL = armMutation.getModelData().createModel();
+            modelL.scale(new Vector3f(-1f,0,0));
             MutationEntityModel armModel = new MutationEntityModel(modelL, MutatableParts.ARM, true);
-
-            if (mirrorAnimation != null) {
-                AnimationHelper.animate(armModel, mirrorAnimation, 0, 1, new Vector3f(0, 0, 0));
-            }
 
             armModel.resetTransforms();
             PlayerEntityModel playerEntityModel = renderer.getModel();
@@ -93,7 +90,8 @@ public class PlayerEntityRendererMixin {
             playerEntityModel.rightSleeve.visible = sleeveVisible;
             playerEntityModel.leftArm.roll = -0.1F;
             playerEntityModel.rightArm.roll = 0.1F;
-            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV);
+            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture1())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color1());
+            armModel.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(armMutation.getTexture2())), light, OverlayTexture.DEFAULT_UV,armMutationInfo.color2());
         }else original.call(instance,matrices,vertexConsumers,light,skinTexture,arm,sleeveVisible);
     }
 }
