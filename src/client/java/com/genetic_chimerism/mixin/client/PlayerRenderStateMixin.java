@@ -4,6 +4,7 @@ import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.PlayerRenderStateAccess;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
+import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -14,6 +15,7 @@ public class PlayerRenderStateMixin implements PlayerRenderStateAccess
 {
     private @Unique Map<MutatableParts, MutationBodyInfo> mutInfo;
     private @Unique boolean saddled;
+    private @Unique Item armor;
 
     @Override
     public Map<MutatableParts, MutationBodyInfo> genetic_chimerism$getMutInfo() {
@@ -26,9 +28,15 @@ public class PlayerRenderStateMixin implements PlayerRenderStateAccess
     }
 
     @Override
-    public boolean genetic_chimerism$getSaddled() {return saddled;}
+    public boolean genetic_chimerism$getCentaurSaddled() {return saddled;}
 
     @Override
-    public void genetic_chimerism$setSaddled(boolean saddledBool) {saddled = saddledBool;}
+    public void genetic_chimerism$setCentaurSaddled(boolean saddledBool) {saddled = saddledBool;}
+
+    @Override
+    public Item genetic_chimerism$getCentaurArmor() {return armor;}
+
+    @Override
+    public void genetic_chimerism$setCentaurArmor(Item armorItem) {armor = armorItem;}
 }
 

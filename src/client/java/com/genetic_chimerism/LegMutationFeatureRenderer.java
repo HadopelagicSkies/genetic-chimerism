@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.mutation_setup.MutationAttachments;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.HoovedTreeClient;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
@@ -17,6 +18,10 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.item.equipment.ArmorMaterial;
+import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.joml.Vector3f;
@@ -84,15 +89,19 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     centaur.getChild("right_front_leg").setAngles(this.getContextModel().rightLeg.pitch,this.getContextModel().rightLeg.yaw,this.getContextModel().rightLeg.roll);
                     centaur.getChild("right_hind_leg").setAngles(this.getContextModel().leftLeg.pitch,this.getContextModel().leftLeg.yaw,this.getContextModel().leftLeg.roll);
                     centaur.getChild("left_hind_leg").setAngles(this.getContextModel().rightLeg.pitch,this.getContextModel().rightLeg.yaw,this.getContextModel().rightLeg.roll);
-                    centaur.getChild("body").getChild("saddle").hidden = !accessedState.genetic_chimerism$getSaddled();
+                    centaur.getChild("body").getChild("saddle").hidden = !accessedState.genetic_chimerism$getCentaurSaddled();
 
-
+                    ArmorMaterial armor = MutationAttachments.materialFromHorseArmor(accessedState.genetic_chimerism$getCentaurArmor());
 
                     matrices.push();
                     VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
                     centaur.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
                     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
                     centaur.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
+                    if(armor != ArmorMaterials.CHAIN){
+                        VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(Identifier.ofVanilla("textures/entity/equipment/horse_body/"+armor.assetId().getValue().toString().replace("minecraft:","")+ ".png")));
+                        centaur.render(matrices, vertexConsumer3, light, OverlayTexture.DEFAULT_UV);
+                    }
                     matrices.pop();
                 }
             } else {
