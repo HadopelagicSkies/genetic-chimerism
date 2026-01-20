@@ -11,10 +11,15 @@ import com.genetic_chimerism.synthblock.SynthRecipe;
 import com.genetic_chimerism.synthblock.SynthRecipeSerializer;
 import com.genetic_chimerism.synthblock.SynthScreenHandler;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -94,6 +99,15 @@ public class GeneticChimerism implements ModInitializer {
 			GeneticChimerism.LOGGER.info("Mapping Mob Tissue Data");
 			MobInfoReloadListener.remapResults();
 		});
+
+		ServerEntityEvents.ENTITY_LOAD.register((entity,serverWorld) -> {
+			if (entity instanceof PlayerEntity player){
+				EntityPose pose = player.getPose();
+				player.setPose(EntityPose.SITTING);
+				player.setPose(pose);
+			}
+		});
+
 		LOGGER.info("Genetic Chimerism Loaded");
 	}
 }

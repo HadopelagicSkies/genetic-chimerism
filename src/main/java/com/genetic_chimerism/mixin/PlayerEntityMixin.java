@@ -8,12 +8,11 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.entity.EntityAttachmentType;
-import net.minecraft.entity.EntityAttachments;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.screen.PlayerScreenHandler;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin {
+public abstract class PlayerEntityMixin {
 
 	@Unique
 	private static final float centaurEyeHeight = 2.13f;
@@ -39,7 +38,7 @@ public class PlayerEntityMixin {
 					EntityPose.STANDING,
 					EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F)
 							.withEyeHeight(centaurEyeHeight)
-							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 1.44375F, 0.0))))
+							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 0.6F, 0.0))))
 			.put(EntityPose.SLEEPING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
 			.put(EntityPose.GLIDING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
 			.put(EntityPose.SWIMMING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
@@ -48,13 +47,17 @@ public class PlayerEntityMixin {
 					EntityPose.CROUCHING,
 					EntityDimensions.changing(1.3F, centaurEyeHeight - 0.1F)
 							.withEyeHeight(centaurEyeHeight - 0.3F)
-							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 1.44375F - 0.3F, 0.0)))
+							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 0.6F - 0.3F, 0.0)))
 			)
 			.put(EntityPose.DYING, EntityDimensions.fixed(0.2F, 0.2F).withEyeHeight(1.62F))
 			.build();
 
 	@Shadow
 	private int sleepTimer;
+
+	@Shadow @Final public PlayerScreenHandler playerScreenHandler;
+
+	@Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
 	@ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;isDay()Z"))
 	private boolean overrideDay(boolean isDay) {
@@ -129,6 +132,16 @@ public class PlayerEntityMixin {
 		}
 		else
 			return original.call(pose);
+	}
+
+	@WrapMethod(method = {"shouldDismount"})
+	private boolean centaurDismountLiving(Operation<Boolean> original) {
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		if(MutationAttachments.getMutationsAttached(player) != null && MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HoovedTree.centaur))){
+			return original.call() || player.getVehicle() instanceof LivingEntity;
+		}
+		else
+			return original.call();
 	}
 
 }
