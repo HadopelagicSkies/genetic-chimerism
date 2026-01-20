@@ -35,6 +35,12 @@ public class MutationAttachments {
             .copyOnDeath()
             .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
 
+    public static final AttachmentType<Boolean> PLAYER_CENTAUR_SADDLED = AttachmentRegistry.create(Identifier.of(MOD_ID, "player_centaur_saddled"), booleanBuilder ->
+            booleanBuilder.initializer(() -> false)
+                    .persistent(Codec.BOOL)
+                    .copyOnDeath()
+                    .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.targetOnly()));
+
     public static List<MutationInfo> getMutationsAttached(AttachmentTarget target) {
         return target.getAttached(PLAYER_MUTATION_LIST);
     }
@@ -80,6 +86,14 @@ public class MutationAttachments {
                 partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),
                 MutationBodyInfo.animationStateFromInts(1,startTick),
                 MutationBodyInfo.animationStateFromInts(isAnimating?1:0,startTick)));
+    }
+
+    public static boolean getSaddled(AttachmentTarget target){
+        return Boolean.TRUE.equals(target.getAttached(PLAYER_CENTAUR_SADDLED));
+    }
+
+    public static void setSaddled(AttachmentTarget target, boolean saddled){
+        target.setAttached(PLAYER_CENTAUR_SADDLED,saddled);
     }
 
 }

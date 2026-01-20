@@ -3,22 +3,55 @@ package com.genetic_chimerism.mixin;
 import com.genetic_chimerism.MutatableParts;
 import com.genetic_chimerism.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
+import com.google.common.collect.ImmutableMap;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.entity.EntityAttachmentType;
+import net.minecraft.entity.EntityAttachments;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Map;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
+
+	@Unique
+	private static final float centaurEyeHeight = 2.13f;
+
+	@Unique
+	private static final Map<EntityPose, EntityDimensions> CENTAUR_POSE_DIMENSIONS = ImmutableMap.<EntityPose, EntityDimensions>builder()
+			.put(
+					EntityPose.STANDING,
+					EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F)
+							.withEyeHeight(centaurEyeHeight)
+							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 1.44375F, 0.0))))
+			.put(EntityPose.SLEEPING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
+			.put(EntityPose.GLIDING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
+			.put(EntityPose.SWIMMING, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
+			.put(EntityPose.SPIN_ATTACK, EntityDimensions.changing(1.3F, centaurEyeHeight + 0.2F).withEyeHeight(centaurEyeHeight))
+			.put(
+					EntityPose.CROUCHING,
+					EntityDimensions.changing(1.3F, centaurEyeHeight - 0.1F)
+							.withEyeHeight(centaurEyeHeight - 0.3F)
+							.withAttachments(EntityAttachments.builder().add(EntityAttachmentType.VEHICLE, new Vec3d(0.0, 1.44375F - 0.3F, 0.0)))
+			)
+			.put(EntityPose.DYING, EntityDimensions.fixed(0.2F, 0.2F).withEyeHeight(1.62F))
+			.build();
 
 	@Shadow
 	private int sleepTimer;
@@ -87,4 +120,15 @@ public class PlayerEntityMixin {
 			}
 		}
 	}
+
+	@WrapMethod(method = {"getBaseDimensions"})
+	private EntityDimensions centaurPoses(EntityPose pose, Operation<EntityDimensions> original) {
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		if(MutationAttachments.getMutationsAttached(player) != null && MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HoovedTree.centaur))){
+			return CENTAUR_POSE_DIMENSIONS.getOrDefault(pose, EntityDimensions.changing(0.6F, 1.8F));
+		}
+		else
+			return original.call(pose);
+	}
+
 }

@@ -8,4 +8,7 @@ public interface PlayerRenderStateAccess {
     Map<MutatableParts, MutationBodyInfo> genetic_chimerism$getMutInfo();
     void genetic_chimerism$setMutInfo(Map<MutatableParts, MutationBodyInfo> info);
 
+    boolean genetic_chimerism$getSaddled();
+    void genetic_chimerism$setSaddled(boolean saddled);
+
 }

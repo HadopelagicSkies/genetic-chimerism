@@ -13,6 +13,7 @@ import java.util.Map;
 public class PlayerRenderStateMixin implements PlayerRenderStateAccess
 {
     private @Unique Map<MutatableParts, MutationBodyInfo> mutInfo;
+    private @Unique boolean saddled;
 
     @Override
     public Map<MutatableParts, MutationBodyInfo> genetic_chimerism$getMutInfo() {
@@ -23,5 +24,11 @@ public class PlayerRenderStateMixin implements PlayerRenderStateAccess
     public void genetic_chimerism$setMutInfo(Map<MutatableParts, MutationBodyInfo> info) {
         mutInfo = info;
     }
+
+    @Override
+    public boolean genetic_chimerism$getSaddled() {return saddled;}
+
+    @Override
+    public void genetic_chimerism$setSaddled(boolean saddledBool) {saddled = saddledBool;}
 }
 

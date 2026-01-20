@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 public class GeneticChimerism implements ModInitializer {
 	public static final String MOD_ID = "genetic_chimerism";
 
-	public static final Identifier INITIAL_SYNC = Identifier.of(MOD_ID, "initial_sync");
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ScreenHandlerType<SynthScreenHandler> SYNTH_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(GeneticChimerism.MOD_ID, "mutagen_synthesizer"), new ScreenHandlerType<>(SynthScreenHandler::new, FeatureSet.empty()));
 

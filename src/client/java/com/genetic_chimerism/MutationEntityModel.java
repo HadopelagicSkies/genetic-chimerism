@@ -22,9 +22,9 @@ public class MutationEntityModel extends EntityModel<PlayerEntityRenderState> {
     private static final float firstPersonArmScale =1.5F;
     public static final Animation firstPersonArmOffset = Animation.Builder.create(0.0F)
             .addBoneAnimation("bone", new Transformation(Transformation.Targets.TRANSLATE,
-                    new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-5.0F, -7.5F, 0.0F), Transformation.Interpolations.LINEAR)))
+                    new Keyframe(0.0F, AnimationHelper.createTranslationalVector(-5.0F, 0F, 3.0F), Transformation.Interpolations.LINEAR)))
             .addBoneAnimation("bone", new Transformation(Transformation.Targets.SCALE,
-                    new Keyframe(0.0F, AnimationHelper.createScalingVector(firstPersonArmScale, firstPersonArmScale, firstPersonArmScale), Transformation.Interpolations.LINEAR)))
+                    new Keyframe(0.0F, AnimationHelper.createScalingVector(firstPersonArmScale, firstPersonArmScale+0.5F, firstPersonArmScale), Transformation.Interpolations.LINEAR)))
             .build();
 
     public MutationEntityModel(ModelPart root, MutatableParts part, boolean needsMirroring) {

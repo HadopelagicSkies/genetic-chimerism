@@ -4,8 +4,11 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -15,11 +18,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.LavaFluid;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.ColorHelper;
@@ -33,6 +42,28 @@ public class HoovedTree {
     public static final MutationTrees hooved = MutationTrees.addTree(new ArrayList<Mutation>(), "hooved", Identifier.ofVanilla("textures/item/golden_horse_armor.png"));
 
     public static void initialize() {
+        UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+                if (entity instanceof PlayerEntity && MutationAttachments.getMutationsAttached(entity).contains(MutationTrees.mutationToCodec(centaur))) {
+                    MutationBodyInfo miscMutation = MutationAttachments.getPartAttached(entity, MutatableParts.MISC);
+                    boolean saddled = MutationAttachments.getSaddled(entity);
+                    if (player.isSneaking() && miscMutation.growth() >= centaur.getMaxGrowth()) {
+                        if (!saddled && player.getStackInHand(hand).isOf(Items.SADDLE)){
+                            MutationAttachments.setSaddled(entity,true);
+                            player.getStackInHand(hand).decrement(1);
+                        }
+                        else if (saddled && player.getStackInHand(hand).isOf(Items.SHEARS)){
+                            MutationAttachments.setSaddled(entity,false);
+                            ItemEntity saddleDrop = new ItemEntity(world,player.getX(),player.getY(),player.getZ(),new ItemStack(Items.SADDLE,1));
+                            world.spawnEntity(saddleDrop);
+                        }
+                        else if (saddled && player.getStackInHand(hand).isOf(Items.AIR)){
+                            //is saddled, hand empty, sneaking, good to mount
+                            player.startRiding(entity);
+                        }
+                    }
+                }
+            return ActionResult.PASS;
+        });
     }
 
     public static final Mutation speed1 = hooved.addToTree(new Speed1Mutation("speed1", "hooved", null));
@@ -50,7 +81,7 @@ public class HoovedTree {
     public static final Mutation step4 = hooved.addToTree(new Step4Mutation("step4", "hooved", step3));
 
     public static final Mutation hooves = hooved.addToTree(new HoovesMutation("hooves", "hooved", step3, MutatableParts.LEG));
-    //public static final Mutation centaur = hooved.addToTree(new CentaurMutation("centaur", "hooved", hooves, MutatableParts.LEG, MutatableParts.TAIL));     probably not able to get this implemented
+    public static final Mutation centaur = hooved.addToTree(new CentaurMutation("centaur", "hooved", hooves, MutatableParts.LEG, MutatableParts.TAIL));     //probably not able to get this implemented
     public static final Mutation camelHump = hooved.addToTree(new CamelHumpMutation("camelHump", "hooved", step2, MutatableParts.TORSO));
 
     public static class Sprint1Mutation extends Mutation {
@@ -290,7 +321,6 @@ public class HoovedTree {
                 cooldown = 1200;
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED,600,1));
                 player.getWorld().playSound(null,player.getBlockPos(), SoundEvents.ENTITY_HORSE_GALLOP, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-
             }
             else player.sendMessage(Text.translatable("mutations.mutation.cooldown.buff"),true);
         }
@@ -312,33 +342,35 @@ public class HoovedTree {
         }
     }
 
-//    public static class CentaurMutation extends Mutation {
-//        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-//        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_modifier"), 0.5, EntityAttributeModifier.Operation.ADD_VALUE);
-//
-//        public CentaurMutation(String mutID, String treeID, Mutation prereq, MutatableParts part1, MutatableParts part2) {
-//            super(mutID, treeID, prereq, part1, part2);
-//            modifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, MODIFIER);
-//        }
-//
-//        @Override
-//        public void onApplied(PlayerEntity player) {
-//            MutationAttachments.removePartAttached(player, MutatableParts.LEG);
-//            player.getAttributes().addTemporaryModifiers(modifierMultimap);
-//            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(centaur, 0,
-//                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106), 0, false, false));
-//            MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
-//            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(centaur, 0,
-//                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106), 0, false, false));
-//        }
-//
-//        @Override
-//        public void onRemoved(PlayerEntity player) {
-//            player.getAttributes().removeModifiers(modifierMultimap);
-//            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
-//            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
-//        }
-//    }
+    public static class CentaurMutation extends Mutation {
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
+        public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_modifier"), 0.5, EntityAttributeModifier.Operation.ADD_VALUE);
+
+        public CentaurMutation(String mutID, String treeID, Mutation prereq, MutatableParts part1, MutatableParts part2) {
+            super(mutID, treeID, prereq, part1, part2);
+            modifierMultimap.put(EntityAttributes.MOVEMENT_SPEED, MODIFIER);
+        }
+
+        @Override
+        public void onApplied(PlayerEntity player) {
+            MutationAttachments.removePartAttached(player, MutatableParts.LEG);
+            player.getAttributes().addTemporaryModifiers(modifierMultimap);
+            MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(centaur, 0,
+                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(centaur, 0,
+                    ColorHelper.getArgb(103, 82, 56), ColorHelper.getArgb(152, 132, 106),0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+            player.setPose(EntityPose.STANDING);
+        }
+
+        @Override
+        public void onRemoved(PlayerEntity player) {
+            player.getAttributes().removeModifiers(modifierMultimap);
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+        }
+    }
 
     public static class CamelHumpMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();

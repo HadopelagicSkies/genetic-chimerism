@@ -2,6 +2,7 @@ package com.genetic_chimerism;
 
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.AmphibiousTreeClient;
+import com.genetic_chimerism.mutation_setup_client.HoovedTreeClient;
 import com.genetic_chimerism.mutation_setup_client.MutationClient;
 import com.genetic_chimerism.mutation_setup_client.MutationTreesClient;
 import com.genetic_chimerism.packet_payloads.SetAnimPayload;
@@ -37,35 +38,36 @@ public class TailMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRen
             MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.TAIL);
             if (mutInfo != null) {
                 MutationClient mutation = MutationTreesClient.mutationFromCodec(mutInfo);
-                ModelPart model = mutation.getModelData().createModel();
-                model.copyTransform(this.getContextModel().body);
+                if (!(mutation instanceof HoovedTreeClient.CentaurMutation)) {
+                    ModelPart model = mutation.getModelData().createModel();
+                    model.copyTransform(this.getContextModel().body);
 
-                if (state.isSwimming || state.isGliding) {
-                    model.setTransform(ModelTransform.of(0, 0, 5F,
-                            -30F * ((float) Math.PI / 180F), 0 * ((float) Math.PI / 180F), 0 * ((float) Math.PI / 180F)));
-                }
-                MutationEntityModel entityModel = new MutationEntityModel(model, MutatableParts.TAIL, false);
-                entityModel.setAngles(state);
+                    if (state.isSwimming || state.isGliding) {
+                        model.setTransform(ModelTransform.of(0, 0, 5F,
+                                -30F * ((float) Math.PI / 180F), 0 * ((float) Math.PI / 180F), 0 * ((float) Math.PI / 180F)));
+                    }
+                    MutationEntityModel entityModel = new MutationEntityModel(model, MutatableParts.TAIL, false);
+                    entityModel.setAngles(state);
 
-                if (mutInfo.actionAnim().isRunning() && mutation == AmphibiousTreeClient.tadpoleTail) {
-                    ModelPart frogModel = AmphibiousTreeClient.TadpoleTailMutation.getTongueModelData().createModel();
-                    frogModel.copyTransform(this.getContextModel().head);
-                    MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel, MutatableParts.HEAD, true);
-                    frogEntityModel.setAngles(state);
+                    if (mutInfo.actionAnim().isRunning() && mutation == AmphibiousTreeClient.tadpoleTail) {
+                        ModelPart frogModel = AmphibiousTreeClient.TadpoleTailMutation.getTongueModelData().createModel();
+                        frogModel.copyTransform(this.getContextModel().head);
+                        MutationEntityModel frogEntityModel = new MutationEntityModel(frogModel, MutatableParts.HEAD, true);
+                        frogEntityModel.setAngles(state);
+
+                        matrices.push();
+                        VertexConsumer vertexConsumerFrog = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+                        frogEntityModel.render(matrices, vertexConsumerFrog, light, OverlayTexture.DEFAULT_UV, -1);
+                        matrices.pop();
+                    }
 
                     matrices.push();
-                    VertexConsumer vertexConsumerFrog = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
-                    frogEntityModel.render(matrices, vertexConsumerFrog, light, OverlayTexture.DEFAULT_UV, -1);
+                    VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
+                    entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
+                    VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
+                    entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
                     matrices.pop();
                 }
-
-                matrices.push();
-                VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
-                entityModel.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
-                VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
-                entityModel.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
-                matrices.pop();
-
             }
         }
     }

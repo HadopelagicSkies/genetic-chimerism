@@ -76,7 +76,6 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
 
         drawContext.drawTexture(RenderLayer::getGuiTextured, TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight);
         if(this.handler.treeIndex != -1 && mutationButtons.length >=1) renderTreeLines(drawContext,x+119,y+7);
-
     }
 
     private void renderScrollbar(DrawContext context, int x, int y) {
@@ -343,7 +342,6 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                     this.client.interactionManager.clickButton((this.handler).syncId, this.handler.treeIndex);
                     clearAndInit();
                 }
-
             }));
             k += TREE_BUTTON_HEIGHT;
         }
@@ -354,7 +352,6 @@ public class SynthScreen extends HandledScreen<SynthScreenHandler> {
                 this.client.interactionManager.clickButton(((SynthScreenHandler) this.handler).syncId, CONFIRM_BUTTON_INDEX);
                 clearAndInit();
             }
-
         }));
 
     }
