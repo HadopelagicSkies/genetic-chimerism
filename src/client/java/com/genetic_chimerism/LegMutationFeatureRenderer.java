@@ -128,7 +128,7 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 centaur.getChild("right_front_leg").setAngles(contextModel.rightLeg.pitch,contextModel.rightLeg.yaw,contextModel.rightLeg.roll);
                 centaur.getChild("right_hind_leg").setAngles(contextModel.leftLeg.pitch,contextModel.leftLeg.yaw,contextModel.leftLeg.roll);
                 centaur.getChild("left_hind_leg").setAngles(contextModel.rightLeg.pitch,contextModel.rightLeg.yaw,contextModel.rightLeg.roll);
-                equipmentRenderer.render(EquipmentModel.LayerType.HORSE_BODY, equippableComponent.assetId().orElseThrow(), new MutationEntityModel(centaur,MutatableParts.TORSO,false), stack, matrices, vertexConsumers, light,Identifier.ofVanilla("textures/entity/equipment/horse_body/"+bardingItem.materialAsset.toString().replace("minecraft:","")+ ".png"));
+                equipmentRenderer.render(EquipmentModel.LayerType.HORSE_BODY, equippableComponent.assetId().orElseThrow(), new MutationEntityModel(centaur,MutatableParts.TORSO,false), stack, matrices, vertexConsumers, light);
             }
         }
     }
