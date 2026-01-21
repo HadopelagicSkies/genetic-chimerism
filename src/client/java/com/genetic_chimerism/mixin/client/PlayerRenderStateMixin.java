@@ -33,10 +33,5 @@ public class PlayerRenderStateMixin implements PlayerRenderStateAccess
     @Override
     public void genetic_chimerism$setCentaurSaddled(boolean saddledBool) {saddled = saddledBool;}
 
-    @Override
-    public Item genetic_chimerism$getCentaurArmor() {return armor;}
-
-    @Override
-    public void genetic_chimerism$setCentaurArmor(Item armorItem) {armor = armorItem;}
 }
 

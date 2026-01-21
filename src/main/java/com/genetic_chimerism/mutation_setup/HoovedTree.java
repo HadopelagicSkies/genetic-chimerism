@@ -49,41 +49,14 @@ public class HoovedTree {
             if (entity instanceof PlayerEntity && MutationAttachments.getMutationsAttached(entity).contains(MutationTrees.mutationToCodec(centaur))) {
                 MutationBodyInfo mutation = MutationAttachments.getPartAttached(entity, MutatableParts.LEG);
                 boolean saddled = MutationAttachments.getCentaurSaddled(entity);
-                Item armor = MutationAttachments.getCentaurArmor(entity);
                 if (player.isSneaking() && mutation.growth() >= centaur.getMaxGrowth()) {
-                    Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
-
                     if (!saddled && player.getStackInHand(hand).isOf(Items.SADDLE)) {
                         MutationAttachments.setCentaurSaddled(entity, true);
                         player.getStackInHand(hand).decrement(1);
-                    } else if (player.getStackInHand(hand).isOf(Items.SHEARS)) {
-                        if (!armor.equals(Items.AIR)) {
-                            MutationAttachments.setCentaurArmor(entity, Items.AIR);
-                            if (MutationAttachments.materialFromHorseArmor(armor) != null) {
-                                EntityAttributeModifier ARMOR_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armor).defense().get(EquipmentType.BODY), EntityAttributeModifier.Operation.ADD_VALUE);
-                                EntityAttributeModifier ARMOR_TOUGHNESS_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armor).toughness(), EntityAttributeModifier.Operation.ADD_VALUE);
-                                modifierMultimap.put(EntityAttributes.ARMOR, ARMOR_MODIFIER);
-                                modifierMultimap.put(EntityAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_MODIFIER);
-                                player.getAttributes().removeModifiers(modifierMultimap);
-                            }
-                            ItemEntity armorDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(armor, 1));
-                            world.spawnEntity(armorDrop);
-                        } else if (saddled) {
+                    } else if (saddled && player.getStackInHand(hand).isOf(Items.SHEARS)) {
                             MutationAttachments.setCentaurSaddled(entity, false);
                             ItemEntity saddleDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.SADDLE, 1));
                             world.spawnEntity(saddleDrop);
-                        }
-                    } else if (armor.equals(Items.AIR) && !player.getStackInHand(hand).isOf(Items.AIR) && MutationAttachments.horseArmors.contains(player.getStackInHand(hand).getItem())) {
-                        Item armorInHand = player.getStackInHand(hand).getItem();
-                        MutationAttachments.setCentaurArmor(entity, armorInHand);
-                        if (MutationAttachments.materialFromHorseArmor(armorInHand) != null) {
-                            EntityAttributeModifier ARMOR_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armorInHand).defense().get(EquipmentType.BODY), EntityAttributeModifier.Operation.ADD_VALUE);
-                            EntityAttributeModifier ARMOR_TOUGHNESS_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armorInHand).toughness(), EntityAttributeModifier.Operation.ADD_VALUE);
-                            modifierMultimap.put(EntityAttributes.ARMOR, ARMOR_MODIFIER);
-                            modifierMultimap.put(EntityAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_MODIFIER);
-                            player.getAttributes().addTemporaryModifiers(modifierMultimap);
-                        }
-                        player.getStackInHand(hand).decrement(1);
                     } else if (saddled && player.getStackInHand(hand).isOf(Items.AIR)) {
                         //is saddled, hand empty, sneaking, good to mount
                         player.startRiding(entity);
@@ -94,42 +67,16 @@ public class HoovedTree {
         });
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
-            Item armor = MutationAttachments.getCentaurArmor(player);
             MutationBodyInfo mutation = MutationAttachments.getPartAttached(player, MutatableParts.LEG);
             boolean saddled = MutationAttachments.getCentaurSaddled(player);
             if (player.isSneaking() && MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(centaur)) && mutation.growth() >= centaur.getMaxGrowth()) {
-                Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
                 if (!saddled && player.getStackInHand(hand).isOf(Items.SADDLE)) {
                     MutationAttachments.setCentaurSaddled(player, true);
                     player.getStackInHand(hand).decrement(1);
-                } else if (player.getStackInHand(hand).isOf(Items.SHEARS)) {
-                    if (!armor.equals(Items.AIR)) {
-                        MutationAttachments.setCentaurArmor(player, Items.AIR);
-                        if (MutationAttachments.materialFromHorseArmor(armor) != null) {
-                            EntityAttributeModifier ARMOR_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armor).defense().get(EquipmentType.BODY), EntityAttributeModifier.Operation.ADD_VALUE);
-                            EntityAttributeModifier ARMOR_TOUGHNESS_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armor).toughness(), EntityAttributeModifier.Operation.ADD_VALUE);
-                            modifierMultimap.put(EntityAttributes.ARMOR, ARMOR_MODIFIER);
-                            modifierMultimap.put(EntityAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_MODIFIER);
-                            player.getAttributes().removeModifiers(modifierMultimap);
-                        }
-                        ItemEntity armorDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(armor, 1));
-                        world.spawnEntity(armorDrop);
-                    } else if (saddled) {
+                } else if (saddled && player.getStackInHand(hand).isOf(Items.SHEARS)) {
                         MutationAttachments.setCentaurSaddled(player, false);
                         ItemEntity saddleDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.SADDLE, 1));
                         world.spawnEntity(saddleDrop);
-                    }
-                } else if (armor.equals(Items.AIR) && !player.getStackInHand(hand).isOf(Items.AIR) && MutationAttachments.horseArmors.contains(MutationAttachments.materialFromHorseArmor(player.getStackInHand(hand).getItem()))){
-                    Item armorInHand = player.getStackInHand(hand).getItem();
-                    MutationAttachments.setCentaurArmor(player, armorInHand);
-                    if (MutationAttachments.materialFromHorseArmor(armorInHand) != null) {
-                        EntityAttributeModifier ARMOR_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armorInHand).defense().get(EquipmentType.BODY), EntityAttributeModifier.Operation.ADD_VALUE);
-                        EntityAttributeModifier ARMOR_TOUGHNESS_MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "centaur_armor_modifier"), MutationAttachments.materialFromHorseArmor(armorInHand).toughness(), EntityAttributeModifier.Operation.ADD_VALUE);
-                        modifierMultimap.put(EntityAttributes.ARMOR, ARMOR_MODIFIER);
-                        modifierMultimap.put(EntityAttributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_MODIFIER);
-                        player.getAttributes().addTemporaryModifiers(modifierMultimap);
-                    }
-                    player.getStackInHand(hand).decrement(1);
                 }
             }
             return ActionResult.PASS;

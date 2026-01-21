@@ -1,5 +1,6 @@
 package com.genetic_chimerism;
 
+import com.genetic_chimerism.items.BardingItem;
 import com.genetic_chimerism.mutation_setup.MutationAttachments;
 import com.genetic_chimerism.mutation_setup.MutationBodyInfo;
 import com.genetic_chimerism.mutation_setup_client.HoovedTreeClient;
@@ -13,18 +14,28 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;
+import net.minecraft.client.render.entity.equipment.EquipmentModel;
+import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.ArmorMaterials;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.joml.Vector3f;
+
+import static net.minecraft.client.render.entity.feature.ArmorFeatureRenderer.hasModel;
 
 public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRenderState, PlayerEntityModel> {
 
@@ -91,15 +102,13 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     centaur.getChild("left_hind_leg").setAngles(this.getContextModel().rightLeg.pitch,this.getContextModel().rightLeg.yaw,this.getContextModel().rightLeg.roll);
                     centaur.getChild("body").getChild("saddle").hidden = !accessedState.genetic_chimerism$getCentaurSaddled();
 
-                    ArmorMaterial armor = MutationAttachments.materialFromHorseArmor(accessedState.genetic_chimerism$getCentaurArmor());
-
                     matrices.push();
                     VertexConsumer vertexConsumer1 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture1()));
                     centaur.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
                     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
                     centaur.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
-                    if(armor != ArmorMaterials.CHAIN){
-                        VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(Identifier.ofVanilla("textures/entity/equipment/horse_body/"+armor.assetId().getValue().toString().replace("minecraft:","")+ ".png")));
+                    if(state.equippedLegsStack.getItem() instanceof BardingItem bardingItem){
+                        VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(Identifier.ofVanilla("textures/entity/equipment/horse_body/"+bardingItem.materialAsset.toString().replace("minecraft:","")+ ".png")));
                         centaur.render(matrices, vertexConsumer3, light, OverlayTexture.DEFAULT_UV);
                     }
                     matrices.pop();
@@ -110,7 +119,17 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                 this.getContextModel().leftLeg.hidden = false;
                 this.getContextModel().leftPants.hidden = false;
             }
-
         }
+    }
+
+    public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
+        armorModel.leftLeg.translate(new Vector3f(0f,9f,10f));
+        armorModel.rightLeg.translate(new Vector3f(0f,9f,10f));
+
+        EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
+        if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
+            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
+        }
+
     }
 }

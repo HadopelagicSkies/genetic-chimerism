@@ -1,4 +1,4 @@
-package com.genetic_chimerism.infusionblock;
+package com.genetic_chimerism.blocks.infusionblock;
 
 import com.genetic_chimerism.*;
 import com.genetic_chimerism.mutation_setup.*;

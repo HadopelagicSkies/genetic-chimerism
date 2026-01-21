@@ -2,10 +2,16 @@ package com.genetic_chimerism;
 
 
 
+import com.genetic_chimerism.items.BardingItem;
+import com.genetic_chimerism.items.MutagenVialItem;
+import com.genetic_chimerism.items.ScalpelItem;
+import com.genetic_chimerism.items.TissueItem;
 import com.genetic_chimerism.mutation_setup.MutationInfo;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.*;
+import net.minecraft.item.equipment.ArmorMaterials;
+import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -42,6 +48,15 @@ public class GeneticChimerismItems {
                     itemGroup.add(GeneticChimerismItems.MUTAGEN_VIAL);
 
                     itemGroup.add(GeneticChimerismItems.PORCUPINE_QUILL);
+
+                    itemGroup.add(GeneticChimerismItems.LEATHER_CENTAUR_BARDING);
+                    //itemGroup.add(GeneticChimerismItems.COPPER_CENTAUR_BARDING);
+                    itemGroup.add(GeneticChimerismItems.IRON_CENTAUR_BARDING);
+                    itemGroup.add(GeneticChimerismItems.GOLDEN_CENTAUR_BARDING);
+                    itemGroup.add(GeneticChimerismItems.DIAMOND_CENTAUR_BARDING);
+                    //itemGroup.add(GeneticChimerismItems.NETHERITE_CENTAUR_BARDING);
+
+
 
                 });
     }
@@ -119,10 +134,39 @@ public class GeneticChimerismItems {
     );
 
     public static final Item PORCUPINE_QUILL = register(
-            new Item.Settings().maxCount(1).component(GeneticChimerismComponents.MUTATION_STORED,new MutationInfo("","")),
+            new Item.Settings(),
             "porcupine_quill"
     );
 
+    public static final BardingItem LEATHER_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.LEATHER_BARDING, EquipmentType.LEGGINGS, settings),
+            new Item.Settings().maxCount(1),
+            "leather_centaur_barding"
+    );
+
+//    public static final BardingItem COPPER_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.COPPER_BARDING, EquipmentType.LEGGINGS, settings),
+//            new Item.Settings().maxCount(1),
+//            "copper_centaur_barding"
+//    );
+
+    public static final BardingItem IRON_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.IRON_BARDING, EquipmentType.LEGGINGS, settings),
+            new Item.Settings().maxCount(1),
+            "iron_centaur_barding"
+    );
+
+    public static final BardingItem GOLDEN_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.GOLD_BARDING, EquipmentType.LEGGINGS, settings),
+            new Item.Settings().maxCount(1),
+            "golden_centaur_barding"
+    );
+
+    public static final BardingItem DIAMOND_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.DIAMOND_BARDING, EquipmentType.LEGGINGS, settings),
+            new Item.Settings().maxCount(1),
+            "diamond_centaur_barding"
+    );
+
+//    public static final BardingItem NETHERITE_CENTAUR_BARDING = register(settings -> new BardingItem(BardingItem.NETHERITE_BARDING, EquipmentType.LEGGINGS, settings),
+//            new Item.Settings().maxCount(1),
+//            "netherite_centaur_barding"
+//    );
 
 
 

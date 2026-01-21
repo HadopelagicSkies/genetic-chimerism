@@ -1,9 +1,8 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.infusionblock.InfusionStation;
-import com.genetic_chimerism.synthblock.BasicSynth;
+import com.genetic_chimerism.blocks.infusionblock.InfusionStation;
+import com.genetic_chimerism.blocks.synthblock.synthblock.BasicSynth;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

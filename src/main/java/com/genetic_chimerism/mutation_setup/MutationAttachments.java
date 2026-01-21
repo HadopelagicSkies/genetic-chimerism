@@ -44,14 +44,6 @@ public class MutationAttachments {
                     .copyOnDeath()
                     .syncWith(PacketCodecs.BOOLEAN, AttachmentSyncPredicate.targetOnly()));
 
-    public static final List<ArmorMaterial> horseArmors = List.of(ArmorMaterials.LEATHER,/*ArmorMaterials.COPPER,*/ArmorMaterials.IRON,ArmorMaterials.GOLD,ArmorMaterials.DIAMOND,ArmorMaterials.NETHERITE);
-
-    public static final AttachmentType<Integer> PLAYER_CENTAUR_ARMOR = AttachmentRegistry.create(Identifier.of(MOD_ID, "player_centaur_armor"), integerBuilder ->
-            integerBuilder.initializer(() -> -1)
-                    .persistent(Codec.INT)
-                    .copyOnDeath()
-                    .syncWith(PacketCodecs.INTEGER, AttachmentSyncPredicate.targetOnly()));
-
     public static List<MutationInfo> getMutationsAttached(AttachmentTarget target) {
         return target.getAttached(PLAYER_MUTATION_LIST);
     }
@@ -105,52 +97,6 @@ public class MutationAttachments {
 
     public static void setCentaurSaddled(AttachmentTarget target, boolean saddled){
         target.setAttached(PLAYER_CENTAUR_SADDLED,saddled);
-    }
-
-    public static Item horseArmorFromMaterial(ArmorMaterial material){
-        if(material.equals(ArmorMaterials.LEATHER))
-            return Items.LEATHER_HORSE_ARMOR;
-        /*else if(material.equals(ArmorMaterials.COPPER))
-            return Items.COPPER_HORSE_ARMOR;*/
-        else if(material.equals(ArmorMaterials.IRON))
-            return Items.IRON_HORSE_ARMOR;
-        else if(material.equals(ArmorMaterials.GOLD))
-            return Items.GOLDEN_HORSE_ARMOR;
-        else if(material.equals(ArmorMaterials.DIAMOND))
-            return Items.DIAMOND_HORSE_ARMOR;
-        /*else if(material.equals(ArmorMaterials.NETHERITE))
-            return Items.NETHERITE_HORSE_ARMOR;*/
-        else
-            return Items.AIR;
-    }
-
-    public static ArmorMaterial materialFromHorseArmor(Item horseArmor){
-        if(horseArmor.equals(Items.LEATHER_HORSE_ARMOR))
-            return ArmorMaterials.LEATHER;
-        /*else if(horseArmor.equals(Items.COPPER_HORSE_ARMOR))
-            return ArmorMaterials.COPPER;*/
-        else if(horseArmor.equals(Items.IRON_HORSE_ARMOR))
-            return ArmorMaterials.IRON;
-        else if(horseArmor.equals(Items.GOLDEN_HORSE_ARMOR))
-            return ArmorMaterials.GOLD;
-        else if(horseArmor.equals(Items.DIAMOND_HORSE_ARMOR))
-            return ArmorMaterials.DIAMOND;
-        /*else if(horseArmor.equals(Items.NETHERITE_HORSE_ARMOR))
-            return ArmorMaterials.NETHERITE;*/
-        else
-            return ArmorMaterials.CHAIN;
-    }
-
-    public static Item getCentaurArmor(AttachmentTarget target){
-        int indexValue = target.getAttached(PLAYER_CENTAUR_ARMOR) != null ? target.getAttached(PLAYER_CENTAUR_ARMOR):-1;
-        if(indexValue  > -1) {
-            return horseArmorFromMaterial(horseArmors.get(indexValue));
-        }
-        return Items.AIR;
-    }
-
-    public static void setCentaurArmor(AttachmentTarget target, Item item){
-        target.setAttached(PLAYER_CENTAUR_ARMOR, horseArmors.indexOf(materialFromHorseArmor(item)));
     }
 
 }

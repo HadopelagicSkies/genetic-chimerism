@@ -1,7 +1,7 @@
 package com.genetic_chimerism.mixin;
 
 import com.genetic_chimerism.MutatableParts;
-import com.genetic_chimerism.infusionblock.InfusionStation;
+import com.genetic_chimerism.blocks.infusionblock.InfusionStation;
 import com.genetic_chimerism.mutation_setup.*;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

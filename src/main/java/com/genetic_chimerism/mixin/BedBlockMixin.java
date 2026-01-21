@@ -1,6 +1,6 @@
 package com.genetic_chimerism.mixin;
 
-import com.genetic_chimerism.infusionblock.InfusionStation;
+import com.genetic_chimerism.blocks.infusionblock.InfusionStation;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BedBlock;

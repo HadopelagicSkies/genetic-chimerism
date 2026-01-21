@@ -1,7 +1,7 @@
 package com.genetic_chimerism;
 
 import com.genetic_chimerism.mutation_setup.*;
-import com.genetic_chimerism.synthblock.SynthScreenHandler;
+import com.genetic_chimerism.blocks.synthblock.synthblock.SynthScreenHandler;
 import com.genetic_chimerism.mixin.client.DrawContextAccessor;
 import com.genetic_chimerism.tooltip.MutationIngredientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;

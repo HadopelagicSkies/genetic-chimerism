@@ -1,5 +1,9 @@
-package com.genetic_chimerism;
+package com.genetic_chimerism.items;
 
+import com.genetic_chimerism.GeneticChimerism;
+import com.genetic_chimerism.GeneticChimerismComponents;
+import com.genetic_chimerism.GeneticChimerismItems;
+import com.genetic_chimerism.MobInfoReloadListener;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;

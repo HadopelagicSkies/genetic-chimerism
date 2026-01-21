@@ -1,4 +1,4 @@
-package com.genetic_chimerism.synthblock;
+package com.genetic_chimerism.blocks.synthblock.synthblock;
 
 import com.genetic_chimerism.ImplementInventory;
 import com.genetic_chimerism.GeneticChimerismBlockEntities;

@@ -40,7 +40,6 @@ public class PlayerEntityRendererMixin {
         PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) playerEntityRenderState;
         accessedState.genetic_chimerism$setMutInfo(Util.mapEnum(MutatableParts.class, part -> MutationAttachments.getPartAttached(player, part)));
         accessedState.genetic_chimerism$setCentaurSaddled(MutationAttachments.getCentaurSaddled(player));
-        accessedState.genetic_chimerism$setCentaurArmor(MutationAttachments.getCentaurArmor(player));
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

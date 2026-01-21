@@ -1,4 +1,4 @@
-package com.genetic_chimerism.synthblock;
+package com.genetic_chimerism.blocks.synthblock.synthblock;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;

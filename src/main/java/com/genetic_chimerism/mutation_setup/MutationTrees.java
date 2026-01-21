@@ -4,7 +4,7 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.GeneticChimerismComponents;
 import com.genetic_chimerism.GeneticChimerismItems;
 import com.genetic_chimerism.MutatableParts;
-import com.genetic_chimerism.synthblock.SynthRecipe;
+import com.genetic_chimerism.blocks.synthblock.synthblock.SynthRecipe;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

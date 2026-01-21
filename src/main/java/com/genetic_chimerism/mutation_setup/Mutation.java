@@ -1,13 +1,12 @@
 package com.genetic_chimerism.mutation_setup;
 
 import com.genetic_chimerism.MutatableParts;
-import com.genetic_chimerism.synthblock.SynthRecipe;
+import com.genetic_chimerism.blocks.synthblock.synthblock.SynthRecipe;
 //import net.minecraft.client.model.ModelData;
 //import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 
 public class Mutation {

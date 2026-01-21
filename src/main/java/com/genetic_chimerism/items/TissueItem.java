@@ -1,6 +1,7 @@
-package com.genetic_chimerism;
+package com.genetic_chimerism.items;
 
 
+import com.genetic_chimerism.GeneticChimerismComponents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;

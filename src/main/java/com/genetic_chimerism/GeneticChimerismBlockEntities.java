@@ -1,7 +1,7 @@
 package com.genetic_chimerism;
 
-import com.genetic_chimerism.infusionblock.InfusionStationEntity;
-import com.genetic_chimerism.synthblock.BasicSynthEntity;
+import com.genetic_chimerism.blocks.infusionblock.InfusionStationEntity;
+import com.genetic_chimerism.blocks.synthblock.synthblock.BasicSynthEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;

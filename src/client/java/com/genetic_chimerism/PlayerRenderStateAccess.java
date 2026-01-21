@@ -12,7 +12,4 @@ public interface PlayerRenderStateAccess {
     boolean genetic_chimerism$getCentaurSaddled();
     void genetic_chimerism$setCentaurSaddled(boolean saddled);
 
-    Item genetic_chimerism$getCentaurArmor();
-    void genetic_chimerism$setCentaurArmor(Item armor);
-
 }
