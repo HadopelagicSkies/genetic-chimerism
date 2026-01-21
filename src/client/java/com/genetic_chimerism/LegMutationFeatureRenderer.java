@@ -107,10 +107,6 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
                     centaur.render(matrices, vertexConsumer1, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color1()));
                     VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(mutation.getTexture2()));
                     centaur.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV, ColorHelper.withAlpha(255, mutInfo.color2()));
-                    if(state.equippedLegsStack.getItem() instanceof BardingItem bardingItem){
-                        VertexConsumer vertexConsumer3 = vertexConsumers.getBuffer(RenderLayer.getEntitySmoothCutout(Identifier.ofVanilla("textures/entity/equipment/horse_body/"+bardingItem.materialAsset.toString().replace("minecraft:","")+ ".png")));
-                        centaur.render(matrices, vertexConsumer3, light, OverlayTexture.DEFAULT_UV);
-                    }
                     matrices.pop();
                 }
             } else {
@@ -122,14 +118,27 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
         }
     }
 
-    public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
-        armorModel.leftLeg.translate(new Vector3f(0f,9f,10f));
-        armorModel.rightLeg.translate(new Vector3f(0f,9f,10f));
-
+    public static void renderCentaurBarding(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
         EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
         if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
-            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
+            if(stack.getItem() instanceof BardingItem bardingItem){
+                ModelPart centaur = HoovedTreeClient.centaur.getModelData().createModel();
+                centaur.translate(new Vector3f(0f,9f,10f));
+                centaur.getChild("left_front_leg").setAngles(contextModel.leftLeg.pitch,contextModel.leftLeg.yaw,contextModel.leftLeg.roll);
+                centaur.getChild("right_front_leg").setAngles(contextModel.rightLeg.pitch,contextModel.rightLeg.yaw,contextModel.rightLeg.roll);
+                centaur.getChild("right_hind_leg").setAngles(contextModel.leftLeg.pitch,contextModel.leftLeg.yaw,contextModel.leftLeg.roll);
+                centaur.getChild("left_hind_leg").setAngles(contextModel.rightLeg.pitch,contextModel.rightLeg.yaw,contextModel.rightLeg.roll);
+                equipmentRenderer.render(EquipmentModel.LayerType.HORSE_BODY, equippableComponent.assetId().orElseThrow(), new MutationEntityModel(centaur,MutatableParts.TORSO,false), stack, matrices, vertexConsumers, light,Identifier.ofVanilla("textures/entity/equipment/horse_body/"+bardingItem.materialAsset.toString().replace("minecraft:","")+ ".png"));
+            }
         }
+    }
+
+    public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
+
+//        EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
+//        if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
+//            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
+//        }
 
     }
 }

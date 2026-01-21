@@ -57,6 +57,9 @@ public class ArmorFeatureRendererMixin {
                 if (!(mutation instanceof HoovedTreeClient.CentaurMutation)){
                     original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
                 }
+                else {
+                    LegMutationFeatureRenderer.renderCentaurBarding(matrices,vertexConsumers,stack,slot,light,armorModel,(BipedEntityModel) instance.getContextModel(),equipmentRenderer);
+                }
             }else
                 original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
         }else
@@ -74,7 +77,7 @@ public class ArmorFeatureRendererMixin {
                     original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
                 }
                 else {
-                    LegMutationFeatureRenderer.renderCentaurBoots(matrices,vertexConsumers,stack,slot,light,armorModel, (BipedEntityModel) instance.getContextModel(),equipmentRenderer);
+                    LegMutationFeatureRenderer.renderCentaurBoots(matrices,vertexConsumers,stack,slot,light,armorModel,(BipedEntityModel) instance.getContextModel(),equipmentRenderer);
                 }
             }else
                 original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
