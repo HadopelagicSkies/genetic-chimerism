@@ -20,6 +20,7 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
@@ -96,6 +97,7 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
 
                     ModelPart centaur = mutation.getModelData().createModel();
                     centaur.translate(new Vector3f(0f,9f,10f));
+
                     centaur.getChild("left_front_leg").setAngles(this.getContextModel().leftLeg.pitch,this.getContextModel().leftLeg.yaw,this.getContextModel().leftLeg.roll);
                     centaur.getChild("right_front_leg").setAngles(this.getContextModel().rightLeg.pitch,this.getContextModel().rightLeg.yaw,this.getContextModel().rightLeg.roll);
                     centaur.getChild("right_hind_leg").setAngles(this.getContextModel().leftLeg.pitch,this.getContextModel().leftLeg.yaw,this.getContextModel().leftLeg.roll);
@@ -118,7 +120,7 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
         }
     }
 
-    public static void renderCentaurBarding(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
+    public static void renderCentaurBarding(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, BipedEntityModel<BipedEntityRenderState> contextModel, EquipmentRenderer equipmentRenderer) {
         EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
         if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
             if(stack.getItem() instanceof BardingItem){
@@ -133,15 +135,20 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
         }
     }
 
-    public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
+    public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, BipedEntityModel<BipedEntityRenderState> contextModel, EquipmentRenderer equipmentRenderer) {
         EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
         if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
-            //AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("frontOffset"),0,1,new Vector3f(0,0,0));
+            armorModel.resetTransforms();
+            armorModel.leftLeg.copyTransform(contextModel.leftLeg);
+            armorModel.rightLeg.copyTransform(contextModel.rightLeg);
+            AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("frontOffset"),0,1/3F,new Vector3f(0,0,0));
             equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
 
-            //armorModel.resetTransforms();
-            //AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("rearOffset"),0,1,new Vector3f(0,0,0));
-            //equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
+            armorModel.resetTransforms();
+            armorModel.leftLeg.copyTransform(contextModel.rightLeg);
+            armorModel.rightLeg.copyTransform(contextModel.leftLeg);
+            AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("rearOffset"),0,1/3F,new Vector3f(0,0,0));
+            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
         }
 
     }

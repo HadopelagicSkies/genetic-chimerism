@@ -124,10 +124,10 @@ public class HoovedTreeClient {
         public static Animation createFrontOffsetAnimation() {
             return Animation.Builder.create(0.0F)
                     .addBoneAnimation("right_leg", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, -3.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-3F, 27.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("left_leg", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-1.0F, -3.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(4.5F, 27.0F, 1.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
@@ -135,10 +135,10 @@ public class HoovedTreeClient {
         public static Animation createRearOffsetAnimation() {
             return Animation.Builder.create(0.0F)
                     .addBoneAnimation("right_leg", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, -3.0F, 5.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(4.5F, 27.0F, 56.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .addBoneAnimation("left_leg", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-1.0F, -3.0F, 5.0F), Transformation.Interpolations.LINEAR)
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-3F, 27.0F, 56.0F), Transformation.Interpolations.LINEAR)
                     ))
                     .build();
         }
