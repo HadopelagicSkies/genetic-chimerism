@@ -14,6 +14,8 @@ public class HoovedTreeClient {
     public static final MutationTreesClient hooved = MutationTreesClient.addTree(new ArrayList<MutationClient>(), "hooved");
 
     public static void initialize() {
+        centaur.animations.put("frontOffset",CentaurMutation.createFrontOffsetAnimation());
+        centaur.animations.put("rearOffset",CentaurMutation.createRearOffsetAnimation());
     }
 
     public static final MutationClient hooves = hooved.addToTree(new HoovesMutation("hooves", "hooved"));
@@ -118,6 +120,29 @@ public class HoovedTreeClient {
                     ))
                     .build();
         }
+
+        public static Animation createFrontOffsetAnimation() {
+            return Animation.Builder.create(0.0F)
+                    .addBoneAnimation("right_leg", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, -3.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("left_leg", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-1.0F, -3.0F, 0.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .build();
+        }
+
+        public static Animation createRearOffsetAnimation() {
+            return Animation.Builder.create(0.0F)
+                    .addBoneAnimation("right_leg", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(1.0F, -3.0F, 5.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .addBoneAnimation("left_leg", new Transformation(Transformation.Targets.TRANSLATE,
+                            new Keyframe(0.0F, AnimationHelper.createScalingVector(-1.0F, -3.0F, 5.0F), Transformation.Interpolations.LINEAR)
+                    ))
+                    .build();
+        }
+
     }
 
 }

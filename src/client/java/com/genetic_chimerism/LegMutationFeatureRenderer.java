@@ -121,7 +121,7 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
     public static void renderCentaurBarding(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
         EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
         if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
-            if(stack.getItem() instanceof BardingItem bardingItem){
+            if(stack.getItem() instanceof BardingItem){
                 ModelPart centaur = HoovedTreeClient.centaur.getModelData().createModel();
                 centaur.translate(new Vector3f(0f,9f,10f));
                 centaur.getChild("left_front_leg").setAngles(contextModel.leftLeg.pitch,contextModel.leftLeg.yaw,contextModel.leftLeg.roll);
@@ -134,11 +134,15 @@ public class LegMutationFeatureRenderer extends FeatureRenderer<PlayerEntityRend
     }
 
     public static void renderCentaurBoots(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel armorModel, BipedEntityModel contextModel, EquipmentRenderer equipmentRenderer) {
+        EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
+        if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
+            //AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("frontOffset"),0,1,new Vector3f(0,0,0));
+            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
 
-//        EquippableComponent equippableComponent = stack.get(DataComponentTypes.EQUIPPABLE);
-//        if (equippableComponent != null && (equippableComponent.assetId().isPresent() && equippableComponent.slot() == slot)) {
-//            equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
-//        }
+            //armorModel.resetTransforms();
+            //AnimationHelper.animate(armorModel,HoovedTreeClient.centaur.getAnimation("rearOffset"),0,1,new Vector3f(0,0,0));
+            //equipmentRenderer.render(EquipmentModel.LayerType.HUMANOID, equippableComponent.assetId().orElseThrow(), armorModel, stack, matrices, vertexConsumers, light);
+        }
 
     }
 }
