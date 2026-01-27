@@ -112,15 +112,6 @@ public class HoovedTreeClient {
                     .build();
         }
 
-        @Override
-        public Animation createPartAnimation() {
-            return Animation.Builder.create(0.0F)
-                    .addBoneAnimation("root", new Transformation(Transformation.Targets.TRANSLATE,
-                            new Keyframe(0.0F, AnimationHelper.createScalingVector(0.0F, 1.0F, 2.0F), Transformation.Interpolations.LINEAR)
-                    ))
-                    .build();
-        }
-
         public static Animation createFrontOffsetAnimation() {
             return Animation.Builder.create(0.0F)
                     .addBoneAnimation("right_leg", new Transformation(Transformation.Targets.TRANSLATE,

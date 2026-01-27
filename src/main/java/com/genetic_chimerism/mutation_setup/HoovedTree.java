@@ -52,9 +52,11 @@ public class HoovedTree {
                 if (player.isSneaking() && mutation.growth() >= centaur.getMaxGrowth()) {
                     if (!saddled && player.getStackInHand(hand).isOf(Items.SADDLE)) {
                         MutationAttachments.setCentaurSaddled(entity, true);
+                        world.playSound(null,player.getBlockPos(),SoundEvents.ENTITY_HORSE_SADDLE,SoundCategory.PLAYERS,1F,MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                         player.getStackInHand(hand).decrement(1);
                     } else if (saddled && player.getStackInHand(hand).isOf(Items.SHEARS)) {
                             MutationAttachments.setCentaurSaddled(entity, false);
+                            world.playSound(null,player.getBlockPos(),SoundEvents.ENTITY_SHEEP_SHEAR,SoundCategory.PLAYERS,1F,MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                             ItemEntity saddleDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.SADDLE, 1));
                             world.spawnEntity(saddleDrop);
                     } else if (saddled && player.getStackInHand(hand).isOf(Items.AIR)) {
@@ -72,9 +74,11 @@ public class HoovedTree {
             if (player.isSneaking() && MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(centaur)) && mutation.growth() >= centaur.getMaxGrowth()) {
                 if (!saddled && player.getStackInHand(hand).isOf(Items.SADDLE)) {
                     MutationAttachments.setCentaurSaddled(player, true);
+                    world.playSound(null,player.getBlockPos(),SoundEvents.ENTITY_HORSE_SADDLE,SoundCategory.PLAYERS,1F,MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                     player.getStackInHand(hand).decrement(1);
                 } else if (saddled && player.getStackInHand(hand).isOf(Items.SHEARS)) {
                         MutationAttachments.setCentaurSaddled(player, false);
+                        world.playSound(null,player.getBlockPos(),SoundEvents.ENTITY_SHEEP_SHEAR,SoundCategory.PLAYERS,1F,MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                         ItemEntity saddleDrop = new ItemEntity(world, player.getX(), player.getY(), player.getZ(), new ItemStack(Items.SADDLE, 1));
                         world.spawnEntity(saddleDrop);
                 }

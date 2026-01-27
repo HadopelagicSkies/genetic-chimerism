@@ -30,7 +30,7 @@ import java.util.Map;
 public abstract class PlayerEntityMixin {
 
 	@Unique
-	private static final float centaurEyeHeight = 2.13f;
+	private static final float centaurEyeHeight = 2.1f;
 
 	@Unique
 	private static final Map<EntityPose, EntityDimensions> CENTAUR_POSE_DIMENSIONS = ImmutableMap.<EntityPose, EntityDimensions>builder()

@@ -16,12 +16,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
-import net.minecraft.client.render.entity.model.ArmorEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -50,7 +49,7 @@ public class ArmorFeatureRendererMixin {
     }
 
     @WrapOperation(method = {"render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/BipedEntityRenderState;FF)V"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderArmor(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EquipmentSlot;ILnet/minecraft/client/render/entity/model/BipedEntityModel;)V",ordinal = 1))
-    private void centaurNoLeggings(ArmorFeatureRenderer<BipedEntityRenderState, ArmorEntityModel<BipedEntityRenderState>,ArmorEntityModel<BipedEntityRenderState>> instance, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, Operation<Void> original, @Local(argsOnly = true) BipedEntityRenderState bipedEntityRenderState) {
+    private void centaurNoLeggings(ArmorFeatureRenderer<BipedEntityRenderState, BipedEntityModel<BipedEntityRenderState>, BipedEntityModel<BipedEntityRenderState>> instance, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, Operation<Void> original, @Local(argsOnly = true) BipedEntityRenderState bipedEntityRenderState) {
         if (bipedEntityRenderState instanceof PlayerEntityRenderState) {
             PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) bipedEntityRenderState;
             MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.LEG);
@@ -60,7 +59,8 @@ public class ArmorFeatureRendererMixin {
                     original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
                 }
                 else {
-                    LegMutationFeatureRenderer.renderCentaurBarding(matrices,vertexConsumers,stack,slot,light,armorModel, instance.getContextModel(),equipmentRenderer);
+                    instance.setVisible(armorModel,slot);
+                    LegMutationFeatureRenderer.renderCentaurBarding(matrices,vertexConsumers,stack,slot,light,armorModel, instance.getContextModel(),equipmentRenderer,bipedEntityRenderState.pose.equals(EntityPose.CROUCHING));
                 }
             }else
                 original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
@@ -69,7 +69,7 @@ public class ArmorFeatureRendererMixin {
     }
 
     @WrapOperation(method = {"render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/BipedEntityRenderState;FF)V"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderArmor(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/EquipmentSlot;ILnet/minecraft/client/render/entity/model/BipedEntityModel;)V",ordinal = 2))
-    private void centaurMoveBoots(ArmorFeatureRenderer<BipedEntityRenderState, ArmorEntityModel<BipedEntityRenderState>,ArmorEntityModel<BipedEntityRenderState>> instance, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, Operation<Void> original, @Local(argsOnly = true) BipedEntityRenderState bipedEntityRenderState) {
+    private void centaurMoveBoots(ArmorFeatureRenderer<BipedEntityRenderState, BipedEntityModel<BipedEntityRenderState>, BipedEntityModel<BipedEntityRenderState>> instance, MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, EquipmentSlot slot, int light, BipedEntityModel<BipedEntityRenderState> armorModel, Operation<Void> original, @Local(argsOnly = true) BipedEntityRenderState bipedEntityRenderState) {
         if (bipedEntityRenderState instanceof PlayerEntityRenderState) {
             PlayerRenderStateAccess accessedState = (PlayerRenderStateAccess) bipedEntityRenderState;
             MutationBodyInfo mutInfo = accessedState.genetic_chimerism$getMutInfo().get(MutatableParts.LEG);
@@ -79,7 +79,8 @@ public class ArmorFeatureRendererMixin {
                     original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);
                 }
                 else {
-                    LegMutationFeatureRenderer.renderCentaurBoots(matrices,vertexConsumers,stack,slot,light,armorModel, instance.getContextModel(),equipmentRenderer);
+                    instance.setVisible(armorModel,slot);
+                    LegMutationFeatureRenderer.renderCentaurBoots(matrices,vertexConsumers,stack,slot,light,armorModel, instance.getContextModel(),equipmentRenderer,bipedEntityRenderState.pose.equals(EntityPose.CROUCHING));
                 }
             }else
                 original.call(instance,matrices,vertexConsumers,stack,slot,light,armorModel);

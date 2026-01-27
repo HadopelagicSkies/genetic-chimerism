@@ -7,3 +7,5 @@ accessible method net/minecraft/entity/ai/brain/sensor/SensorType register (Ljav
 accessible field net/minecraft/entity/AnimationState startTick I
 accessible field net/minecraft/entity/LivingEntity climbingPos Ljava/util/Optional;
 accessible field net/minecraft/server/network/ServerPlayerEntity movement Lnet/minecraft/util/math/Vec3d;
+
+accessible method net/minecraft/client/render/entity/feature/ArmorFeatureRenderer setVisible (Lnet/minecraft/client/render/entity/model/BipedEntityModel;Lnet/minecraft/entity/EquipmentSlot;)V
