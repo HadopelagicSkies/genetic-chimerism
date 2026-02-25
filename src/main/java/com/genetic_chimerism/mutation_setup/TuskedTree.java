@@ -4,15 +4,24 @@ import com.genetic_chimerism.GeneticChimerism;
 import com.genetic_chimerism.MutatableParts;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.block.BrushableBlock;
+import net.minecraft.command.argument.ParticleEffectArgumentType;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.ParticleUtil;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TuskedTree {
     public static final MutationTrees tusked = MutationTrees.addTree(new ArrayList<Mutation>(), "tusked", Identifier.ofVanilla("textures/mob_effect/hunger.png"));
@@ -158,6 +167,26 @@ public class TuskedTree {
         @Override
         public void onRemoved(PlayerEntity player) {
             MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
+        }
+
+        @Override
+        public void mutationAction(PlayerEntity player) {
+            if(player.getWorld() instanceof ServerWorld serverWorld){
+                int boxRadius = 64;
+                List<BlockPos> archaeologyBlocks = new ArrayList<>(List.of());
+                for (int i = -boxRadius; i < boxRadius; i++) {
+                    for (int k = -boxRadius; k < boxRadius; k++) {
+                        for (int j= -boxRadius; j < boxRadius; j++) {
+                            if(serverWorld.testBlockState(BlockPos.ofFloored(i,k,j),(blockState)-> blockState.getBlock() instanceof BrushableBlock)){
+                                archaeologyBlocks.add(BlockPos.ofFloored(i,k,j));
+                            }
+                        }
+                    }
+                }
+                for(BlockPos block : archaeologyBlocks) {
+                    //serverWorld.spawnParticles(player, ,true,true,block.toCenterPos().x,block.toCenterPos().y,block.toCenterPos().z,);
+                }
+            }
         }
 
         @Override
