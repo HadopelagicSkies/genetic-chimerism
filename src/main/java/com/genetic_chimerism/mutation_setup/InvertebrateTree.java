@@ -34,33 +34,33 @@ public class InvertebrateTree {
     public static void initialize() {
         AttackEntityCallback.EVENT.register(((playerEntity, world, hand, entity, entityHitResult) -> {
             LivingEntity livingEntity;
-            if(!(entity instanceof LivingEntity)) return ActionResult.PASS;
+            if (!(entity instanceof LivingEntity)) return ActionResult.PASS;
             else livingEntity = (LivingEntity) entity;
 
             List<MutationInfo> mutations = MutationAttachments.getMutationsAttached(playerEntity);
-            if(mutations != null && mutations.contains(MutationTrees.mutationToCodec(poisonChance1))) {
+            if (mutations != null && mutations.contains(MutationTrees.mutationToCodec(poisonChance1))) {
                 double poisonChance = 25;
                 int poisonDamage = 1;
-                if(mutations.contains(MutationTrees.mutationToCodec(poisonChance2))) {
+                if (mutations.contains(MutationTrees.mutationToCodec(poisonChance2))) {
                     poisonChance += 25;
-                    if(mutations.contains(MutationTrees.mutationToCodec(poisonChance3))) {
+                    if (mutations.contains(MutationTrees.mutationToCodec(poisonChance3))) {
                         poisonChance += 25;
-                        if(mutations.contains(MutationTrees.mutationToCodec(poisonChance4))) {
+                        if (mutations.contains(MutationTrees.mutationToCodec(poisonChance4))) {
                             poisonChance += 25;
                         }
-                        if(mutations.contains(MutationTrees.mutationToCodec(scorpionStinger1))) {
+                        if (mutations.contains(MutationTrees.mutationToCodec(scorpionStinger1))) {
                             poisonDamage += 1;
-                            if(mutations.contains(MutationTrees.mutationToCodec(scorpionStinger2))) {
+                            if (mutations.contains(MutationTrees.mutationToCodec(scorpionStinger2))) {
                                 poisonDamage += 1;
                             }
                         }
                     }
                 }
-                if(playerEntity.getRandom().nextBetween(0,100) <= poisonChance){
-                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200,poisonDamage));
+                if (playerEntity.getRandom().nextBetween(0, 100) <= poisonChance) {
+                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 200, poisonDamage));
                 }
             }
-                return ActionResult.PASS;
+            return ActionResult.PASS;
         }));
 
     }
@@ -73,20 +73,20 @@ public class InvertebrateTree {
     public static final Mutation sneakSpeed2 = invertebrate.addToTree(new SneakSpeed2Mutation("sneakSpeed2", "invertebrate", sneakSpeed1));
 
     public static final Mutation wallClimb = invertebrate.addToTree(new Mutation("wallClimb", "invertebrate", moveEff1));
-    public static final Mutation spiderAbdomen = invertebrate.addToTree(new SpiderAbdomenMutation("spiderAbdomen", "invertebrate", wallClimb,MutatableParts.TAIL));
-    public static final Mutation arachneBody = invertebrate.addToTree(new ArachneBodyMutation("arachneBody", "invertebrate", spiderAbdomen,MutatableParts.TAIL, MutatableParts.LEG));
-    public static final Mutation mothAntennae = invertebrate.addToTree(new MothAntennaeMutation("mothAntennae", "invertebrate", wallClimb,MutatableParts.HEAD));
+    public static final Mutation spiderAbdomen = invertebrate.addToTree(new SpiderAbdomenMutation("spiderAbdomen", "invertebrate", wallClimb, MutatableParts.TAIL));
+    public static final Mutation arachneBody = invertebrate.addToTree(new ArachneBodyMutation("arachneBody", "invertebrate", spiderAbdomen, MutatableParts.TAIL, MutatableParts.LEG));
+    public static final Mutation mothAntennae = invertebrate.addToTree(new MothAntennaeMutation("mothAntennae", "invertebrate", wallClimb, MutatableParts.HEAD));
 
     public static final Mutation poisonChance1 = invertebrate.addToTree(new Mutation("poisonChance1", "invertebrate", null));
     public static final Mutation poisonChance2 = invertebrate.addToTree(new Mutation("poisonChance2", "invertebrate", poisonChance1));
     public static final Mutation poisonChance3 = invertebrate.addToTree(new Mutation("poisonChance3", "invertebrate", poisonChance2));
     public static final Mutation poisonChance4 = invertebrate.addToTree(new Mutation("poisonChance4", "invertebrate", poisonChance3));
 
-    public static final Mutation scorpionStinger1 = invertebrate.addToTree(new ScorpionStinger1Mutation("scorpionStinger1", "invertebrate", poisonChance3,MutatableParts.TAIL));
-    public static final Mutation scorpionStinger2 = invertebrate.addToTree(new ScorpionStinger2Mutation("scorpionStinger2", "invertebrate", scorpionStinger1,MutatableParts.TAIL));
+    public static final Mutation scorpionStinger1 = invertebrate.addToTree(new ScorpionStinger1Mutation("scorpionStinger1", "invertebrate", poisonChance3, MutatableParts.TAIL));
+    public static final Mutation scorpionStinger2 = invertebrate.addToTree(new ScorpionStinger2Mutation("scorpionStinger2", "invertebrate", scorpionStinger1, MutatableParts.TAIL));
 
     public static final Mutation hivePheromones = invertebrate.addToTree(new Mutation("hivePheromones", "invertebrate", poisonChance1));
-    public static final Mutation beeAbdomen = invertebrate.addToTree(new BeeAbdomenMutation("beeAbdomen", "invertebrate", hivePheromones,MutatableParts.TAIL));
+    public static final Mutation beeAbdomen = invertebrate.addToTree(new BeeAbdomenMutation("beeAbdomen", "invertebrate", hivePheromones, MutatableParts.TAIL));
     public static final Mutation queenPheromones = invertebrate.addToTree(new Mutation("queenPheromones", "invertebrate", beeAbdomen));
 
     public static class MoveEff1Mutation extends Mutation {
@@ -190,7 +190,6 @@ public class InvertebrateTree {
     }
 
     public static class SpiderAbdomenMutation extends Mutation {
-        private int cooldown = 0;
 
         public SpiderAbdomenMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -201,17 +200,53 @@ public class InvertebrateTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(spiderAbdomen, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL, true);
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
+            super.mutationAction(player);
+            if (!player.getWorld().isClient && player.isSneaking()) {
+                boolean hasArachneMut = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(arachneBody));
 
+                MutationAttachments.setEffectIndex(player,MutatableParts.TAIL,MutationAttachments.getEffectIndex(player,MutatableParts.TAIL)+1);
+                if((MutationAttachments.getEffectIndex(player,MutatableParts.TAIL) > 3 && !hasArachneMut) || (MutationAttachments.getEffectIndex(player,MutatableParts.TAIL) > 4 && hasArachneMut))
+                    MutationAttachments.setEffectIndex(player,MutatableParts.TAIL,0);
+                player.sendMessage(Text.translatable("mutations.mutation.spiderAbdomen.spiderSelected"), true);
+            } else if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player, MutatableParts.TAIL) <= 0) {
+                int silkCost =0;
+                switch (MutationAttachments.getEffectIndex(player,MutatableParts.TAIL)) {
+                    case 0 -> {
+                        silkCost = 10;
+                    }
+                    case 1 -> {
+                        silkCost = 20;
+                    }
+                    case 2 -> {
+                        silkCost = 30;
+                    }
+                    case 3 -> {
+                        silkCost = 40;
+                    }
+                    case 4 -> {
+                        silkCost = 50;
+                    }
+
+                }
+                MutationAttachments.setMutationResources(player, MutatableParts.TAIL,MutationAttachments.getMutationResources(player,MutatableParts.TAIL) - silkCost);
+            } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.spiderMagic"), true);
+        }
+
+        @Override
+        public void tick(PlayerEntity player) {
+            super.tick(player);
+            if (MutationAttachments.getMutationResources(player,MutatableParts.TAIL) < 500)
+                MutationAttachments.setMutationResources(player, MutatableParts.TAIL,MutationAttachments.getMutationResources(player,MutatableParts.TAIL) + player.getRandom().nextBetween(0, 100) < 10?1:0);
         }
     }
 
@@ -226,12 +261,12 @@ public class InvertebrateTree {
             MutationAttachments.removePartAttached(player, MutatableParts.HEAD);
             MutationAttachments.setPartAttached(player, MutatableParts.HEAD, MutationTrees.mutationToCodec(mothAntennae, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationAttachments.setPartReceding(player, MutatableParts.HEAD,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.HEAD, true);
         }
 
         @Override
@@ -244,10 +279,9 @@ public class InvertebrateTree {
     public static class ArachneBodyMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "arachnebody_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
-        private int cooldown = 0;
 
         public ArachneBodyMutation(String mutID, String treeID, Mutation prereq, MutatableParts part1, MutatableParts part2) {
-            super(mutID, treeID, prereq, part1,part2);
+            super(mutID, treeID, prereq, part1, part2);
             modifierMultimap.put(EntityAttributes.SNEAKING_SPEED, MODIFIER);
         }
 
@@ -257,33 +291,22 @@ public class InvertebrateTree {
             player.getAttributes().addTemporaryModifiers(modifierMultimap);
             MutationAttachments.setPartAttached(player, MutatableParts.LEG, MutationTrees.mutationToCodec(arachneBody, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(arachneBody, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             player.getAttributes().removeModifiers(modifierMultimap);
-            MutationAttachments.setPartReceding(player, MutatableParts.LEG,true);
-            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
-        }
-
-        @Override
-        public void tick(PlayerEntity player) {
-
-        }
-
-        @Override
-        public void mutationAction(PlayerEntity player) {
-
+            MutationAttachments.setPartReceding(player, MutatableParts.LEG, true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL, true);
         }
     }
 
     public static class ScorpionStinger1Mutation extends Mutation {
-        private int cooldown = 0;
 
         public ScorpionStinger1Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -293,51 +316,52 @@ public class InvertebrateTree {
         public void onApplied(PlayerEntity player) {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger1, 0,
-                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107),0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
             MutationBodyInfo partMut = MutationAttachments.getPartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL, true);
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
-                if (this.cooldown <= 0) {
-                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true, player.age);
-                    this.cooldown = 300;
-                    int range = 4;
-                    Vec3d boxPos = player.getPos();
-                    for (int i = 0; i < range * 2; i++) {
-                        List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
-                        for (Entity entity : colliders) {
-                            if (entity instanceof LivingEntity) {
-                                entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
-                                entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player),2F);
-                                ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 1), player);
-                            }
-                        }
-                        if (!colliders.isEmpty()) {
-                            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                            break;
-                        }
-                        boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
-                        BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
-                        if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(),boxBlock)){
-                            break;
+            super.mutationAction(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player, MutatableParts.TAIL) <= 0) {
+                MutationAttachments.setPartAnimating(player, MutatableParts.TAIL, true, player.age);
+                int range = 4;
+                Vec3d boxPos = player.getPos();
+                for (int i = 0; i < range * 2; i++) {
+                    List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
+                    for (Entity entity : colliders) {
+                        if (entity instanceof LivingEntity) {
+                            entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0, .5, 0).multiply(0.5));
+                            entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player), 2F);
+                            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 1), player);
                         }
                     }
+                    if (!colliders.isEmpty()) {
+                        player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                        break;
+                    }
+                    boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
+                    BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
+                    if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(), boxBlock)) {
+                        break;
+                    }
                 }
-                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
-            }
+            } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"), true);
+        }
+
+        @Override
+        public int getMaxCooldown() {
+            return 300;
         }
     }
 
     public static class ScorpionStinger2Mutation extends Mutation {
-        private int cooldown = 0;
 
         public ScorpionStinger2Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -349,54 +373,53 @@ public class InvertebrateTree {
             int color1 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color1();
             int color2 = MutationAttachments.getPartAttached(player, MutatableParts.TAIL).color2();
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
-            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger1,patternIndex,
-                    color1,color2,0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+            MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(scorpionStinger1, patternIndex,
+                    color1, color2, 0, false,
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL, true);
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.TAIL).growth() >= this.getMaxGrowth()) {
-                if (this.cooldown <= 0) {
-                    MutationAttachments.setPartAnimating(player,MutatableParts.TAIL , true, player.age);
-                    this.cooldown = 300;
-                    int range = 4;
-                    Vec3d boxPos = player.getPos();
-                    for (int i = 0; i < range * 2; i++) {
-                        List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
-                        for (Entity entity : colliders) {
-                            if (entity instanceof LivingEntity) {
-                                entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(0.5));
-                                entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player),4F);
-                                ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 2), player);
-                            }
-                        }
-                        if (!colliders.isEmpty()) {
-                            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                            break;
-                        }
-                        boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
-                        BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
-                        if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(),boxBlock)){
-                            break;
+            super.mutationAction(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player, MutatableParts.TAIL) <= 0) {
+                MutationAttachments.setPartAnimating(player, MutatableParts.TAIL, true, player.age);
+                int range = 4;
+                Vec3d boxPos = player.getPos();
+                for (int i = 0; i < range * 2; i++) {
+                    List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(boxPos, 2, 2, 2));
+                    for (Entity entity : colliders) {
+                        if (entity instanceof LivingEntity) {
+                            entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0, .5, 0).multiply(0.5));
+                            entity.damage((ServerWorld) player.getWorld(), new DamageSource((RegistryEntry<DamageType>) DamageTypes.STING, player), 4F);
+                            ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 10, 2), player);
                         }
                     }
+                    if (!colliders.isEmpty()) {
+                        player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_BEE_STING, SoundCategory.PLAYERS, 2F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                        break;
+                    }
+                    boxPos = boxPos.add(player.getRotationVector().normalize().multiply(0.5));
+                    BlockPos boxBlock = BlockPos.ofFloored(Math.round(boxPos.x), Math.round(boxPos.y), Math.round(boxPos.z));
+                    if (player.getWorld().getBlockState(boxBlock).isSolidBlock(player.getWorld(), boxBlock)) {
+                        break;
+                    }
                 }
-                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"),true);
-            }
+            } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.tailslap"), true);
         }
+
+        @Override
+        public int getMaxCooldown() {
+            return 300;
+        }
+
     }
 
     public static class BeeAbdomenMutation extends Mutation {
-        private int cooldown = 0;
-        private int storedHoney = 0;
-        private int spellIndex = 0;
-
         public BeeAbdomenMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
         }
@@ -406,69 +429,58 @@ public class InvertebrateTree {
             MutationAttachments.removePartAttached(player, MutatableParts.TAIL);
             MutationAttachments.setPartAttached(player, MutatableParts.TAIL, MutationTrees.mutationToCodec(beeAbdomen, 0,
                     ColorHelper.getArgb(115, 110, 99), ColorHelper.getArgb(136, 127, 107), 0, false,
-                    MutationBodyInfo.animationStateFromInts(1, player.age),MutationBodyInfo.animationStateFromInts(0, player.age)));
+                    MutationBodyInfo.animationStateFromInts(1, player.age), MutationBodyInfo.animationStateFromInts(0, player.age)));
         }
 
         @Override
         public void onRemoved(PlayerEntity player) {
-            MutationAttachments.setPartReceding(player, MutatableParts.TAIL,true);
+            MutationAttachments.setPartReceding(player, MutatableParts.TAIL, true);
         }
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (!player.getWorld().isClient &&player.isSneaking()){
+            super.mutationAction(player);
+            if (!player.getWorld().isClient && player.isSneaking()) {
                 boolean hasQueenMut = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(queenPheromones));
-                spellIndex = spellIndex == (hasQueenMut ? 4 : 3) ? 0 : spellIndex+1;
-                player.sendMessage(Text.translatable("mutations.mutation.beeAbdomen.beeSelected"),true);
-            }else if(!player.getWorld().isClient){
-                if (this.cooldown <= 0) {
-                    this.cooldown = 500;
-                    int honeyCost=0;
 
-                    if(spellIndex==0){
-                        honeyCost = 50;
-                        if (storedHoney >= honeyCost){
-
+                MutationAttachments.setEffectIndex(player,MutatableParts.TAIL,MutationAttachments.getEffectIndex(player,MutatableParts.TAIL)+1);
+                if((MutationAttachments.getEffectIndex(player,MutatableParts.TAIL) > 3 && !hasQueenMut) || (MutationAttachments.getEffectIndex(player,MutatableParts.TAIL) > 4 && hasQueenMut))
+                    MutationAttachments.setEffectIndex(player,MutatableParts.TAIL,0);
+                player.sendMessage(Text.translatable("mutations.mutation.beeAbdomen.beeSelected"), true);
+            } else if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player, MutatableParts.TAIL) <= 0) {
+                int honeyCost =0;
+                    switch (MutationAttachments.getEffectIndex(player,MutatableParts.TAIL)) {
+                        case 0 -> {
+                            honeyCost = 10;
                         }
-                    }
-                    else if(spellIndex==1){
-                        honeyCost = 50;
-                        if (storedHoney >= honeyCost){
-
+                        case 1 -> {
+                            honeyCost = 20;
                         }
-                    }
-                    else if(spellIndex==2){
-                        honeyCost = 50;
-                        if (storedHoney >= honeyCost){
-
+                        case 2 -> {
+                            honeyCost = 30;
                         }
-                    }
-                    else if(spellIndex==3){
-                        honeyCost = 50;
-                        if (storedHoney >= honeyCost){
-
+                        case 3 -> {
+                            honeyCost = 40;
                         }
-                    }
-                    else if(spellIndex==4){
-                        honeyCost = 50;
-                        if (storedHoney >= honeyCost){
-
+                        case 4 -> {
+                            honeyCost = 50;
                         }
+
                     }
-                    storedHoney -= honeyCost;
-                }
-                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.beeMagic"),true);
+                MutationAttachments.setMutationResources(player, MutatableParts.TAIL,MutationAttachments.getMutationResources(player,MutatableParts.TAIL) - honeyCost);
+                } else player.sendMessage(Text.translatable("mutations.mutation.cooldown.beeMagic"), true);
             }
-        }
 
         @Override
         public void tick(PlayerEntity player) {
-            if (storedHoney < 2000 && player.getRandom().nextBetween(0,100) < 10){
-                storedHoney++;
-            }
+            super.tick(player);
+            if (MutationAttachments.getMutationResources(player,MutatableParts.TAIL) < 500)
+                MutationAttachments.setMutationResources(player, MutatableParts.TAIL,MutationAttachments.getMutationResources(player,MutatableParts.TAIL) + player.getRandom().nextBetween(0, 100) < 10?1:0);
+        }
 
+        @Override
+        public int getMaxCooldown() {
+            return 500;
         }
     }
-
-
 }

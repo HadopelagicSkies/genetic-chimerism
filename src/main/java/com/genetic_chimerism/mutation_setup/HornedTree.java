@@ -215,9 +215,6 @@ public class HornedTree {
     public static class RamHorns1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "ramhorns1_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
-        private boolean ramming = false;
-        private int rammingTime = 0;
-        private int cooldown = 0;
 
         public RamHorns1Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq,parts);
@@ -241,14 +238,17 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player){
-            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
+            super.mutationAction(player);
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player, MutatableParts.HEAD) <= 0 && !player.isGliding()){
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,1000);
+            }
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
-            if (this.ramming && !player.getWorld().isClient) {
-                if (this.cooldown <= 0) this.cooldown = 300;
+            super.tick(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player,MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player,MutatableParts.HEAD) >0) {
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
                 player.velocityModified=true;
                 List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
@@ -260,17 +260,10 @@ public class HornedTree {
                 }
                 if(!colliders.isEmpty()){
                     player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                    ramming = false;
+                    MutationAttachments.setMutationResources(player,MutatableParts.HEAD,0);
                 }
-                int maxRammingTime = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HornedTree.ramLegs)) ? 120:60;
-                this.rammingTime++;
-                if(rammingTime > maxRammingTime || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,MutationAttachments.getMutationResources(player,MutatableParts.HEAD)-1);
             }
-            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override
@@ -282,9 +275,6 @@ public class HornedTree {
     public static class RamHorns2Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "ramhorns2_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
-        private boolean ramming = false;
-        private int rammingTime = 0;
-        private int cooldown = 0;
 
         public RamHorns2Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq,parts);
@@ -308,38 +298,34 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player){
-            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
+            super.mutationAction(player);
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player, MutatableParts.HEAD) <= 0 && !player.isGliding()){
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,1000);
+            }
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
-            if (this.ramming && !player.getWorld().isClient) {
-                if (this.cooldown == 0) this.cooldown = 300;
-                player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
-                player.velocityModified=true;
+            super.tick(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player,MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player,MutatableParts.HEAD) >0) {
+                player.addVelocity(player.getRotationVector(0F, player.headYaw).multiply(.375));
+                player.velocityModified = true;
 
-                List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 1, 1, 1));
-                for(Entity entity : colliders){
-                    if (entity instanceof LivingEntity){
-                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(2.5));
-                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null,player),6F);
+                List<Entity> colliders = player.getWorld().getOtherEntities(player, Box.of(player.getPos(), 1, 1, 1));
+                for (Entity entity : colliders) {
+                    if (entity instanceof LivingEntity) {
+                        entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0, .5, 0).multiply(2.5));
+                        entity.damage((ServerWorld) player.getWorld(), player.getWorld().getDamageSources().trident(null, player), 6F);
                     }
                 }
 
-                if(!colliders.isEmpty()){
-                    player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                    ramming = false;
+                if (!colliders.isEmpty()) {
+                    player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS, 1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
+                    MutationAttachments.setMutationResources(player, MutatableParts.HEAD, 0);
                 }
-                int maxRammingTime = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HornedTree.ramLegs)) ? 120:60;
-                this.rammingTime++;
-                if(rammingTime > maxRammingTime || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
+                MutationAttachments.setMutationResources(player, MutatableParts.HEAD, MutationAttachments.getMutationResources(player, MutatableParts.HEAD) - 1);
             }
-            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override
@@ -351,9 +337,6 @@ public class HornedTree {
     public static class HurtHorns1Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "hurthorns1_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
-        private boolean ramming = false;
-        private int rammingTime = 0;
-        private int cooldown = 0;
 
         public HurtHorns1Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq,parts);
@@ -377,14 +360,17 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player){
-            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
+            super.mutationAction(player);
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player, MutatableParts.HEAD) <= 0 && !player.isGliding()){
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,1000);
+            }
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
-            if (this.ramming && !player.getWorld().isClient) {
-                if (this.cooldown == 0) this.cooldown = 300;
+            super.tick(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player,MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player,MutatableParts.HEAD) >0) {
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
                 player.velocityModified=true;
 
@@ -398,17 +384,10 @@ public class HornedTree {
 
                 if(!colliders.isEmpty()){
                     player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                    ramming = false;
+                    MutationAttachments.setMutationResources(player,MutatableParts.HEAD,0);
                 }
-                int maxRammingTime = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HornedTree.ramLegs)) ? 120:60;
-                this.rammingTime++;
-                if(rammingTime > maxRammingTime || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,MutationAttachments.getMutationResources(player,MutatableParts.HEAD)-1);
             }
-            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override
@@ -420,9 +399,6 @@ public class HornedTree {
     public static class HurtHorns2Mutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "hurthorns2_modifier"), 0.1, EntityAttributeModifier.Operation.ADD_VALUE);
-        private boolean ramming = false;
-        private int rammingTime = 0;
-        private int cooldown = 0;
 
         public HurtHorns2Mutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq,parts);
@@ -446,14 +422,17 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player){
-            if (!ramming) this.ramming = rammingTime == 0 && cooldown == 0 && !player.isGliding();
-            if (cooldown > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
+            super.mutationAction(player);
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player, MutatableParts.HEAD) <= 0 && !player.isGliding()){
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,1000);
+            }
+            if (MutationAttachments.getMutationCooldown(player, MutatableParts.HEAD) > 0) player.sendMessage(Text.translatable("mutations.mutation.cooldown.ramming"),true);
         }
 
         @Override
         public void tick(PlayerEntity player){
-            if (this.ramming && !player.getWorld().isClient) {
-                if (this.cooldown == 0) this.cooldown = 300;
+            super.tick(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player,MutatableParts.HEAD) <= 0 && MutationAttachments.getMutationResources(player,MutatableParts.HEAD) >0) {
                 player.addVelocity(player.getRotationVector(0F,player.headYaw).multiply(.375));
                 player.velocityModified=true;
 
@@ -467,17 +446,10 @@ public class HornedTree {
 
                 if(!colliders.isEmpty()){
                     player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_GOAT_RAM_IMPACT, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
-                    ramming = false;
+                    MutationAttachments.setMutationResources(player,MutatableParts.HEAD,0);
                 }
-                int maxRammingTime = MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(HornedTree.ramLegs)) ? 120:60;
-                this.rammingTime++;
-                if(rammingTime > maxRammingTime || !ramming){
-
-                    this.ramming=false;
-                    this.rammingTime=0;
-                }
+                MutationAttachments.setMutationResources(player,MutatableParts.HEAD,MutationAttachments.getMutationResources(player,MutatableParts.HEAD)-1);
             }
-            if (this.cooldown > 0) this.cooldown--;
         }
 
         @Override
@@ -489,7 +461,6 @@ public class HornedTree {
     public static class RamLegsMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "ramlegs_modifier"), 0.5, EntityAttributeModifier.Operation.ADD_VALUE);
-        private int cooldown = 0;
 
         public RamLegsMutation(String mutID, String treeID, Mutation prereq, MutatableParts part) {
             super(mutID, treeID, prereq, part);
@@ -513,9 +484,8 @@ public class HornedTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
-            if (!player.getWorld().isClient && MutationAttachments.getPartAttached(player,MutatableParts.LEG).growth() >= this.getMaxGrowth()) {
-                if (this.cooldown <= 0) {
-                    this.cooldown = 300;
+            super.mutationAction(player);
+            if (!player.getWorld().isClient && MutationAttachments.getMutationCooldown(player,MutatableParts.HEAD) <= 0) {
                     List<Entity> colliders = player.getWorld().getOtherEntities(player,Box.of(player.getPos(), 3, 2, 3));
                     for(Entity entity : colliders){
                         if (entity instanceof LivingEntity) entity.addVelocity(entity.getPos().subtract(player.getPos()).add(0,.5,0).multiply(2.0));
@@ -525,14 +495,9 @@ public class HornedTree {
                         player.getWorld().playSound(null,player.getBlockPos(),SoundEvents.ENTITY_HORSE_GALLOP, SoundCategory.PLAYERS,1F, MathHelper.nextBetween(player.getWorld().random, 0.8F, 1.2F));
                     }
                 }
-                else player.sendMessage(Text.translatable("mutations.mutation.cooldown.stomp"),true);
-            }
+            else player.sendMessage(Text.translatable("mutations.mutation.cooldown.stomp"),true);
         }
 
-        @Override
-        public void tick(PlayerEntity player) {
-            if (this.cooldown > 0) this.cooldown--;
-        }
     }
 
 

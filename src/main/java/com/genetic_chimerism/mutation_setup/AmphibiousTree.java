@@ -180,7 +180,6 @@ public class AmphibiousTree {
     public static class TadpoleTailMutation extends Mutation {
         Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> modifierMultimap = HashMultimap.create();
         public static final EntityAttributeModifier MODIFIER = new EntityAttributeModifier(Identifier.of(GeneticChimerism.MOD_ID, "tadpole_tail_modifier"), 0.2, EntityAttributeModifier.Operation.ADD_VALUE);
-        int cooldown = 0;
 
         public TadpoleTailMutation(String mutID, String treeID, Mutation prereq, MutatableParts parts) {
             super(mutID, treeID, prereq, parts);
@@ -206,9 +205,8 @@ public class AmphibiousTree {
         public void mutationAction(PlayerEntity player) {
             if (MutationAttachments.getMutationsAttached(player).contains(MutationTrees.mutationToCodec(AmphibiousTree.frogTongue))){
                 if (!player.getWorld().isClient) {
-                    if (this.cooldown <= 0) {
+                    if (MutationAttachments.getMutationCooldown(player,MutatableParts.TAIL) <= 0) {
                         MutationAttachments.setPartAnimating(player,MutatableParts.TAIL, true, player.age);
-                        this.cooldown = 100;
                         int range = 8;
                         Vec3d boxPos = player.getPos().add(0,1,0);
                         for (int i = 0; i < range * 2; i++) {
@@ -235,9 +233,10 @@ public class AmphibiousTree {
         }
 
         @Override
-        public void tick(PlayerEntity player) {
-            if (this.cooldown > 0) this.cooldown--;
+        public int getMaxCooldown() {
+            return 100;
         }
+
         @Override
         public int getMaxGrowth() {
             return 200;

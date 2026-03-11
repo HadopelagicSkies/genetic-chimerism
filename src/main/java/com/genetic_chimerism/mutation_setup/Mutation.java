@@ -39,6 +39,9 @@ public class Mutation {
             return findRootMutation(mutation.getPrereq());
     }
 
+    public int getMaxCooldown(){
+        return 0;
+    }
 
     public static void initialize() {
     }
@@ -66,8 +69,22 @@ public class Mutation {
 
     public void onApplied(PlayerEntity player){}
     public void onRemoved(PlayerEntity player){}
-    public void mutationAction(PlayerEntity player) {}
-    public void tick(PlayerEntity player){};
+    public void mutationAction(PlayerEntity player) {
+        MutatableParts firstPart = this.getParts().stream().toList().getFirst();
+        if(MutationAttachments.getPartAttached(player,firstPart).growth() < this.getMaxGrowth())
+            return;
+    }
+    public void tick(PlayerEntity player){
+        if(this.getMaxCooldown() > 0){
+            MutatableParts firstPart = this.getParts().stream().toList().getFirst();
+            if(firstPart!=null && MutationAttachments.getMutationCooldown(player, firstPart) >= this.getMaxCooldown()){
+                MutationAttachments.setMutationCooldown(player,firstPart,0);
+            }
+            else if (firstPart!= null){
+                MutationAttachments.setMutationCooldown(player,firstPart,MutationAttachments.getMutationCooldown(player, firstPart) + 1);
+            }
+        }
+    };
 
     public static final Mutation human = MutationTrees.human.addToTree(new Mutation("antigen", "human", null));
 

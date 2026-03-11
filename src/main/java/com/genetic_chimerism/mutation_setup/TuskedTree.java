@@ -171,6 +171,7 @@ public class TuskedTree {
 
         @Override
         public void mutationAction(PlayerEntity player) {
+            super.mutationAction(player);
             if(player.getWorld() instanceof ServerWorld serverWorld){
                 int boxRadius = 64;
                 List<BlockPos> archaeologyBlocks = new ArrayList<>(List.of());
@@ -184,14 +185,19 @@ public class TuskedTree {
                     }
                 }
                 for(BlockPos block : archaeologyBlocks) {
-                    //serverWorld.spawnParticles(player, ,true,true,block.toCenterPos().x,block.toCenterPos().y,block.toCenterPos().z,);
+                    //serverWorld.spawnParticles(player, ,true,true,block.toCenterPos().x,block.toCenterPos().y,block.toCenterPos().z,); // make custom particle that draws over blocks
                 }
             }
         }
 
         @Override
+        public int getMaxCooldown() {
+            return 300;
+        }
+
+        @Override
         public int getMaxGrowth() {
-            return 200;
+            return 400;
         }
     }
 

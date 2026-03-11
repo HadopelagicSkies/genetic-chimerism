@@ -6,10 +6,6 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentTarget;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.equipment.ArmorMaterial;
-import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -32,11 +28,18 @@ public class MutationAttachments {
                     .syncWith(MutationInfo.MUTATION_PACKET_CODEC.collect(PacketCodecs.toList()), AttachmentSyncPredicate.targetOnly()));
 
     public static final Map<MutatableParts, AttachmentType<MutationBodyInfo>> PART_MUTATIONS = Util.mapEnum(MutatableParts.class,
-        part -> AttachmentRegistry.create(Identifier.of(MOD_ID, part.asString() + "_mutation"), infoBuilder ->
-        infoBuilder.initializer(() -> null)
-            .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
-            .copyOnDeath()
-            .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
+            part -> AttachmentRegistry.create(Identifier.of(MOD_ID, part.asString() + "_mutation"), infoBuilder ->
+                    infoBuilder.initializer(() -> null)
+                            .persistent(MutationBodyInfo.MUTATION_BODY_CODEC)
+                            .copyOnDeath()
+                            .syncWith(MutationBodyInfo.MUTATION_BODY_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
+
+    public static final Map<MutatableParts, AttachmentType<MutationCounters>> MUTATION_COUNTERS = Util.mapEnum(MutatableParts.class,
+            part -> AttachmentRegistry.create(Identifier.of(MOD_ID, part.asString() + "_mutation_counters"), infoBuilder ->
+                    infoBuilder.initializer(() -> new MutationCounters(0,0,0))
+                            .persistent(MutationCounters.MUTATION_COUNTERS_CODEC)
+                            .copyOnDeath()
+                            .syncWith(MutationCounters.MUTATION_COUNTERS_PACKET_CODEC, AttachmentSyncPredicate.targetOnly())));
 
     public static final AttachmentType<Boolean> PLAYER_CENTAUR_SADDLED = AttachmentRegistry.create(Identifier.of(MOD_ID, "player_centaur_saddled"), booleanBuilder ->
             booleanBuilder.initializer(() -> false)
@@ -64,39 +67,71 @@ public class MutationAttachments {
         target.removeAttached(PART_MUTATIONS.get(part));
     }
 
-    public static void setPartVisuals(AttachmentTarget target, MutatableParts part, int patternIndex, int color1, int color2){
+    public static void setPartVisuals(AttachmentTarget target, MutatableParts part, int patternIndex, int color1, int color2) {
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
-        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), patternIndex,
-                color1, color2, partInfo.growth(), partInfo.isReceding(),partInfo.partAnim(),partInfo.actionAnim()));
+        MutationAttachments.setPartAttached(target, part, new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), patternIndex,
+                color1, color2, partInfo.growth(), partInfo.isReceding(), partInfo.partAnim(), partInfo.actionAnim()));
     }
 
-    public static void setPartGrowth(AttachmentTarget target, MutatableParts part, int growth){
+    public static void setPartGrowth(AttachmentTarget target, MutatableParts part, int growth) {
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
-        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                partInfo.color1(), partInfo.color2(), growth, partInfo.isReceding(),partInfo.partAnim(),partInfo.actionAnim()));
+        MutationAttachments.setPartAttached(target, part, new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                partInfo.color1(), partInfo.color2(), growth, partInfo.isReceding(), partInfo.partAnim(), partInfo.actionAnim()));
     }
 
-    public static void setPartReceding(AttachmentTarget target, MutatableParts part, boolean isReceding){
+    public static void setPartReceding(AttachmentTarget target, MutatableParts part, boolean isReceding) {
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
         if (partInfo != null)
-            MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
-                    partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding,partInfo.partAnim(),partInfo.actionAnim()));
+            MutationAttachments.setPartAttached(target, part, new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+                    partInfo.color1(), partInfo.color2(), partInfo.growth(), isReceding, partInfo.partAnim(), partInfo.actionAnim()));
     }
 
-    public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating, int startTick){
+    public static void setPartAnimating(AttachmentTarget target, MutatableParts part, boolean isAnimating, int startTick) {
         MutationBodyInfo partInfo = MutationAttachments.getPartAttached(target, part);
-        MutationAttachments.setPartAttached(target, part , new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
+        MutationAttachments.setPartAttached(target, part, new MutationBodyInfo(partInfo.mutID(), partInfo.treeID(), partInfo.patternIndex(),
                 partInfo.color1(), partInfo.color2(), partInfo.growth(), partInfo.isReceding(),
-                MutationBodyInfo.animationStateFromInts(1,startTick),
-                MutationBodyInfo.animationStateFromInts(isAnimating?1:0,startTick)));
+                MutationBodyInfo.animationStateFromInts(1, startTick),
+                MutationBodyInfo.animationStateFromInts(isAnimating ? 1 : 0, startTick)));
     }
 
-    public static boolean getCentaurSaddled(AttachmentTarget target){
+    public static boolean getCentaurSaddled(AttachmentTarget target) {
         return Boolean.TRUE.equals(target.getAttached(PLAYER_CENTAUR_SADDLED));
     }
 
-    public static void setCentaurSaddled(AttachmentTarget target, boolean saddled){
-        target.setAttached(PLAYER_CENTAUR_SADDLED,saddled);
+    public static void setCentaurSaddled(AttachmentTarget target, boolean saddled) {
+        target.setAttached(PLAYER_CENTAUR_SADDLED, saddled);
+    }
+
+    public static MutationCounters getMutationCounters(AttachmentTarget target, MutatableParts part) {
+        return target.getAttached(MUTATION_COUNTERS.get(part));
+    }
+
+    public static void setMutationCounters(AttachmentTarget target, MutatableParts part, int cooldown, int mutationResources, int effectIndex) {
+        target.setAttached(MUTATION_COUNTERS.get(part),new MutationCounters(cooldown,mutationResources,effectIndex));
+    }
+
+    public static int getMutationCooldown(AttachmentTarget target, MutatableParts part) {
+        return target.getAttached(MUTATION_COUNTERS.get(part)).cooldown();
+    }
+
+    public static void setMutationCooldown(AttachmentTarget target, MutatableParts part, int cooldown) {
+        target.setAttached(MUTATION_COUNTERS.get(part),new MutationCounters(cooldown,target.getAttached(MUTATION_COUNTERS.get(part)).mutationResources(),target.getAttached(MUTATION_COUNTERS.get(part)).effectIndex()));
+    }
+
+    public static int getMutationResources(AttachmentTarget target, MutatableParts part) {
+        return target.getAttached(MUTATION_COUNTERS.get(part)).mutationResources();
+    }
+
+    public static void setMutationResources(AttachmentTarget target, MutatableParts part, int mutationResources) {
+        target.setAttached(MUTATION_COUNTERS.get(part),new MutationCounters(target.getAttached(MUTATION_COUNTERS.get(part)).cooldown(),mutationResources,target.getAttached(MUTATION_COUNTERS.get(part)).effectIndex()));
+    }
+
+    public static int getEffectIndex(AttachmentTarget target, MutatableParts part) {
+        return target.getAttached(MUTATION_COUNTERS.get(part)).effectIndex();
+    }
+
+    public static void setEffectIndex(AttachmentTarget target, MutatableParts part, int effectIndex) {
+        target.setAttached(MUTATION_COUNTERS.get(part),new MutationCounters(target.getAttached(MUTATION_COUNTERS.get(part)).cooldown(),target.getAttached(MUTATION_COUNTERS.get(part)).mutationResources(),effectIndex));
     }
 
 }
